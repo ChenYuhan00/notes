@@ -1,0 +1,1767 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>深度学习 - CYH's notes</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">CYH's notes</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href=".." class="nav-link">主页</a>
+                            </li>
+                            <li class="navitem active">
+                                <a href="./" class="nav-link">深度学习</a>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="2"><a href="#pytorch" class="nav-link">Pytorch基础</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#mlp" class="nav-link">MLP</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#cnn" class="nav-link">CNN</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#rnn" class="nav-link">RNN</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#attention" class="nav-link">Attention</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#multiple-gpus" class="nav-link">Multiple GPUs</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-level="2"><a href="#computer-vision" class="nav-link">Computer Vision</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<p>记录了学习pytorch和神经网络</p>
+<hr />
+<p>感觉使用pytorch进行训练基本大同小异，主要要操作的就是定义网络、dataloader和dataiter；许多神经网络的大概也有所了解；目前主要问题是pytorch的内部实现不懂，numpy等使用不熟练，网络具体结构不清楚</p>
+<p>参考 <a href="https://datawhalechina.github.io/thorough-pytorch/">深入浅出PyTorch</a> 以及 <a href="https://zh.d2l.ai">dive into deep learning</a>和<a href="https://www.bilibili.com/video/BV1oX4y137bC?vd_source=32755435df003a1d00ae8d5d310b0a8f">他的b站视频</a></p>
+<hr />
+<p><img alt="" src="../img/page-fault-handler.png" /></p>
+<h2 id="pytorch">Pytorch基础</h2>
+<p>deep-learning-computation章节</p>
+<h3 id="pytorch_1">Pytorch自动求导</h3>
+<p><a href="https://datawhalechina.github.io/thorough-pytorch/第二章/2.2%20自动求导.html">深入浅出Pytroch 第二章</a></p>
+<h4 id="_1">计算图</h4>
+<p>将代码分解成操作子，将计算表示为一个无环图
+一般只有leaf node有grad</p>
+<p>最后的输出看成关于网络权重的函数，backward函数计算出权重的梯度（全微分）</p>
+<blockquote>
+<p>对于leaf和require_grad的节点不能够进行inplace operation</p>
+<p><strong>retain_graph</strong> 防止backward之后释放相关内存</p>
+</blockquote>
+<p><strong>.detach</strong> return a new tensor ,detached from the current graph,the result will never require gradient
+将计算移动到计算图之外，当作常数</p>
+<h3 id="_2">数据读取</h3>
+<h4 id="_3">小批量随机梯度下降</h4>
+<p>随机采样b个样本 $i_1,i_2,...,i_b$来近似损失
+$$
+    \frac{1}{b}\sum_{i \in I_b}l(\hat y_i,y_i)
+$$
+一次迭代用b个数据计算后更新参数
+一个epoch将数据集的数据都用一遍</p>
+<h4 id="data-iterator">data iterator</h4>
+<p>一次随机读取batch_size个数据</p>
+<pre><code class="language-python">def data_iter(batch_size, features, labels):
+    num_examples = len(features)
+    indices = list(range(num_examples))
+    random.shuffle(indices)
+    for i in range(0, num_examples, batch_size):
+        batch_indices = torch.tensor(
+            indices[i: min(i + batch_size, num_examples)])
+        yield features[batch_indices], labels[batch_indices]
+</code></pre>
+<h3 id="_4">补充</h3>
+<ul>
+<li><strong>cat</strong>和<strong>stack</strong> 参考<a href="https://blog.csdn.net/twelve13/article/details/109728210">博客</a></li>
+<li>批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)</li>
+<li><strong>torch.unsqueeze()</strong> 在指定纬度插入纬度1</li>
+<li>X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)</li>
+</ul>
+<h2 id="mlp">MLP</h2>
+<p>dive into deep learning 多层感知机章节</p>
+<pre><code class="language-python">
+num_inputs, num_outputs, num_hiddens = 784, 10, 256
+
+W1 = nn.Parameter(torch.randn(
+    num_inputs, num_hiddens, requires_grad=True) * 0.01)
+b1 = nn.Parameter(torch.zeros(num_hiddens, requires_grad=True))
+W2 = nn.Parameter(torch.randn(
+    num_hiddens, num_outputs, requires_grad=True) * 0.01)
+b2 = nn.Parameter(torch.zeros(num_outputs, requires_grad=True))
+
+params = [W1, b1, W2, b2]
+
+
+def relu(X):
+    a = torch.zeros_like(X)
+    return torch.max(X, a)
+
+def net(X):
+    X = X.reshape((-1, num_inputs))
+    H = relu(X@W1 + b1)  # 这里“@”代表矩阵乘法
+    return (H@W2 + b2)
+</code></pre>
+<p>用<strong>torch.nn</strong></p>
+<pre><code class="language-python">net = nn.Sequential(nn.Flatten(),
+                    nn.Linear(784, 256),
+                    nn.ReLU(),
+                    nn.Linear(256, 10))
+
+def init_weights(m):
+    if type(m) == nn.Linear:
+        nn.init.normal_(m.weight, std=0.01)
+
+net.apply(init_weights);
+</code></pre>
+<p><code>X = X.reshape((-1, num_inputs))</code> -- <code>nn.Flatten()</code></p>
+<p><code>H = relu(X@W1 + b1)</code>--<code>nn.Linear(784, 256)</code>和<code>nn.ReLu()</code></p>
+<p><code>(H@W2 + b2)</code>--<code>nn.Linear(256, 10)</code></p>
+<h3 id="_5">过拟合</h3>
+<h4 id="_6">正则化</h4>
+<p>$$
+\begin{aligned}
+L(\mathbf{w}, b) + \frac{\lambda}{2} |\mathbf{w}|^2
+\end{aligned}
+$$</p>
+<p>$$
+\begin{aligned}
+\mathbf{w} &amp; \leftarrow \left(1- \eta\lambda \right) \mathbf{w} - \frac{\eta}{|\mathcal{B}|} \sum_{i \in \mathcal{B}} \mathbf{x}^{(i)} \left(\mathbf{w}^\top \mathbf{x}^{(i)} + b - y^{(i)}\right).
+\end{aligned}
+$$</p>
+<h4 id="drop-out">Drop out</h4>
+<p>$$
+\begin{aligned}
+h' =
+\begin{cases}
+    0 &amp; \text{ 概率为 } p \
+    \frac{h}{1-p} &amp; \text{ 其他情况}
+\end{cases}
+\end{aligned}
+$$
+期望值保持不变，即$E[h'] = h$。</p>
+<pre><code class="language-python">def dropout_layer(X, dropout):
+    assert 0 &lt;= dropout &lt;= 1
+    # 在本情况中，所有元素都被丢弃
+    if dropout == 1:
+        return torch.zeros_like(X)
+    # 在本情况中，所有元素都被保留
+    if dropout == 0:
+        return X
+    mask = (torch.rand(X.shape) &gt; dropout).float()
+    return mask * X / (1.0 - dropout)
+</code></pre>
+<pre><code class="language-python">dropout1, dropout2 = 0.2, 0.5
+
+class Net(nn.Module):
+    def __init__(self, num_inputs, num_outputs, num_hiddens1, num_hiddens2,
+                 is_training = True):
+        super(Net, self).__init__()
+        self.num_inputs = num_inputs
+        self.training = is_training
+        self.lin1 = nn.Linear(num_inputs, num_hiddens1)
+        self.lin2 = nn.Linear(num_hiddens1, num_hiddens2)
+        self.lin3 = nn.Linear(num_hiddens2, num_outputs)
+        self.relu = nn.ReLU()
+
+    def forward(self, X):
+        H1 = self.relu(self.lin1(X.reshape((-1, self.num_inputs))))
+        # 只有在训练模型时才使用dropout
+        if self.training == True:
+            # 在第一个全连接层之后添加一个dropout层
+            H1 = dropout_layer(H1, dropout1)
+        H2 = self.relu(self.lin2(H1))
+        if self.training == True:
+            # 在第二个全连接层之后添加一个dropout层
+            H2 = dropout_layer(H2, dropout2)
+        out = self.lin3(H2)
+        return out
+
+
+net = Net(num_inputs, num_outputs, num_hiddens1, num_hiddens2)
+</code></pre>
+<p>直接用<code>nn.Dropout(p)</code></p>
+<pre><code class="language-python">net = nn.Sequential(nn.Flatten(),
+        nn.Linear(784, 256),
+        nn.ReLU(),
+        # 在第一个全连接层之后添加一个dropout层
+        nn.Dropout(dropout1),
+        nn.Linear(256, 256),
+        nn.ReLU(),
+        # 在第二个全连接层之后添加一个dropout层
+        nn.Dropout(dropout2),
+        nn.Linear(256, 10))
+
+def init_weights(m):
+    if type(m) == nn.Linear:
+        nn.init.normal_(m.weight, std=0.01)
+
+net.apply(init_weights);
+</code></pre>
+<h3 id="_7">参数初始化</h3>
+<h4 id="xavier">Xavier初始化</h4>
+<p>$$o_{i} = \sum_{j=1}^{n_\mathrm{in}} w_{ij} x_j.$$</p>
+<p>$$
+\begin{aligned}
+    E[o_i] &amp; = \sum_{j=1}^{n_\mathrm{in}} E[w_{ij} x_j] \&amp;= \sum_{j=1}^{n_\mathrm{in}} E[w_{ij}] E[x_j] \&amp;= 0, \
+    \mathrm{Var}[o_i] &amp; = E[o_i^2] - (E[o_i])^2 \
+        &amp; = \sum_{j=1}^{n_\mathrm{in}} E[w^2_{ij} x^2_j] - 0 \
+        &amp; = \sum_{j=1}^{n_\mathrm{in}} E[w^2_{ij}] E[x^2_j] \
+        &amp; = n_\mathrm{in} \sigma^2 \gamma^2.
+\end{aligned}
+$$</p>
+<p>使方差满足
+$$
+\begin{aligned}
+\frac{1}{2} (n_\mathrm{in} + n_\mathrm{out}) \sigma^2 = 1 \text{ or }
+\sigma = \sqrt{\frac{2}{n_\mathrm{in} + n_\mathrm{out}}}.
+\end{aligned}
+$$</p>
+<p>Xavier初始化通常从方差满足上述的均匀分布或高斯分布中采样权重</p>
+<h2 id="cnn">CNN</h2>
+<p>卷积操作实现</p>
+<pre><code class="language-python">
+def corr2d(X, K): 
+    h, w = K.shape
+    Y = torch.zeros((X.shape[0] - h + 1, X.shape[1] - w + 1))
+    for i in range(Y.shape[0]):
+        for j in range(Y.shape[1]):
+            Y[i, j] = (X[i:i + h, j:j + w] * K).sum()
+    return Y
+</code></pre>
+<p>卷积层</p>
+<pre><code class="language-python">
+class Conv2D(nn.Module):
+    def __init__(self, kernel_size):
+        super().__init__()
+        self.weight = nn.Parameter(torch.rand(kernel_size))
+        self.bias = nn.Parameter(torch.zeros(1))
+
+    def forward(self, x):
+        return corr2d(x, self.weight) + self.bias
+</code></pre>
+<p>backprop训练卷积核</p>
+<p>nn.Conv2d()输入和输出:批量大小、通道、高度、宽度</p>
+<h3 id="_8">多输入输出通道</h3>
+<p>多输入通道:</p>
+<pre><code class="language-python">
+def corr2d_multi_in(X, K):
+    # 先遍历“X”和“K”的第0个维度（通道维度），再把它们加在一起
+    return sum(d2l.corr2d(x, k) for x, k in zip(X, K))
+</code></pre>
+<p>多输出通道:</p>
+<pre><code class="language-python">
+def corr2d_multi_in_out(X, K):
+    # 迭代“K”的第0个维度，每次都对输入“X”执行互相关运算。
+    # 最后将所有结果都叠加在一起
+    return torch.stack([corr2d_multi_in(X, k) for k in K], 0)
+</code></pre>
+<p>输入$\mathbf{X} : c_i \times n_h \times n_w$
+核$\mathbf{{W}} : c_0 \times c_i \times k_h \times k_w $
+输出$\mathbf{Y} : c_o \times m_h \times m_w$  </p>
+<h3 id="pooling">Pooling</h3>
+<pre><code class="language-python">nn.MaxPool2d(3, padding=1, stride=2)
+pool2d = nn.MaxPool2d((2, 3), stride=(2, 3), padding=(0, 1))
+</code></pre>
+<p>多通道对每个通道进行pooling，输出通道数与输入相同</p>
+<h3 id="lenet">LeNet</h3>
+<pre><code class="language-python">net = nn.Sequential(
+    nn.Conv2d(1, 6, kernel_size=5, padding=2), nn.Sigmoid(),
+    nn.AvgPool2d(kernel_size=2, stride=2),
+    nn.Conv2d(6, 16, kernel_size=5), nn.Sigmoid(),
+    nn.AvgPool2d(kernel_size=2, stride=2),
+    nn.Flatten(),
+    nn.Linear(16 * 5 * 5, 120), nn.Sigmoid(),
+    nn.Linear(120, 84), nn.Sigmoid(),
+    nn.Linear(84, 10))
+</code></pre>
+<blockquote>
+<p>Conv2d output shape: torch.Size([1, 6, 28, 28])
+Sigmoid output shape: torch.Size([1, 6, 28, 28])
+AvgPool2d output shape: torch.Size([1, 6, 14, 14])
+Conv2d output shape: torch.Size([1, 16, 10, 10])
+Sigmoid output shape: torch.Size([1, 16, 10, 10])
+AvgPool2d output shape: torch.Size([1, 16, 5, 5])
+Flatten output shape: torch.Size([1, 400])
+Linear output shape: torch.Size([1, 120])
+Sigmoid output shape: torch.Size([1, 120])
+Linear output shape: torch.Size([1, 84])
+Sigmoid output shape: torch.Size([1, 84])
+Linear output shape: torch.Size([1, 10])</p>
+</blockquote>
+<h3 id="alexnet">AlexNet</h3>
+<p>使用ReLU函数作为激活函数，Dropout，数据集预处理（裁切、翻转、变色）</p>
+<pre><code class="language-python">
+net = nn.Sequential(
+    # 这里使用一个11*11的更大窗口来捕捉对象。
+    # 同时，步幅为4，以减少输出的高度和宽度。
+    # 另外，输出通道的数目远大于LeNet
+    nn.Conv2d(1, 96, kernel_size=11, stride=4, padding=1), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2),
+    # 减小卷积窗口，使用填充为2来使得输入与输出的高和宽一致，且增大输出通道数
+    nn.Conv2d(96, 256, kernel_size=5, padding=2), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2),
+    # 使用三个连续的卷积层和较小的卷积窗口。
+    # 除了最后的卷积层，输出通道的数量进一步增加。
+    # 在前两个卷积层之后，汇聚层不用于减少输入的高度和宽度
+    nn.Conv2d(256, 384, kernel_size=3, padding=1), nn.ReLU(),
+    nn.Conv2d(384, 384, kernel_size=3, padding=1), nn.ReLU(),
+    nn.Conv2d(384, 256, kernel_size=3, padding=1), nn.ReLU(),
+    nn.MaxPool2d(kernel_size=3, stride=2),
+    nn.Flatten(),
+    # 这里，全连接层的输出数量是LeNet中的好几倍。使用dropout层来减轻过拟合
+    nn.Linear(6400, 4096), nn.ReLU(),
+    nn.Dropout(p=0.5),
+    nn.Linear(4096, 4096), nn.ReLU(),
+    nn.Dropout(p=0.5),
+    # 最后是输出层。由于这里使用Fashion-MNIST，所以用类别数为10，而非论文中的1000
+    nn.Linear(4096, 10))
+</code></pre>
+<blockquote>
+<p>Conv2d output shape:torch.Size([1, 96, 54, 54])
+ReLU output shape:torch.Size([1, 96, 54, 54])
+MaxPool2d output shape:torch.Size([1, 96, 26, 26])
+Conv2d output shape:torch.Size([1, 256, 26, 26])
+ReLU output shape:torch.Size([1, 256, 26, 26])
+MaxPool2d output shape:torch.Size([1, 256, 12, 12])
+Conv2d output shape:torch.Size([1, 384, 12, 12])
+ReLU output shape:torch.Size([1, 384, 12, 12])
+Conv2d output shape:torch.Size([1, 384, 12, 12])
+ReLU output shape:torch.Size([1, 384, 12, 12])
+Conv2d output shape:torch.Size([1, 256, 12, 12])
+ReLU output shape:torch.Size([1, 256, 12, 12])
+MaxPool2d output shape:torch.Size([1, 256, 5, 5])
+Flatten output shape:torch.Size([1, 6400])
+Linear output shape:torch.Size([1, 4096])
+ReLU output shape:torch.Size([1, 4096])
+Dropout output shape:torch.Size([1, 4096])
+Linear output shape:torch.Size([1, 4096])
+ReLU output shape:torch.Size([1, 4096])
+Dropout output shape:torch.Size([1, 4096])
+Linear output shape:torch.Size([1, 10])</p>
+</blockquote>
+<h3 id="vgg">VGG</h3>
+<p>VGG块
+kernel大小都为3 $\times$ 3</p>
+<pre><code class="language-python">
+def vgg_block(num_convs, in_channels, out_channels):
+    layers = []
+    for _ in range(num_convs):
+        layers.append(nn.Conv2d(in_channels, out_channels,
+                                kernel_size=3, padding=1))
+        layers.append(nn.ReLU())
+        in_channels = out_channels
+    layers.append(nn.MaxPool2d(kernel_size=2,stride=2))
+    return nn.Sequential(*layers)
+</code></pre>
+<p>VGG网络 VGG-11</p>
+<pre><code class="language-python">
+conv_arch = ((1, 64), (1, 128), (2, 256), (2, 512), (2, 512))
+def vgg(conv_arch):
+    conv_blks = []
+    in_channels = 1
+    # 卷积层部分
+    for (num_convs, out_channels) in conv_arch:
+        conv_blks.append(vgg_block(num_convs, in_channels, out_channels))
+        in_channels = out_channels
+
+    return nn.Sequential(
+        *conv_blks, nn.Flatten(),
+        # 全连接层部分
+        nn.Linear(out_channels * 7 * 7, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 4096), nn.ReLU(), nn.Dropout(0.5),
+        nn.Linear(4096, 10))
+
+net = vgg(conv_arch)
+</code></pre>
+<h3 id="nin">NIN</h3>
+<p>在每个像素的通道上分别使用多层感知机</p>
+<pre><code class="language-python">
+def nin_block(in_channels, out_channels, kernel_size, strides, padding):
+    return nn.Sequential(
+        nn.Conv2d(in_channels, out_channels, kernel_size, strides, padding),
+        nn.ReLU(),
+        nn.Conv2d(out_channels, out_channels, kernel_size=1), nn.ReLU(),
+        nn.Conv2d(out_channels, out_channels, kernel_size=1), nn.ReLU())
+</code></pre>
+<pre><code class="language-python">
+net = nn.Sequential(
+    nin_block(1, 96, kernel_size=11, strides=4, padding=0),
+    nn.MaxPool2d(3, stride=2),
+    nin_block(96, 256, kernel_size=5, strides=1, padding=2),
+    nn.MaxPool2d(3, stride=2),
+    nin_block(256, 384, kernel_size=3, strides=1, padding=1),
+    nn.MaxPool2d(3, stride=2),
+    nn.Dropout(0.5),
+    # 标签类别数是10
+    nin_block(384, 10, kernel_size=3, strides=1, padding=1),
+    nn.AdaptiveAvgPool2d((1, 1)),
+    # 将四维的输出转成二维的输出，其形状为(批量大小,10)
+    nn.Flatten())
+</code></pre>
+<p><code>nn.AdaptiveAvgPool2d()</code>参数为指定输出size</p>
+<h3 id="googlenet">GoogLeNet</h3>
+<pre><code class="language-python">class Inception(nn.Module):
+    # c1--c4是每条路径的输出通道数
+    def __init__(self, in_channels, c1, c2, c3, c4, **kwargs):
+        super(Inception, self).__init__(**kwargs)
+        # 线路1，单1x1卷积层
+        self.p1_1 = nn.Conv2d(in_channels, c1, kernel_size=1)
+        # 线路2，1x1卷积层后接3x3卷积层
+        self.p2_1 = nn.Conv2d(in_channels, c2[0], kernel_size=1)
+        self.p2_2 = nn.Conv2d(c2[0], c2[1], kernel_size=3, padding=1)
+        # 线路3，1x1卷积层后接5x5卷积层
+        self.p3_1 = nn.Conv2d(in_channels, c3[0], kernel_size=1)
+        self.p3_2 = nn.Conv2d(c3[0], c3[1], kernel_size=5, padding=2)
+        # 线路4，3x3最大汇聚层后接1x1卷积层
+        self.p4_1 = nn.MaxPool2d(kernel_size=3, stride=1, padding=1)
+        self.p4_2 = nn.Conv2d(in_channels, c4, kernel_size=1)
+
+    def forward(self, x):
+        p1 = F.relu(self.p1_1(x))
+        p2 = F.relu(self.p2_2(F.relu(self.p2_1(x))))
+        p3 = F.relu(self.p3_2(F.relu(self.p3_1(x))))
+        p4 = F.relu(self.p4_2(self.p4_1(x)))
+        # 在通道维度上连结输出
+        return torch.cat((p1, p2, p3, p4), dim=1)
+</code></pre>
+<p>超参数主要为通道数,比如
+<code>Inception(192, 64, (96, 128), (16, 32), 32)</code>
+表示一个Inception的输入通道数为192，输出通道数为 64 + 128 + 32 + 32 = 512</p>
+<p>网络整体结构略</p>
+<h3 id="batch-norm">Batch-Norm</h3>
+<p>$$\mathrm{BN}(\mathbf{x}) = \boldsymbol{\gamma} \odot \frac{\mathbf{x} - \hat{\boldsymbol{\mu}}<em>\mathcal{B}}{\hat{\boldsymbol{\sigma}}</em>\mathcal{B}} + \boldsymbol{\beta}.$$</p>
+<p>归一化后的方差为$\gamma$，均值为$1 + \beta$</p>
+<p>$\gamma,\beta$ 是可学习的参数</p>
+<p>卷积层有多个通道时，对每个通道计算均值和方差，假设batch_size为m，卷积层输出的大小为p$\times$q,在每个输出通道上的mqp个元素上求均值和方差</p>
+<pre><code class="language-python">
+def batch_norm(X, gamma, beta, moving_mean, moving_var, eps, momentum):
+    '''
+    moving_mean和moving_var近似认为全局值
+    eps防止方差为0，固定值
+    gmma,beta,moving_mean,moving_var的形状和X相同
+    '''
+    # 通过is_grad_enabled来判断当前模式是训练模式还是预测模式
+    if not torch.is_grad_enabled():
+        # 如果是在预测模式下，直接使用传入的移动平均所得的均值和方差
+        X_hat = (X - moving_mean) / torch.sqrt(moving_var + eps)
+    else:
+        assert len(X.shape) in (2, 4)
+        if len(X.shape) == 2:
+            # 使用全连接层的情况，计算特征维上的均值和方差
+            mean = X.mean(dim=0)
+            var = ((X - mean) ** 2).mean(dim=0)
+        else:
+            # 使用二维卷积层的情况，计算通道维上（axis=1）的均值和方差。
+            # 这里我们需要保持X的形状以便后面可以做广播运算
+            mean = X.mean(dim=(0, 2, 3), keepdim=True)
+            var = ((X - mean) ** 2).mean(dim=(0, 2, 3), keepdim=True)
+        # 训练模式下，用当前的均值和方差做标准化
+        X_hat = (X - mean) / torch.sqrt(var + eps)
+        # 更新移动平均的均值和方差
+        moving_mean = momentum * moving_mean + (1.0 - momentum) * mean
+        moving_var = momentum * moving_var + (1.0 - momentum) * var
+    Y = gamma * X_hat + beta  # 缩放和移位
+    return Y, moving_mean.data, moving_var.data
+</code></pre>
+<pre><code class="language-python">
+class BatchNorm(nn.Module):
+    # num_features：完全连接层的输出数量或卷积层的输出通道数。
+    # num_dims：2表示完全连接层，4表示卷积层
+    def __init__(self, num_features, num_dims):
+        super().__init__()
+        if num_dims == 2:
+            shape = (1, num_features)
+        else:
+            shape = (1, num_features, 1, 1)
+        # 参与求梯度和迭代的拉伸和偏移参数，分别初始化成1和0
+        self.gamma = nn.Parameter(torch.ones(shape))
+        self.beta = nn.Parameter(torch.zeros(shape))
+        # 非模型参数的变量初始化为0和1
+        self.moving_mean = torch.zeros(shape)
+        self.moving_var = torch.ones(shape)
+
+    def forward(self, X):
+        # 如果X不在内存上，将moving_mean和moving_var
+        # 复制到X所在显存上
+        if self.moving_mean.device != X.device:
+            self.moving_mean = self.moving_mean.to(X.device)
+            self.moving_var = self.moving_var.to(X.device)
+        # 保存更新过的moving_mean和moving_var
+        Y, self.moving_mean, self.moving_var = batch_norm(
+            X, self.gamma, self.beta, self.moving_mean,
+            self.moving_var, eps=1e-5, momentum=0.9)
+        return Y
+</code></pre>
+<p>pytorch使用batch_norm:<code>nn.BatchNorm1d(),nn.BatchNorm2d()</code>，参数为通道数，分别表示全连接层和卷积层</p>
+<h3 id="resnet">ResNet</h3>
+<p>输入X和输出Y的形状要相同,3$\times$3的卷积核没有改变形状，主要是通道数，也可以用1$\times$1的卷积核修改X的通道数</p>
+<pre><code class="language-python">
+class Residual(nn.Module): 
+    def __init__(self, input_channels, num_channels,
+                 use_1x1conv=False, strides=1):
+        super().__init__()
+        self.conv1 = nn.Conv2d(input_channels, num_channels,
+                               kernel_size=3, padding=1, stride=strides)
+        self.conv2 = nn.Conv2d(num_channels, num_channels,
+                               kernel_size=3, padding=1)
+        if use_1x1conv:
+            self.conv3 = nn.Conv2d(input_channels, num_channels,
+                                   kernel_size=1, stride=strides)
+        else:
+            self.conv3 = None
+        self.bn1 = nn.BatchNorm2d(num_channels)
+        self.bn2 = nn.BatchNorm2d(num_channels)
+
+    def forward(self, X):
+        Y = F.relu(self.bn1(self.conv1(X)))
+        Y = self.bn2(self.conv2(Y))
+        if self.conv3:
+            X = self.conv3(X)
+        Y += X
+        return F.relu(Y)
+</code></pre>
+<h3 id="densenet">DenseNet</h3>
+<p>网络主要由两部分 稠密层和过渡层</p>
+<p>把前面网络层的输出都作为输出，每个网络的输入为前面所有网络层的输出加上input</p>
+<pre><code class="language-python">def conv_block(input_channels, num_channels):
+    return nn.Sequential(
+        nn.BatchNorm2d(input_channels), nn.ReLU(),
+        nn.Conv2d(input_channels, num_channels, kernel_size=3, padding=1))
+
+class DenseBlock(nn.Module):
+    def __init__(self, num_convs, input_channels, num_channels):
+        super(DenseBlock, self).__init__()
+        layer = []
+        for i in range(num_convs):
+            layer.append(conv_block(
+                num_channels * i + input_channels, num_channels))
+        self.net = nn.Sequential(*layer)
+
+    def forward(self, X):
+        for blk in self.net:
+            Y = blk(X)
+            # 连接通道维度上每个块的输入和输出
+            X = torch.cat((X, Y), dim=1)
+        return X
+
+</code></pre>
+<p>通过过渡层通道数减少，高和宽减半</p>
+<pre><code class="language-python">
+def transition_block(input_channels, num_channels):
+    return nn.Sequential(
+        nn.BatchNorm2d(input_channels), nn.ReLU(),
+        nn.Conv2d(input_channels, num_channels, kernel_size=1),
+        nn.AvgPool2d(kernel_size=2, stride=2))
+</code></pre>
+<h2 id="rnn">RNN</h2>
+<h3 id="_9">序列模型</h3>
+<p>通过$\mathbf{x}<em>t = [x</em>{t-\tau}, \ldots, x_{t-1}]$ 的取值，预测$y_t = x_t$。</p>
+<h3 id="_10">文本预处理</h3>
+<ol>
+<li>读取数据集得到所有文本行（lines）
+<code>the time machine by h g wells</code></li>
+<li>词元化（tokenize） 把lines分成一个一个词
+<code>['the', 'time', 'machine', 'by', 'h', 'g', 'wells']</code></li>
+<li>建立词表（vocabulary）</li>
+</ol>
+<pre><code class="language-python">
+class Vocab:  
+    &quot;&quot;&quot;文本词表&quot;&quot;&quot;
+    def __init__(self, tokens=None, min_freq=0, reserved_tokens=None):
+        if tokens is None:
+            tokens = []
+        if reserved_tokens is None:
+            reserved_tokens = []
+        # 按出现频率排序
+        counter = count_corpus(tokens)
+        self._token_freqs = sorted(counter.items(), key=lambda x: x[1],
+                                   reverse=True)
+        # 未知词元的索引为0
+        self.idx_to_token = ['&lt;unk&gt;'] + reserved_tokens
+        self.token_to_idx = {token: idx
+                             for idx, token in enumerate(self.idx_to_token)}
+        for token, freq in self._token_freqs:
+            if freq &lt; min_freq:
+                break
+            if token not in self.token_to_idx:
+                self.idx_to_token.append(token)
+                self.token_to_idx[token] = len(self.idx_to_token) - 1
+
+    def __len__(self):
+        return len(self.idx_to_token)
+
+    def __getitem__(self, tokens):#给token返回index
+        if not isinstance(tokens, (list, tuple)):
+            return self.token_to_idx.get(tokens, self.unk)
+        return [self.__getitem__(token) for token in tokens]
+
+    def to_tokens(self, indices):#给index返回token
+        if not isinstance(indices, (list, tuple)):
+            return self.idx_to_token[indices]
+        return [self.idx_to_token[index] for index in indices]
+
+    @property
+    def unk(self):  # 未知词元的索引为0
+        return 0
+
+    @property
+    def token_freqs(self):
+        return self._token_freqs
+
+def count_corpus(tokens):  #@save
+    &quot;&quot;&quot;统计词元的频率&quot;&quot;&quot;
+    # 这里的tokens是1D列表或2D列表
+    if len(tokens) == 0 or isinstance(tokens[0], list):
+        # 将词元列表展平成一个列表
+        tokens = [token for line in tokens for token in line]
+    return collections.Counter(tokens)
+</code></pre>
+<p>转换结果（词频高下标小）</p>
+<pre><code class="language-python">
+vocab = Vocab(tokens)
+print(list(vocab.token_to_idx.items())[:10])
+</code></pre>
+<blockquote>
+<p>[('<unk>', 0), ('the', 1), ('i', 2), ('and', 3), ('of', 4), ('a', 5), ('to', 6), ('was', 7), ('in', 8), ('that', 9)]</p>
+</blockquote>
+<h3 id="language-model">Language Model</h3>
+<p>n元语法
+$$
+\begin{aligned}
+P(x_1, x_2, x_3, x_4) &amp;=  P(x_1) P(x_2) P(x_3) P(x_4),\
+P(x_1, x_2, x_3, x_4) &amp;=  P(x_1) P(x_2  \mid  x_1) P(x_3  \mid  x_2) P(x_4  \mid  x_3),\
+P(x_1, x_2, x_3, x_4) &amp;=  P(x_1) P(x_2  \mid  x_1) P(x_3  \mid  x_1, x_2) P(x_4  \mid  x_2, x_3).
+\end{aligned}
+$$</p>
+<p>得到二元词</p>
+<pre><code class="language-python">
+bigram_tokens = [pair for pair in zip(corpus[:-1], corpus[1:])]
+bigram_vocab = d2l.Vocab(bigram_tokens)
+</code></pre>
+<p>第$i$个最常用的频率$n_i$
+$$\log n_i = -\alpha \log i + c,$$
+虽然n元词组合方式增加，但是由于大致遵循上述规律，将词频小于某个值的略去，词表中记录反而更少</p>
+<h4 id="_11">读取长序列数据</h4>
+<h5 id="_12">随机采样</h5>
+<pre><code class="language-python">
+def seq_data_iter_random(corpus, batch_size, num_steps):
+    &quot;&quot;&quot;使用随机抽样生成一个小批量子序列&quot;&quot;&quot;
+    # 从随机偏移量开始对序列进行分区，随机范围包括num_steps-1
+    corpus = corpus[random.randint(0, num_steps - 1):]
+    # 减去1，是因为我们需要考虑标签
+    num_subseqs = (len(corpus) - 1) // num_steps
+    # 长度为num_steps的子序列的起始索引
+    initial_indices = list(range(0, num_subseqs * num_steps, num_steps))
+    # 在随机抽样的迭代过程中，
+    # 来自两个相邻的、随机的、小批量中的子序列不一定在原始序列上相邻
+    random.shuffle(initial_indices)
+
+    def data(pos):
+        # 返回从pos位置开始的长度为num_steps的序列
+        return corpus[pos: pos + num_steps]
+
+    num_batches = num_subseqs // batch_size
+    for i in range(0, batch_size * num_batches, batch_size):
+        # 在这里，initial_indices包含子序列的随机起始索引
+        initial_indices_per_batch = initial_indices[i: i + batch_size]
+        X = [data(j) for j in initial_indices_per_batch]
+        Y = [data(j + 1) for j in initial_indices_per_batch]
+        yield torch.tensor(X), torch.tensor(Y)
+</code></pre>
+<p>生成样例(0-34序列,batch_size=2,num_steps=5)</p>
+<blockquote>
+<p>X:  tensor([ [13, 14, 15, 16, 17],
+        [28, 29, 30, 31, 32] ])
+Y: tensor([ [14, 15, 16, 17, 18],
+        [29, 30, 31, 32, 33] ])
+X:  tensor([ [ 3,  4,  5,  6,  7],
+        [18, 19, 20, 21, 22] ])
+Y: tensor([ [ 4,  5,  6,  7,  8],
+        [19, 20, 21, 22, 23] ])
+X:  tensor([ [ 8,  9, 10, 11, 12],
+        [23, 24, 25, 26, 27] ])
+Y: tensor([ [ 9, 10, 11, 12, 13],
+        [24, 25, 26, 27, 28] ])</p>
+</blockquote>
+<h5 id="_13">顺序采样</h5>
+<pre><code class="language-python">
+def seq_data_iter_sequential(corpus, batch_size, num_steps):
+    &quot;&quot;&quot;使用顺序分区生成一个小批量子序列&quot;&quot;&quot;
+    # 从随机偏移量开始划分序列
+    offset = random.randint(0, num_steps)
+    num_tokens = ((len(corpus) - offset - 1) // batch_size) * batch_size
+    Xs = torch.tensor(corpus[offset: offset + num_tokens])
+    Ys = torch.tensor(corpus[offset + 1: offset + 1 + num_tokens])
+    Xs, Ys = Xs.reshape(batch_size, -1), Ys.reshape(batch_size, -1)
+    num_batches = Xs.shape[1] // num_steps
+    for i in range(0, num_steps * num_batches, num_steps):
+        X = Xs[:, i: i + num_steps]
+        Y = Ys[:, i: i + num_steps]
+        yield X, Y
+</code></pre>
+<p>生成样例</p>
+<blockquote>
+<p>X:  tensor([ [ 0,  1,  2,  3,  4],
+        [17, 18, 19, 20, 21] ])
+Y: tensor([ [ 1,  2,  3,  4,  5],
+        [18, 19, 20, 21, 22] ])
+X:  tensor([ [ 5,  6,  7,  8,  9],
+        [22, 23, 24, 25, 26] ])
+Y: tensor([ [ 6,  7,  8,  9, 10],
+        [23, 24, 25, 26, 27] ])
+X:  tensor([ [10, 11, 12, 13, 14],
+        [27, 28, 29, 30, 31] ])
+Y: tensor([ [11, 12, 13, 14, 15],
+        [28, 29, 30, 31, 32] ])</p>
+</blockquote>
+<h3 id="rnn_1">RNN实现</h3>
+<p>更新隐藏状态
+$$
+    h_t = \phi(W_{hh} h_{t-1} + W_{hx}\mathbf{x}<em>{t-1}+b_h)
+$$
+输出
+$$
+    o_t = \phi(W</em>{ho} h_t + b_o)
+$$</p>
+<blockquote>
+<p><strong>困惑度(perplexity)</strong>
+衡量语言模型的好坏可以用平均交叉熵
+$$\pi = \frac{1}{n} \sum_{t=1}^n -\log P(x_t \mid x_{t-1}, \ldots, x_1),$$
+困惑度为$\exp(\pi)$</p>
+<p><strong>梯度剪裁</strong>
+预防梯度爆炸
+梯度长度超过$\theta$，那么拖回长度$\theta$
+$$
+    g \leftarrow \min(1,\frac{\theta}{\Vert \mathbf{g} \Vert}) \mathbf{g}
+$$</p>
+</blockquote>
+<p><strong>参数初始化</strong>:</p>
+<pre><code class="language-python">
+def get_params(vocab_size, num_hiddens, device):
+    num_inputs = num_outputs = vocab_size
+    #因为这里用的onehot码
+    def normal(shape):
+        return torch.randn(size=shape, device=device) * 0.01
+
+    # 隐藏层参数
+    W_xh = normal((num_inputs, num_hiddens))
+    W_hh = normal((num_hiddens, num_hiddens))
+    b_h = torch.zeros(num_hiddens, device=device)
+    # 输出层参数
+    W_hq = normal((num_hiddens, num_outputs))
+    b_q = torch.zeros(num_outputs, device=device)
+    # 附加梯度
+    params = [W_xh, W_hh, b_h, W_hq, b_q]
+    for param in params:
+        param.requires_grad_(True)
+    return params
+
+#初始化隐藏状态
+def init_rnn_state(batch_size, num_hiddens, device):
+    return (torch.zeros((batch_size, num_hiddens), device=device), )
+</code></pre>
+<p>$X$的形状为（batch_size,vocab_size），执行操作
+$$
+    H_{b \times h} = \phi(X_{b \times x}W_{x \times h} + H_{b \times h}W_{h \times h } + b_h(Broadcast))
+$$
+可以看出对于每个批量的隐状态是独立存储更新的</p>
+<p>输出$Y$的形状为(batch_size,vocab_size)，cat完了return的形状为(time_steps$\times$batch_size,vocab_size)</p>
+<pre><code class="language-python">
+def rnn(inputs, state, params):
+    # inputs的形状：(时间步数量，批量大小，词表大小)
+    W_xh, W_hh, b_h, W_hq, b_q = params
+    H, = state
+    outputs = []
+    # X的形状：(批量大小，词表大小)
+    for X in inputs:
+        H = torch.tanh(torch.mm(X, W_xh) + torch.mm(H, W_hh)+b_h)#torch.mm表示矩阵乘起来
+        Y = torch.mm(H, W_hq) + b_q
+        outputs.append(Y)
+    return torch.cat(outputs, dim=0), (H,)
+
+</code></pre>
+<p>完整的如下</p>
+<pre><code class="language-python">
+class RNNModelScratch:
+    def __init__(self, vocab_size, num_hiddens, device,
+                 get_params, init_state, forward_fn):
+        self.vocab_size, self.num_hiddens = vocab_size, num_hiddens
+        self.params = get_params(vocab_size, num_hiddens, device)
+        self.init_state, self.forward_fn = init_state, forward_fn
+
+    def __call__(self, X, state):
+        X = F.one_hot(X.T, self.vocab_size).type(torch.float32)
+        return self.forward_fn(X, state, self.params)
+
+    def begin_state(self, batch_size, device):
+        return self.init_state(batch_size, self.num_hiddens, device)
+
+num_hiddens = 512
+net = RNNModelScratch(len(vocab), num_hiddens, d2l.try_gpu(), get_params,
+                      init_rnn_state, rnn)
+state = net.begin_state(X.shape[0], d2l.try_gpu())
+Y, new_state = net(X.to(d2l.try_gpu()), state)
+</code></pre>
+<p>使用网络进行预测，前几个（prefix）不产生输出但是更新隐状态</p>
+<pre><code class="language-python">
+def predict_ch8(prefix, num_preds, net, vocab, device):  #@save
+    &quot;&quot;&quot;在prefix后面生成新字符&quot;&quot;&quot;
+    state = net.begin_state(batch_size=1, device=device)
+    outputs = [vocab[prefix[0]]]
+    get_input = lambda: torch.tensor([outputs[-1]], device=device).reshape((1, 1)) #用上次输出的最后的字符
+    #一个一个进去得到输出
+    for y in prefix[1:]:  # 预热期
+        _, state = net(get_input(), state)
+        outputs.append(vocab[y])
+    for _ in range(num_preds):  # 预测num_preds步
+        y, state = net(get_input(), state)
+        outputs.append(int(y.argmax(dim=1).reshape(1)))
+    return ''.join([vocab.idx_to_token[i] for i in outputs])
+</code></pre>
+<p>训练示例</p>
+<pre><code class="language-python">
+def train_epoch_ch8(net, train_iter, loss, updater, device, use_random_iter):
+    state, timer = None, d2l.Timer()
+    metric = d2l.Accumulator(2)  # 训练损失之和,词元数量
+    for X, Y in train_iter:
+        if state is None or use_random_iter:
+            # 在第一次迭代或使用随机抽样时要重新初始化state
+            state = net.begin_state(batch_size=X.shape[0], device=device)
+        else:
+            if isinstance(net, nn.Module) and not isinstance(state, tuple):
+                # state对于nn.GRU是个张量
+                state.detach_()
+            else:
+                for s in state:
+                    s.detach_()
+        y = Y.T.reshape(-1)
+        X, y = X.to(device), y.to(device)
+        y_hat, state = net(X, state)
+        l = loss(y_hat, y.long()).mean()
+        #这里y_hat为二维张量，y为真实标签，类似于多分类问题
+        if isinstance(updater, torch.optim.Optimizer):
+            updater.zero_grad()
+            l.backward()
+            grad_clipping(net, 1)#梯度剪裁
+            updater.step()
+        else:
+            l.backward()
+            grad_clipping(net, 1)
+            # 因为已经调用了mean函数
+            updater(batch_size=1)
+        metric.add(l * y.numel(), y.numel())#numel函数返回张量元素总数量，
+    return math.exp(metric[0] / metric[1]), metric[1] / timer.stop()
+</code></pre>
+<p>使用pytorch API</p>
+<pre><code class="language-python">
+rnn_layer = nn.RNN(len(vocab), num_hiddens)
+state = torch.zeros((1, batch_size, num_hiddens))#(隐藏层数，批量大小，隐变量长度)
+X = torch.rand(size=(num_steps, batch_size, len(vocab)))
+Y, state_new = rnn_layer(X, state)
+</code></pre>
+<h3 id="_14">反向传播</h3>
+<p>主要是循环计算梯度的方法和近似方法，t大时产生梯度消失或者爆炸的问题
+具体参考动手深度学习bptt章节</p>
+<h3 id="gru">GRU</h3>
+<p>重置门和更新门($\mathbb{R}<em>{b \times h}$)更新
+$$
+\begin{aligned}
+\mathbf{R}_t = \sigma(\mathbf{X}_t \mathbf{W}</em>{xr} + \mathbf{H}<em>{t-1} \mathbf{W}</em>{hr} + \mathbf{b}<em>r),\
+\mathbf{Z}_t = \sigma(\mathbf{X}_t \mathbf{W}</em>{xz} + \mathbf{H}<em>{t-1} \mathbf{W}</em>{hz} + \mathbf{b}_z),
+\end{aligned}
+$$
+($\sigma 为 $sigmoid函数)</p>
+<p>隐候选状态
+$$\tilde{\mathbf{H}}<em>t = \tanh(\mathbf{X}_t \mathbf{W}</em>{xh} + \left(\mathbf{R}<em>t \odot \mathbf{H}</em>{t-1}\right) \mathbf{W}_{hh} + \mathbf{b}_h),$$</p>
+<p>隐状态更新
+$$\mathbf{H}<em>t = \mathbf{Z}_t \odot \mathbf{H}</em>{t-1}  + (1 - \mathbf{Z}_t) \odot \tilde{\mathbf{H}}_t.$$</p>
+<p>相比前面基本RNN只是隐状态更新公式更为复杂</p>
+<p>pytorch框架</p>
+<pre><code class="language-python">
+num_inputs = vocab_size
+gru_layer = nn.GRU(num_inputs, num_hiddens)
+model = d2l.RNNModel(gru_layer, len(vocab))
+</code></pre>
+<p>d2l.RNNModel</p>
+<pre><code class="language-python">
+class RNNModel(nn.Module):
+    &quot;&quot;&quot;循环神经网络模型&quot;&quot;&quot;
+    def __init__(self, rnn_layer, vocab_size, **kwargs):
+        super(RNNModel, self).__init__(**kwargs)
+        self.rnn = rnn_layer
+        self.vocab_size = vocab_size
+        self.num_hiddens = self.rnn.hidden_size
+        # 如果RNN是双向的（之后将介绍），num_directions应该是2，否则应该是1
+        if not self.rnn.bidirectional:
+            self.num_directions = 1
+            self.linear = nn.Linear(self.num_hiddens, self.vocab_size)
+        else:
+            self.num_directions = 2
+            self.linear = nn.Linear(self.num_hiddens * 2, self.vocab_size)
+
+    def forward(self, inputs, state):
+        X = F.one_hot(inputs.T.long(), self.vocab_size)
+        X = X.to(torch.float32)
+        Y, state = self.rnn(X, state)
+        # 全连接层首先将Y的形状改为(时间步数*批量大小,隐藏单元数)
+        # 它的输出形状是(时间步数*批量大小,词表大小)。
+        output = self.linear(Y.reshape((-1, Y.shape[-1])))
+        return output, state
+
+    def begin_state(self, device, batch_size=1):
+        if not isinstance(self.rnn, nn.LSTM):
+            # nn.GRU以张量作为隐状态
+            return  torch.zeros((self.num_directions * self.rnn.num_layers,
+                                 batch_size, self.num_hiddens),
+                                device=device)
+        else:
+            # nn.LSTM以元组作为隐状态
+            return (torch.zeros((
+                self.num_directions * self.rnn.num_layers,
+                batch_size, self.num_hiddens), device=device),
+                    torch.zeros((
+                        self.num_directions * self.rnn.num_layers,
+                        batch_size, self.num_hiddens), device=device))
+</code></pre>
+<h3 id="lstm">LSTM</h3>
+<p>输入门是$\mathbf{I}_t \in \mathbb{R}^{n \times h}$，
+遗忘门是$\mathbf{F}_t \in \mathbb{R}^{n \times h}$，
+输出门是$\mathbf{O}_t \in \mathbb{R}^{n \times h}$。</p>
+<p>更新公式为
+$$
+\begin{aligned}
+\mathbf{I}<em>t &amp;= \sigma(\mathbf{X}_t \mathbf{W}</em>{xi} + \mathbf{H}<em>{t-1} \mathbf{W}</em>{hi} + \mathbf{b}<em>i),\
+\mathbf{F}_t &amp;= \sigma(\mathbf{X}_t \mathbf{W}</em>{xf} + \mathbf{H}<em>{t-1} \mathbf{W}</em>{hf} + \mathbf{b}<em>f),\
+\mathbf{O}_t &amp;= \sigma(\mathbf{X}_t \mathbf{W}</em>{xo} + \mathbf{H}<em>{t-1} \mathbf{W}</em>{ho} + \mathbf{b}_o),
+\end{aligned}
+$$</p>
+<p>候选记忆元
+$$\tilde{\mathbf{C}}<em>t = \text{tanh}(\mathbf{X}_t \mathbf{W}</em>{xc} + \mathbf{H}<em>{t-1} \mathbf{W}</em>{hc} + \mathbf{b}_c),$$</p>
+<p>记忆元
+$$\mathbf{C}<em>t = \mathbf{F}_t \odot \mathbf{C}</em>{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t.$$</p>
+<p>隐状态
+$$\mathbf{H}_t = \mathbf{O}_t \odot \tanh(\mathbf{C}_t).$$</p>
+<p>pytorch框架</p>
+<pre><code class="language-python">
+num_inputs = vocab_size
+lstm_layer = nn.LSTM(num_inputs, num_hiddens)
+model = d2l.RNNModel(lstm_layer, len(vocab))
+</code></pre>
+<h3 id="deep-rnn">Deep RNN</h3>
+<p>设置$\mathbf{H}_t^{(0)} = \mathbf{X}_t$，</p>
+<p>第$l$层的隐状态更新
+$$\mathbf{H}<em>t^{(l)} = \phi_l(\mathbf{H}_t^{(l-1)} \mathbf{W}</em>{xh}^{(l)} + \mathbf{H}<em>{t-1}^{(l)} \mathbf{W}</em>{hh}^{(l)}  + \mathbf{b}_h^{(l)}),$$</p>
+<p>最后，输出层的计算仅基于第$l$个隐藏层最终的隐状态：</p>
+<p>$$\mathbf{O}<em>t = \mathbf{H}_t^{(L)} \mathbf{W}</em>{hq} + \mathbf{b}_q,$$</p>
+<p>也能用GRU或者LSTM来代替这里的隐状态</p>
+<p>pytorch实现深度的LSTM</p>
+<pre><code class="language-python">
+lstm_layer = nn.LSTM(num_inputs, num_hiddens, num_layers)
+model = d2l.RNNModel(lstm_layer, len(vocab))
+</code></pre>
+<h3 id="brnn">BRNN</h3>
+<p>$$
+\begin{aligned}
+\overrightarrow{\mathbf{H}}<em>t &amp;= \phi(\mathbf{X}_t \mathbf{W}</em>{xh}^{(f)} + \overrightarrow{\mathbf{H}}<em>{t-1} \mathbf{W}</em>{hh}^{(f)}  + \mathbf{b}<em>h^{(f)}),\
+\overleftarrow{\mathbf{H}}_t &amp;= \phi(\mathbf{X}_t \mathbf{W}</em>{xh}^{(b)} + \overleftarrow{\mathbf{H}}<em>{t+1} \mathbf{W}</em>{hh}^{(b)}  + \mathbf{b}_h^{(b)}),
+\end{aligned}
+$$</p>
+<p>正向隐状态$\overrightarrow{\mathbf{H}}_t$和反向隐状态$\overleftarrow{\mathbf{H}}_t$连接起来，获得需要送入输出层的隐状态$\mathbf{H}_t \in \mathbb{R}^{n \times 2h}$。</p>
+<p>$\mathbf{O}_t \in \mathbb{R}^{n \times q}$（$q$是输出单元的数目）:</p>
+<p>$$\mathbf{O}<em>t = \mathbf{H}_t \mathbf{W}</em>{hq} + \mathbf{b}_q.$$</p>
+<p>这里$\mathbf{W}_{hq} \in \mathbb{R}^{2h \times q}$</p>
+<h3 id="seq2seq">Seq2Seq</h3>
+<p>机器翻译</p>
+<p>编码器是一个RNN(可以是双向)，读取输入句子
+解码器用另一个RNN来输出</p>
+<p>编码器最后时间步的隐状态用作编码器的初始隐状态</p>
+<p>训练时解码器使用目标句子作为输入（就算某一步预测错了，下一步输入的还是正确的翻译结果）</p>
+<h4 id="_15">预测序列评估</h4>
+<p>衡量生成序列好坏的BLEU</p>
+<p>$$ \exp\left(\min\left(0, 1 - \frac{\mathrm{len}<em>{\text{label}}}{\mathrm{len}</em>{\text{pred}}}\right)\right) \prod_{n=1}^k p_n^{1/2^n},$$</p>
+<p>$p_n$表示预测中所有n_gram（n元语法）的精度</p>
+<blockquote>
+<p><strong><em>Example</em></strong>
+标签序列ABCDEF，预测序列为ABBCD
+$p_1$ = 4/5 $p_2$ = 3/4 $p_3$ = 1/3 $p_4$ = 0</p>
+</blockquote>
+<pre><code class="language-python">
+class Seq2SeqEncoder(d2l.Encoder):
+    def __init__(self, vocab_size, embed_size, num_hiddens, num_layers,
+                 dropout=0, **kwargs):
+        super(Seq2SeqEncoder, self).__init__(**kwargs)
+        # 嵌入层
+        self.embedding = nn.Embedding(vocab_size, embed_size)
+        self.rnn = nn.GRU(embed_size, num_hiddens, num_layers,
+                          dropout=dropout)
+
+    def forward(self, X, *args):
+        # 输入'X'形状(batch_size,num_steps) 输出'X'的形状：(batch_size,num_steps,embed_size)
+        X = self.embedding(X)
+        # 在循环神经网络模型中，第一个轴对应于时间步
+        X = X.permute(1, 0, 2)
+        # 如果未提及状态，则默认为0
+        output, state = self.rnn(X)
+        # output的形状:(num_steps,batch_size,num_hiddens)
+        # state的形状:(num_layers,batch_size,num_hiddens)
+        return output, state
+</code></pre>
+<p>Decoder的embedding和Encoder不同</p>
+<pre><code class="language-python">
+class Seq2SeqDecoder(d2l.Decoder):
+    &quot;&quot;&quot;用于序列到序列学习的循环神经网络解码器&quot;&quot;&quot;
+    def __init__(self, vocab_size, embed_size, num_hiddens, num_layers,
+                 dropout=0, **kwargs):
+        super(Seq2SeqDecoder, self).__init__(**kwargs)
+        self.embedding = nn.Embedding(vocab_size, embed_size)
+        self.rnn = nn.GRU(embed_size + num_hiddens, num_hiddens, num_layers,
+                          dropout=dropout)
+        self.dense = nn.Linear(num_hiddens, vocab_size)
+
+    def init_state(self, enc_outputs, *args):
+        #outputs:(output,state)
+        return enc_outputs[1]
+
+    def forward(self, X, state):
+        # 输出'X'的形状：(batch_size,num_steps,embed_size)
+        X = self.embedding(X).permute(1, 0, 2)
+        # 广播context，使其具有与X相同的num_steps
+        context = state[-1].repeat(X.shape[0], 1, 1)#最后一个时间步的最后一层输出
+        X_and_context = torch.cat((X, context), 2)
+        output, state = self.rnn(X_and_context, state)
+        output = self.dense(output).permute(1, 0, 2)
+        # output的形状:(batch_size,num_steps,vocab_size)
+        # state的形状:(num_layers,batch_size,num_hiddens)
+        return output, state
+</code></pre>
+<p>在序列中屏蔽不相关的项</p>
+<pre><code class="language-python">
+def sequence_mask(X, valid_len, value=0):
+    maxlen = X.size(1)
+    mask = torch.arange((maxlen), dtype=torch.float32,
+                        device=X.device)[None, :] &lt; valid_len[:, None]
+    X[~mask] = value
+    return X
+
+X = torch.tensor([[1, 2, 3], [4, 5, 6]])
+sequence_mask(X, torch.tensor([1, 2]))
+</code></pre>
+<blockquote>
+<p>tensor([ [1, 0, 0],
+        [4, 5, 0] ])</p>
+</blockquote>
+<pre><code class="language-python">
+class MaskedSoftmaxCELoss(nn.CrossEntropyLoss):
+    &quot;&quot;&quot;带遮蔽的softmax交叉熵损失函数&quot;&quot;&quot;
+    # pred的形状：(batch_size,num_steps,vocab_size)
+    # label的形状：(batch_size,num_steps)
+    # valid_len的形状：(batch_size,)
+    def forward(self, pred, label, valid_len):
+        weights = torch.ones_like(label)
+        weights = sequence_mask(weights, valid_len)
+        self.reduction='none'
+        unweighted_loss = super(MaskedSoftmaxCELoss, self).forward(
+            pred.permute(0, 2, 1), label)
+        weighted_loss = (unweighted_loss * weights).mean(dim=1) #无效的全部置为0，对每个样本返回loss
+        return weighted_loss
+</code></pre>
+<p>（具体没看很懂怎么练的，先过了后面补</p>
+<h2 id="attention">Attention</h2>
+<p>每个值（Value）和一个键（key）一一对应，通过查询（query）与键进行匹配，得到最匹配的值。</p>
+<h3 id="nadaraya-waston">Nadaraya-Waston 核回归</h3>
+<p>$$f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i$$</p>
+<p>更一般的表示</p>
+<p>$$f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,$$</p>
+<p>用高斯核$K(u) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{u^2}{2}).$带入第一个式子</p>
+<p>得到
+$$\begin{aligned} f(x) &amp;= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}(x - x_i)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}(x - x_j)^2\right)} y_i \&amp;= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}(x - x_i)^2\right) y_i. \end{aligned}$$</p>
+<p>带学习参数w</p>
+<p>$$\begin{aligned}f(x) &amp;= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}((x - x_i)w)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}((x - x_j)w)^2\right)} y_i \&amp;= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}((x - x_i)w)^2\right) y_i.\end{aligned}$$</p>
+<h3 id="_16">注意力评分函数</h3>
+<p>用数学语言描述，假设有一个查询$\mathbf{q} \in \mathbb{R}^q$和$m$个“键－值”对$(\mathbf{k}_1, \mathbf{v}_1), \ldots, (\mathbf{k}_m, \mathbf{v}_m)$，
+其中$\mathbf{k}_i \in \mathbb{R}^k$，$\mathbf{v}_i \in \mathbb{R}^v$。
+注意力汇聚函数$f$就被表示成值的加权和：</p>
+<p>$$f(\mathbf{q}, (\mathbf{k}<em>1, \mathbf{v}_1), \ldots, (\mathbf{k}_m, \mathbf{v}_m)) = \sum</em>{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i \in \mathbb{R}^v,$$</p>
+<p>其中查询$\mathbf{q}$和键$\mathbf{k}_i$的注意力权重（标量）是通过注意力评分函数$a$将两个向量映射成标量，再经过softmax运算得到的：</p>
+<p>$$\alpha(\mathbf{q}, \mathbf{k}<em>i) = \mathrm{softmax}(a(\mathbf{q}, \mathbf{k}_i)) = \frac{\exp(a(\mathbf{q}, \mathbf{k}_i))}{\sum</em>{j=1}^m \exp(a(\mathbf{q}, \mathbf{k}_j))} \in \mathbb{R}.$$</p>
+<h4 id="additive-attention">Additive Attention</h4>
+<p>$$a(\mathbf q, \mathbf k) = \mathbf w_v^\top \text{tanh}(\mathbf W_q\mathbf q + \mathbf W_k \mathbf k) \in \mathbb{R},$$</p>
+<p>其中可学习的参数是$\mathbf W_q\in\mathbb R^{h\times q}$、$\mathbf W_k\in\mathbb R^{h\times k}$和$\mathbf w_v\in\mathbb R^{h}$。</p>
+<pre><code class="language-python">class AdditiveAttention(nn.Module):
+    def __init__(self, key_size, query_size, num_hiddens, dropout, **kwargs):
+        super(AdditiveAttention, self).__init__(**kwargs)
+        self.W_k = nn.Linear(key_size, num_hiddens, bias=False)
+        self.W_q = nn.Linear(query_size, num_hiddens, bias=False)
+        self.w_v = nn.Linear(num_hiddens, 1, bias=False)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, queries, keys, values, valid_lens):
+        queries, keys = self.W_q(queries), self.W_k(keys)
+        # 在维度扩展后，
+        # queries的形状：(batch_size，查询的个数，1，num_hidden)
+        # key的形状：(batch_size，1，“键－值”对的个数，num_hiddens)
+        # 使用广播方式进行求和
+        features = queries.unsqueeze(2) + keys.unsqueeze(1)
+        features = torch.tanh(features)
+        # self.w_v仅有一个输出，因此从形状中移除最后那个维度。
+        # scores的形状：(batch_size，查询的个数，“键-值”对的个数)
+        scores = self.w_v(features).squeeze(-1)
+        self.attention_weights = masked_softmax(scores, valid_lens)
+        # values的形状：(batch_size，“键－值”对的个数，值的维度)
+        # 输出的形状：(batch_size,查询的个数,值的维度)
+        return torch.bmm(self.dropout(self.attention_weights), values)
+</code></pre>
+<h4 id="scaled-dot-product-attention">Scaled dot-product attention</h4>
+<p><em>缩放点积注意力</em>（scaled dot-product attention）要求query和Key长度相同，评分函数为：</p>
+<p>$$a(\mathbf q, \mathbf k) = \mathbf{q}^\top \mathbf{k}  /\sqrt{d}.$$</p>
+<p>基于$n$个查询和$m$个键－值对计算注意力，其中查询和键的长度均为$d$，值的长度为$v$。查询$\mathbf Q\in\mathbb R^{n\times d}$、键$\mathbf K\in\mathbb R^{m\times d}$和值$\mathbf V\in\mathbb R^{m\times v}$的缩放点积注意力是：</p>
+<p>$$ \mathrm{softmax}\left(\frac{\mathbf Q \mathbf K^\top }{\sqrt{d}}\right) \mathbf V \in \mathbb{R}^{n\times v}.$$</p>
+<pre><code class="language-python">class DotProductAttention(nn.Module):
+    &quot;&quot;&quot;缩放点积注意力&quot;&quot;&quot;
+    def __init__(self, dropout, **kwargs):
+        super(DotProductAttention, self).__init__(**kwargs)
+        self.dropout = nn.Dropout(dropout)
+
+    # queries的形状：(batch_size，查询的个数，d)
+    # keys的形状：(batch_size，“键－值”对的个数，d)
+    # values的形状：(batch_size，“键－值”对的个数，值的维度)
+    # valid_lens的形状:(batch_size，)或者(batch_size，查询的个数)
+    def forward(self, queries, keys, values, valid_lens=None):
+        d = queries.shape[-1]
+        # 设置transpose_b=True为了交换keys的最后两个维度
+        scores = torch.bmm(queries, keys.transpose(1,2)) / math.sqrt(d)
+        self.attention_weights = masked_softmax(scores, valid_lens)
+        return torch.bmm(self.dropout(self.attention_weights), values)
+</code></pre>
+<h3 id="attention-decoder">Attention Decoder</h3>
+<p>与之前Seq2Seq相比，上下文变量$\mathbf{c}$在任何解码时间步$t'$都会被$\mathbf{c}_{t'}$替换。假设输入序列中有$T$个词元，解码时间步$t'$的上下文变量是注意力集中的输出：</p>
+<p>$$\mathbf{c}<em>{t'} = \sum</em>{t=1}^T \alpha(\mathbf{s}_{t' - 1}, \mathbf{h}_t) \mathbf{h}_t$$</p>
+<p>其中，时间步$t' - 1$时的解码器隐状态$\mathbf{s}_{t' - 1}$是查询，编码器隐状态$\mathbf{h}_t$既是键，也是值。</p>
+<pre><code class="language-python">
+class Seq2SeqAttentionDecoder(AttentionDecoder):
+    def __init__(self, vocab_size, embed_size, num_hiddens, num_layers,
+                 dropout=0, **kwargs):
+        super(Seq2SeqAttentionDecoder, self).__init__(**kwargs)
+        self.attention = d2l.AdditiveAttention(
+            num_hiddens, num_hiddens, num_hiddens, dropout)
+        self.embedding = nn.Embedding(vocab_size, embed_size)
+        self.rnn = nn.GRU(
+            embed_size + num_hiddens, num_hiddens, num_layers,
+            dropout=dropout)
+        self.dense = nn.Linear(num_hiddens, vocab_size)
+
+    def init_state(self, enc_outputs, enc_valid_lens, *args):
+        # outputs的形状为(batch_size，num_steps，num_hiddens).
+        # hidden_state的形状为(num_layers，batch_size，num_hiddens)
+        outputs, hidden_state = enc_outputs
+        return (outputs.permute(1, 0, 2), hidden_state, enc_valid_lens)
+
+    def forward(self, X, state):
+        # enc_outputs的形状为(batch_size,num_steps,num_hiddens).
+        # hidden_state的形状为(num_layers,batch_size,
+        # num_hiddens)
+        enc_outputs, hidden_state, enc_valid_lens = state
+        # 输出X的形状为(num_steps,batch_size,embed_size)
+        X = self.embedding(X).permute(1, 0, 2)
+        outputs, self._attention_weights = [], []
+        for x in X:
+            # query的形状为(batch_size,1,num_hiddens)
+            query = torch.unsqueeze(hidden_state[-1], dim=1)
+            # context的形状为(batch_size,1,num_hiddens)
+            context = self.attention(
+                query, enc_outputs, enc_outputs, enc_valid_lens)
+            # 在特征维度上连结
+            x = torch.cat((context, torch.unsqueeze(x, dim=1)), dim=-1)
+            # 将x变形为(1,batch_size,embed_size+num_hiddens)
+            out, hidden_state = self.rnn(x.permute(1, 0, 2), hidden_state)
+            outputs.append(out)
+            self._attention_weights.append(self.attention.attention_weights)
+        # 全连接层变换后，outputs的形状为
+        # (num_steps,batch_size,vocab_size)
+        outputs = self.dense(torch.cat(outputs, dim=0))
+        return outputs.permute(1, 0, 2), [enc_outputs, hidden_state,
+                                          enc_valid_lens]
+
+    @property
+    def attention_weights(self):
+        return self._attention_weights
+
+</code></pre>
+<h3 id="mutihead-attention">Mutihead-Attention</h3>
+<p>给定查询$\mathbf{q} \in \mathbb{R}^{d_q}$、键$\mathbf{k} \in \mathbb{R}^{d_k}$和值$\mathbf{v} \in \mathbb{R}^{d_v}$，每个注意力头$\mathbf{h}_i$（$i = 1, \ldots, h$）的计算方法为：</p>
+<p>$$\mathbf{h}_i = f(\mathbf W_i^{(q)}\mathbf q, \mathbf W_i^{(k)}\mathbf k,\mathbf W_i^{(v)}\mathbf v) \in \mathbb R^{p_v},$$</p>
+<p>其中，可学习的参数包括$\mathbf W_i^{(q)}\in\mathbb R^{p_q\times d_q}$、$\mathbf W_i^{(k)}\in\mathbb R^{p_k\times d_k}$和
+$\mathbf W_i^{(v)}\in\mathbb R^{p_v\times d_v}$，以及代表注意力汇聚的函数$f$。
+多头注意力的输出需要经过另一个线性转换，它对应着$h$个头连结后的结果，可学习参数是$\mathbf W_o\in\mathbb R^{p_o\times h p_v}$：</p>
+<p>$$\mathbf W_o \begin{bmatrix}\mathbf h_1\\vdots\\mathbf h_h\end{bmatrix} \in \mathbb{R}^{p_o}.$$</p>
+<p>在实现过程中通常选择缩放点积注意力作为每一个注意力头。
+设定$p_q = p_k = p_v = p_o / h$。如果将查询、键和值的线性变换的输出数量设置为$p_q h = p_k h = p_v h = p_o$，则可以并行计算$h$个头。</p>
+<h3 id="self-attention">Self-Attention</h3>
+<p>给定一个由词元组成的输入序列$\mathbf{x}_1, \ldots, \mathbf{x}_n$，其中任意$\mathbf{x}_i \in \mathbb{R}^d$（$1 \leq i \leq n$）。该序列的自注意力输出为一个长度相同的序列
+$\mathbf{y}_1, \ldots, \mathbf{y}_n$，其中：</p>
+<p>$$\mathbf{y}_i = f(\mathbf{x}_i, (\mathbf{x}_1, \mathbf{x}_1), \ldots, (\mathbf{x}_n, \mathbf{x}_n)) \in \mathbb{R}^d$$</p>
+<h3 id="positional-encoding">Positional-Encoding</h3>
+<p>由于Self Attention 没有记录位置信息，假设长度为n的序列$\mathbf{X} \in \mathbb{R}^{n \times d}$,用位置编码矩阵$\mathbf{P} \in \mathbb{R}^{n \times d}$ 来计算$\mathbf{X} + \mathbf{P}$ 作为Self Attention 的输入。</p>
+<p>矩阵$\mathbf{P}$第$i$行、第$2j$列和$2j+1$列上的元素为：</p>
+<p>$$\begin{aligned} p_{i, 2j} &amp;= \sin\left(\frac{i}{10000^{2j/d}}\right),\p_{i, 2j+1} &amp;= \cos\left(\frac{i}{10000^{2j/d}}\right).\end{aligned}$$</p>
+<p>相对位置信息
+$(p_{i, 2j}, p_{i, 2j+1})$都可以线性投影到$(p_{i+\delta, 2j}, p_{i+\delta, 2j+1})$：</p>
+<p>$$\begin{aligned}
+&amp;\begin{bmatrix} \cos(\delta \omega_j) &amp; \sin(\delta \omega_j) \  -\sin(\delta \omega_j) &amp; \cos(\delta \omega_j) \ \end{bmatrix}
+\begin{bmatrix} p_{i, 2j} \  p_{i, 2j+1} \ \end{bmatrix}\
+=&amp;\begin{bmatrix} \cos(\delta \omega_j) \sin(i \omega_j) + \sin(\delta \omega_j) \cos(i \omega_j) \  -\sin(\delta \omega_j) \sin(i \omega_j) + \cos(\delta \omega_j) \cos(i \omega_j) \ \end{bmatrix}\
+=&amp;\begin{bmatrix} \sin\left((i+\delta) \omega_j\right) \  \cos\left((i+\delta) \omega_j\right) \ \end{bmatrix}\
+=&amp;
+\begin{bmatrix} p_{i+\delta, 2j} \  p_{i+\delta, 2j+1} \ \end{bmatrix},
+\end{aligned}$$</p>
+<p>因此这个矩阵不依赖于任何位置的索引。</p>
+<h3 id="transformer">Transformer</h3>
+<h4 id="addnorm">Add&amp;Norm</h4>
+<p>使用LayerNorm （不改变语义向量的方向，改变模长）</p>
+<pre><code class="language-python">class AddNorm(nn.Module):
+    def __init__(self, normalized_shape, dropout, **kwargs):
+        super(AddNorm, self).__init__(**kwargs)
+        self.dropout = nn.Dropout(dropout)
+        self.ln = nn.LayerNorm(normalized_shape)
+
+    def forward(self, X, Y):
+        return self.ln(self.dropout(Y) + X)
+
+</code></pre>
+<h3 id="encoder">Encoder</h3>
+<pre><code class="language-python">
+class EncoderBlock(nn.Module):
+    def __init__(self, key_size, query_size, value_size, num_hiddens,
+                 norm_shape, ffn_num_input, ffn_num_hiddens, num_heads,
+                 dropout, use_bias=False, **kwargs):
+        super(EncoderBlock, self).__init__(**kwargs)
+        self.attention = d2l.MultiHeadAttention(
+            key_size, query_size, value_size, num_hiddens, num_heads, dropout,
+            use_bias)
+        self.addnorm1 = AddNorm(norm_shape, dropout)
+        self.ffn = PositionWiseFFN(
+            ffn_num_input, ffn_num_hiddens, num_hiddens)
+        self.addnorm2 = AddNorm(norm_shape, dropout)
+
+    def forward(self, X, valid_lens):
+        Y = self.addnorm1(X, self.attention(X, X, X, valid_lens))
+        return self.addnorm2(Y, self.ffn(Y))
+</code></pre>
+<p>Encoder层都不会改变输入的形状。</p>
+<pre><code class="language-python">
+class TransformerEncoder(d2l.Encoder):
+    def __init__(self, vocab_size, key_size, query_size, value_size,
+                 num_hiddens, norm_shape, ffn_num_input, ffn_num_hiddens,
+                 num_heads, num_layers, dropout, use_bias=False, **kwargs):
+        super(TransformerEncoder, self).__init__(**kwargs)
+        self.num_hiddens = num_hiddens
+        self.embedding = nn.Embedding(vocab_size, num_hiddens)
+        self.pos_encoding = d2l.PositionalEncoding(num_hiddens, dropout)
+        self.blks = nn.Sequential()
+        for i in range(num_layers):
+            self.blks.add_module(&quot;block&quot;+str(i),
+                EncoderBlock(key_size, query_size, value_size, num_hiddens,
+                             norm_shape, ffn_num_input, ffn_num_hiddens,
+                             num_heads, dropout, use_bias))
+
+    def forward(self, X, valid_lens, *args):
+        # 因为位置编码值在-1和1之间，
+        # 因此嵌入值乘以嵌入维度的平方根进行缩放，
+        # 然后再与位置编码相加。
+        X = self.pos_encoding(self.embedding(X) * math.sqrt(self.num_hiddens))
+        self.attention_weights = [None] * len(self.blks)
+        for i, blk in enumerate(self.blks):
+            X = blk(X, valid_lens)
+            self.attention_weights[
+                i] = blk.attention.attention.attention_weights
+        return X
+</code></pre>
+<h4 id="decoder">Decoder</h4>
+<p>在掩蔽多头解码器自注意力层（第一个子层）中，查询、键和值都来自上一个解码器层的输出。为了在解码器中保留自回归的属性，其掩蔽自注意力设定了参数，以便任何查询都只会与解码器中所有已经生成词元的位置（即直到该查询位置为止）进行注意力计算。</p>
+<pre><code class="language-python">
+class DecoderBlock(nn.Module):
+    def __init__(self, key_size, query_size, value_size, num_hiddens,
+                 norm_shape, ffn_num_input, ffn_num_hiddens, num_heads,
+                 dropout, i, **kwargs):
+        super(DecoderBlock, self).__init__(**kwargs)
+        self.i = i
+        self.attention1 = d2l.MultiHeadAttention(
+            key_size, query_size, value_size, num_hiddens, num_heads, dropout)
+        self.addnorm1 = AddNorm(norm_shape, dropout)
+        self.attention2 = d2l.MultiHeadAttention(
+            key_size, query_size, value_size, num_hiddens, num_heads, dropout)
+        self.addnorm2 = AddNorm(norm_shape, dropout)
+        self.ffn = PositionWiseFFN(ffn_num_input, ffn_num_hiddens,
+                                   num_hiddens)
+        self.addnorm3 = AddNorm(norm_shape, dropout)
+
+    def forward(self, X, state):
+        enc_outputs, enc_valid_lens = state[0], state[1]
+        # 训练阶段，输出序列的所有词元都在同一时间处理，
+        # 因此state[2][self.i]初始化为None。
+        # 预测阶段，输出序列是通过词元一个接着一个解码的，
+        # 因此state[2][self.i]包含着直到当前时间步第i个块解码的输出表示
+        if state[2][self.i] is None:
+            key_values = X
+        else:
+            key_values = torch.cat((state[2][self.i], X), axis=1)
+        state[2][self.i] = key_values
+        if self.training:
+            batch_size, num_steps, _ = X.shape
+            # dec_valid_lens的开头:(batch_size,num_steps),
+            # 其中每一行是[1,2,...,num_steps]
+            dec_valid_lens = torch.arange(
+                1, num_steps + 1, device=X.device).repeat(batch_size, 1)
+        else:
+            dec_valid_lens = None
+
+        # 自注意力
+        X2 = self.attention1(X, key_values, key_values, dec_valid_lens)
+        Y = self.addnorm1(X, X2)
+        # 编码器－解码器注意力。
+        # enc_outputs的开头:(batch_size,num_steps,num_hiddens)
+        Y2 = self.attention2(Y, enc_outputs, enc_outputs, enc_valid_lens)
+        Z = self.addnorm2(Y, Y2)
+        return self.addnorm3(Z, self.ffn(Z)), state
+</code></pre>
+<pre><code class="language-python">
+class TransformerDecoder(d2l.AttentionDecoder):
+    def __init__(self, vocab_size, key_size, query_size, value_size,
+                 num_hiddens, norm_shape, ffn_num_input, ffn_num_hiddens,
+                 num_heads, num_layers, dropout, **kwargs):
+        super(TransformerDecoder, self).__init__(**kwargs)
+        self.num_hiddens = num_hiddens
+        self.num_layers = num_layers
+        self.embedding = nn.Embedding(vocab_size, num_hiddens)
+        self.pos_encoding = d2l.PositionalEncoding(num_hiddens, dropout)
+        self.blks = nn.Sequential()
+        for i in range(num_layers):
+            self.blks.add_module(&quot;block&quot;+str(i),
+                DecoderBlock(key_size, query_size, value_size, num_hiddens,
+                             norm_shape, ffn_num_input, ffn_num_hiddens,
+                             num_heads, dropout, i))
+        self.dense = nn.Linear(num_hiddens, vocab_size)
+
+    def init_state(self, enc_outputs, enc_valid_lens, *args):
+        return [enc_outputs, enc_valid_lens, [None] * self.num_layers]
+
+    def forward(self, X, state):
+        X = self.pos_encoding(self.embedding(X) * math.sqrt(self.num_hiddens))
+        self._attention_weights = [[None] * len(self.blks) for _ in range (2)]
+        for i, blk in enumerate(self.blks):
+            X, state = blk(X, state)
+            # 解码器自注意力权重
+            self._attention_weights[0][
+                i] = blk.attention1.attention.attention_weights
+            # “编码器－解码器”自注意力权重
+            self._attention_weights[1][
+                i] = blk.attention2.attention.attention_weights
+        return self.dense(X), state
+
+    @property
+    def attention_weights(self):
+        return self._attention_weights
+
+</code></pre>
+<h2 id="multiple-gpus">Multiple GPUs</h2>
+<h3 id="_17">拆分数据</h3>
+<p>这种方式下，所有GPU尽管有不同的观测结果，但是执行着相同类型的工作。在完成每个小批量数据的训练之后，梯度在GPU上聚合。
+GPU的数量越多，小批量包含的数据量就越大，从而就能提高训练效率。
+缺点：不能够训练更大的模型</p>
+<p>$k$个GPU并行训练过程如下：
+<em>在任何一次训练迭代中，给定的随机的小批量样本都将被分成$k$个部分，并均匀地分配到GPU上；
+</em>每个GPU根据分配给它的小批量子集，计算模型参数的损失和梯度；
+<em>将$k$个GPU中的局部梯度聚合，以获得当前小批量的随机梯度；
+</em>聚合梯度被重新分发到每个GPU中；
+*每个GPU使用这个小批量随机梯度，来更新它所维护的完整的模型参数集。</p>
+<p>向多个设备复制参数</p>
+<pre><code class="language-python">
+def get_params(params, device):
+    new_params = [p.to(device) for p in params]
+    for p in new_params:
+        p.requires_grad_()
+    return new_params
+</code></pre>
+<p>能够将所有设备上的梯度进行相加</p>
+<pre><code class="language-python">
+def allreduce(data):
+    for i in range(1, len(data)):
+        data[0][:] += data[i].to(data[0].device)
+    for i in range(1, len(data)):
+        data[i][:] = data[0].to(data[i].device)
+
+</code></pre>
+<p>分发数据 <code>nn.parallel.scatter(data, devices)</code></p>
+<pre><code class="language-python">
+data = torch.arange(20).reshape(4, 5)
+devices = [torch.device('cuda:0'), torch.device('cuda:1')]
+split = nn.parallel.scatter(data, devices)
+print('input :', data)
+print('load into', devices)
+print('output:', split)
+</code></pre>
+<blockquote>
+<p>input : tensor([ [ 0,  1,  2,  3,  4],
+        [ 5,  6,  7,  8,  9],
+        [10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19] ])
+load into [device(type='cuda', index=0), device(type='cuda', index=1)]
+output: (tensor([ [0, 1, 2, 3, 4],
+        [5, 6, 7, 8, 9] ], device='cuda:0'), tensor([ [10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19] ], device='cuda:1'))</p>
+</blockquote>
+<p>分发数据和标签</p>
+<pre><code class="language-python">
+def split_batch(X, y, devices):
+    assert X.shape[0] == y.shape[0]
+    return (nn.parallel.scatter(X, devices),
+            nn.parallel.scatter(y, devices))
+</code></pre>
+<p>实现多GPU训练</p>
+<pre><code class="language-python">
+def train_batch(X, y, device_params, devices, lr):
+    X_shards, y_shards = split_batch(X, y, devices)
+    # 在每个GPU上分别计算损失
+    ls = [loss(lenet(X_shard, device_W), y_shard).sum()
+          for X_shard, y_shard, device_W in zip(
+              X_shards, y_shards, device_params)]
+    for l in ls:  # 反向传播在每个GPU上分别执行
+        l.backward()
+    # 将每个GPU的所有梯度相加，并将其广播到所有GPU
+    with torch.no_grad():
+        for i in range(len(device_params[0])):
+            allreduce([device_params[c][i].grad for c in range(len(devices))])
+    # 在每个GPU上分别更新模型参数
+    for param in device_params:
+        d2l.sgd(param, lr, X.shape[0]) # 在这里，我们使用全尺寸的小批量
+</code></pre>
+<p>评估模型的时候只在一个GPU上</p>
+<pre><code class="language-python">
+def train(num_gpus, batch_size, lr):
+    train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
+    devices = [d2l.try_gpu(i) for i in range(num_gpus)]
+    # 将模型参数复制到num_gpus个GPU
+    device_params = [get_params(params, d) for d in devices]
+    num_epochs = 10
+    animator = d2l.Animator('epoch', 'test acc', xlim=[1, num_epochs])
+    timer = d2l.Timer()
+    for epoch in range(num_epochs):
+        timer.start()
+        for X, y in train_iter:
+            # 为单个小批量执行多GPU训练
+            train_batch(X, y, device_params, devices, lr)
+            torch.cuda.synchronize()
+        timer.stop()
+        # 在GPU0上评估模型
+        animator.add(epoch + 1, (d2l.evaluate_accuracy_gpu(
+            lambda x: lenet(x, device_params[0]), test_iter, devices[0]),))
+    print(f'测试精度：{animator.Y[0][-1]:.2f}，{timer.avg():.1f}秒/轮，'
+          f'在{str(devices)}')
+</code></pre>
+<p>简洁实现<code>net = nn.DataParallel(net, device_ids=devices)</code>，和之前几乎没什么区别</p>
+<pre><code class="language-python">
+def train(net, num_gpus, batch_size, lr):
+    train_iter, test_iter = d2l.load_data_fashion_mnist(batch_size)
+    devices = [d2l.try_gpu(i) for i in range(num_gpus)]
+    def init_weights(m):
+        if type(m) in [nn.Linear, nn.Conv2d]:
+            nn.init.normal_(m.weight, std=0.01)
+    net.apply(init_weights)
+    # 在多个GPU上设置模型
+    net = nn.DataParallel(net, device_ids=devices)
+    trainer = torch.optim.SGD(net.parameters(), lr)
+    loss = nn.CrossEntropyLoss()
+    timer, num_epochs = d2l.Timer(), 10
+    animator = d2l.Animator('epoch', 'test acc', xlim=[1, num_epochs])
+    for epoch in range(num_epochs):
+        net.train()
+        timer.start()
+        for X, y in train_iter:
+            trainer.zero_grad()
+            X, y = X.to(devices[0]), y.to(devices[0])
+            l = loss(net(X), y)
+            l.backward()
+            trainer.step()
+        timer.stop()
+        animator.add(epoch + 1, (d2l.evaluate_accuracy_gpu(net, test_iter),))
+    print(f'测试精度：{animator.Y[0][-1]:.2f}，{timer.avg():.1f}秒/轮，'
+          f'在{str(devices)}')
+</code></pre>
+<h2 id="computer-vision">Computer Vision</h2>
+<h3 id="image-augmentation">Image Augmentation</h3>
+<ul>
+<li>翻转（上下翻转、左右翻转）
+<code>torchvision.transforms.RandomHorizontalFlip()</code>
+<code>torchvision.transforms.RandomVerticalFlip()</code></li>
+<li>随机剪裁
+<code>torchvision.transforms.RandomResizedCrop((200, 200), scale=(0.1, 1), ratio=(0.5, 2))</code></li>
+<li>改变颜色（亮度、对比度、饱和度、色调）
+<code>torchvision.transforms.ColorJitter(brightness=0.5, contrast=0, saturation=0, hue=0)</code></li>
+</ul>
+<h3 id="_18">目标检测</h3>
+<h4 id="bounding-box">Bounding Box</h4>
+<p>两种表示
+- 左上角坐标和右下角坐标
+- 中心坐标和w，h</p>
+<h4 id="_19">锚框</h4>
+<h5 id="_20">生成锚框</h5>
+<p>输入图像的高度为$h$，宽度为$w$。以图像的每个像素为中心生成不同形状的锚框：<em>缩放比</em>为$s\in (0, 1]$，<em>宽高比</em>为$r &gt; 0$。
+那么<strong>锚框的宽度和高度分别是$hs\sqrt{r}$和$hs/\sqrt{r}$。</strong> 请注意，当中心位置给定时，已知宽和高的锚框是确定的。</p>
+<p>缩放比（scale）取值$s_1,\ldots, s_n$和宽高比（aspect ratio）取值$r_1,\ldots, r_m$。使用这些比例和长宽比的所有组合以每个像素为中心时，输入图像将总共有$whnm$个锚框。
+在实践中，考虑包含$s_1$或$r_1$的组合：</p>
+<p>$$(s_1, r_1), (s_1, r_2), \ldots, (s_1, r_m), (s_2, r_1), (s_3, r_1), \ldots, (s_n, r_1).$$</p>
+<p>也就是说，以同一像素为中心的锚框的数量是$n+m-1$。对于整个输入图像，将共生成$wh(n+m-1)$个锚框。</p>
+<h5 id="iou">交并比(IoU)</h5>
+<p>$$J(\mathcal{A},\mathcal{B}) = \frac{\left|\mathcal{A} \cap \mathcal{B}\right|}{\left| \mathcal{A} \cup \mathcal{B}\right|}.$$</p>
+<h5 id="_21">锚框分配</h5>
+<p>每次取最大IoU的锚框和真实框，去掉之后重复，最后根据阈值确定是否为锚框分配真实框</p>
+<h5 id="_22">标记类别</h5>
+<p>给定框$A$和$B$，中心坐标分别为$(x_a, y_a)$和$(x_b, y_b)$，宽度分别为$w_a$和$w_b$，高度分别为$h_a$和$h_b$，可以将$A$的偏移量标记为：</p>
+<p>$$\left( \frac{ \frac{x_b - x_a}{w_a} - \mu_x }{\sigma_x},
+\frac{ \frac{y_b - y_a}{h_a} - \mu_y }{\sigma_y},
+\frac{ \log \frac{w_b}{w_a} - \mu_w }{\sigma_w},
+\frac{ \log \frac{h_b}{h_a} - \mu_h }{\sigma_h}\right),$$</p>
+<h5 id="_23">非极大值抑制</h5>
+<p>在同一张图像中，所有预测的非背景边界框都按置信度降序排序，以生成列表$L$。</p>
+<ol>
+<li>从$L$中选取置信度最高的预测边界框$B_1$作为基准，然后将所有与$B_1$的IoU超过预定阈值$\epsilon$的非基准预测边界框从$L$中移除。</li>
+<li>从$L$中选取置信度第二高的预测边界框$B_2$作为又一个基准，然后将所有与$B_2$的IoU大于$\epsilon$的非基准预测边界框从$L$中移除。</li>
+<li>重复上述过程，直到$L$中的所有预测边界框都曾被用作基准。此时，$L$中任意一对预测边界框的IoU都小于阈值$\epsilon$；因此，没有一对边界框过于相似。</li>
+<li>输出列表$L$中的所有预测边界框。</li>
+</ol>
+<h4 id="r-cnn">R-CNN</h4>
+<h5 id="region-based-cnn">Region-based CNN</h5>
+<ol>
+<li>使用启发式搜索选择锚框</li>
+<li>使用预训练模型对每个锚框抽取特征</li>
+<li>训练一个SVM来对类别进行分类</li>
+<li>训练一个线性回归模型来预测边缘框偏移</li>
+</ol>
+<p><strong>Rol Pooling</strong>
+给定一个锚框，均匀分成$n \times m$块，输出每块里面的最大值，不管锚框大小为多少，都是nm</p>
+<h5 id="fast-rcnn">Fast RCNN</h5>
+<p>使用CNN对图片抽取特征（整张图片），使用Rol Pooling层对每个锚框生成固定长度的特征</p>
+<h5 id="faster-rcnn">Faster RCNN</h5>
+<p>使用一个网络来替代启发式搜索来获得更好的锚框</p>
+<h5 id="mask-rcnn">Mask RCNN</h5>
+<p>如果有像素级别的标号，用FCN来利用这些信息</p>
+<h4 id="yolo">YOLO</h4>
+<p>只看一次
+- SSD锚框大量重叠浪费计算
+- YOLO将图片均匀分成$S \times S$ 锚框
+- 每个锚框预测$B$个边缘框</p>
+<h4 id="ssd">单发多框检测（SSD）</h4>
+<h3 id="_24">语义分割</h3>
+<p>图像分割和实例分割</p>
+<h4 id="_25">转置卷积</h4>
+<p>转置卷积可以用来增加高宽</p>
+<p>$Y[i: i + h, j: j + w] += X[i, j] * K$</p>
+<blockquote>
+<p>转置?
+$Y = X * W$
+可以对W构造一个V，使得卷积等价于矩阵乘法$Y^ \prime = V X^ \prime$, 这里$X^ \prime Y^\prime$是 $XY$对应的向量版本
+转置卷积等价于 $Y^\prime = V^T X^\prime $</p>
+</blockquote>
+<p>基本操作</p>
+<pre><code class="language-python">
+def trans_conv(X, K):
+    h, w = K.shape
+    Y = torch.zeros((X.shape[0] + h - 1, X.shape[1] + w - 1))
+    for i in range(X.shape[0]):
+        for j in range(X.shape[1]):
+            Y[i: i + h, j: j + w] += X[i, j] * K
+    return Y
+
+</code></pre>
+<p>torch API</p>
+<pre><code class="language-python">
+X, K = X.reshape(1, 1, 2, 2), K.reshape(1, 1, 2, 2)
+tconv = nn.ConvTranspose2d(1, 1, kernel_size=2, bias=False)
+</code></pre>
+<blockquote>
+<p>tensor([ [ [ [ 0.,  0.,  1.],
+          [ 0.,  4.,  6.],
+          [ 4., 12.,  9.] ] ] ])</p>
+</blockquote>
+<p><code>tconv = nn.ConvTranspose2d(1, 1, kernel_size=2, padding=1, bias=False)</code>padding将删除第一和最后一行和列</p>
+<blockquote>
+<p>tensor([ [ [ [4.] ] ] ])</p>
+</blockquote>
+<p><code>tconv = nn.ConvTranspose2d(1, 1, kernel_size=2, stride=2, bias=False)</code>
+步幅为2增大输出</p>
+<blockquote>
+<p>tensor([ [ [ [0., 0., 0., 1.],
+          [0., 0., 2., 3.],
+          [0., 2., 0., 3.],
+          [4., 6., 6., 9.] ] ] ])</p>
+</blockquote>
+<h4 id="fcn">全卷积网络(FCN)</h4>
+<p>用转置卷积层来替换CNN最后的全连接层，从而实现每个像素的预测</p>
+<p>CNN --&gt; 1x1 Conv --&gt; 转置卷积 --&gt; output</p>
+<p>先用Resnet18提取特征<code>net = nn.Sequential(*list(pretrained_net.children())[:-2])</code></p>
+<p>然后加1x1的卷积层和转置卷积层，使得输出大小和原图像大小相同</p>
+<pre><code class="language-python">num_classes = 21
+net.add_module('final_conv', nn.Conv2d(512, num_classes, kernel_size=1))
+net.add_module('transpose_conv', nn.ConvTranspose2d(num_classes, num_classes,
+                                    kernel_size=64, padding=16, stride=32))
+</code></pre>
+<p><img alt="" src="/_posts/.assets_IMG/2024-1-22-DeepLearning/IMG_20240228-202646938.png" /></p></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
