@@ -1,4 +1,7 @@
 site_name: CYH's notes
+site_url: https://chenyuhan00.github.io/notes/
+repo_url: https://github.com/ChenYuhan00/notes
+repo_name: notes
 
 nav:
   - 主页: index.md
