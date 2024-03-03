@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/tools/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/d2l_notes/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>Tools - CYH's notes</title>
+        <title>Index - CYH's notes</title>
       
     
     
@@ -71,11 +71,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#tools" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -108,7 +103,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tools
+              Index
             
           </span>
         </div>
@@ -469,40 +464,6 @@
   
   
   
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#torch" class="md-nav__link">
-    <span class="md-ellipsis">
-      torch
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="torch">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#torchsummay" class="md-nav__link">
-    <span class="md-ellipsis">
-      torchsummay
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -520,81 +481,9 @@
   
 
 
-<h1 id="tools">Tools</h1>
-<h2 id="torch">torch</h2>
-<h3 id="torchsummay">torchsummay</h3>
-<p>可以用来打印网络的结构参数</p>
-<p>用法示例</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">from</span> <span class="nn">torchsummary</span> <span class="kn">import</span> <span class="n">summary</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet18</span>
+  <h1>Index</h1>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">()</span>
-<span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code>----------------------------------------------------------------
-        Layer (type)               Output Shape         Param #
-================================================================
-            Conv2d-1          [2, 64, 128, 128]           9,408
-       BatchNorm2d-2          [2, 64, 128, 128]             128
-              ReLU-3          [2, 64, 128, 128]               0
-         MaxPool2d-4            [2, 64, 64, 64]               0
-            Conv2d-5            [2, 64, 64, 64]          36,864
-       BatchNorm2d-6            [2, 64, 64, 64]             128
-              ReLU-7            [2, 64, 64, 64]               0
-            Conv2d-8            [2, 64, 64, 64]          36,864
-       BatchNorm2d-9            [2, 64, 64, 64]             128
-             ReLU-10            [2, 64, 64, 64]               0
-       BasicBlock-11            [2, 64, 64, 64]               0
-           Conv2d-12            [2, 64, 64, 64]          36,864
-      BatchNorm2d-13            [2, 64, 64, 64]             128
-             ReLU-14            [2, 64, 64, 64]               0
-           Conv2d-15            [2, 64, 64, 64]          36,864
-      BatchNorm2d-16            [2, 64, 64, 64]             128
-             ReLU-17            [2, 64, 64, 64]               0
-       BasicBlock-18            [2, 64, 64, 64]               0
-           Conv2d-19           [2, 128, 32, 32]          73,728
-      BatchNorm2d-20           [2, 128, 32, 32]             256
-             ReLU-21           [2, 128, 32, 32]               0
-           Conv2d-22           [2, 128, 32, 32]         147,456
-...
-Forward/backward pass size (MB): 164.02
-Params size (MB): 44.59
-Estimated Total Size (MB): 210.12
-----------------------------------------------------------------
-</code></pre></div></td></tr></table></div>
+
 
 
 

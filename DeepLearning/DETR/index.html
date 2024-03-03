@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/GPT/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/DETR/">
       
       
-        <link rel="prev" href="../BERT/">
+        <link rel="prev" href="../SwinTransformer/">
       
       
-        <link rel="next" href="../ViT/">
+        <link rel="next" href="../Deformable-DETR/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>GPT - CYH's notes</title>
+        <title>DETR - CYH's notes</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#gpt" class="md-skip">
+        <a href="#detr" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              GPT
+              DETR
             
           </span>
         </div>
@@ -350,30 +350,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    GPT
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../GPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -382,101 +362,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      论文阅读
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="论文阅读">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gpt1" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPT1
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="GPT1">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#unsupervised-pre-training" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unsupervised pre-training
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#supervised-fine-tuning" class="md-nav__link">
-    <span class="md-ellipsis">
-      Supervised fine-tuning
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#task-specific-input-transformations" class="md-nav__link">
-    <span class="md-ellipsis">
-      Task-specific input transformations
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gpt2" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPT2
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gpt3" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPT3
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -528,10 +413,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../DETR/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    DETR
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -540,6 +445,68 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      论文阅读
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="论文阅读">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      基于集合的目标函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      模型结构
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      模型代码
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -610,60 +577,27 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#gpt1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      GPT1
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="GPT1">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#unsupervised-pre-training" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unsupervised pre-training
+      基于集合的目标函数
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#supervised-fine-tuning" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Supervised fine-tuning
+      模型结构
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#task-specific-input-transformations" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Task-specific input transformations
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gpt2" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPT2
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gpt3" class="md-nav__link">
-    <span class="md-ellipsis">
-      GPT3
+      模型代码
     </span>
   </a>
   
@@ -692,59 +626,107 @@
   
 
 
-<h1 id="gpt">GPT</h1>
+<h1 id="detr">DETR</h1>
 <h2 id="_1">论文阅读</h2>
-<h3 id="gpt1">GPT1</h3>
-<p><a href="https://cdn.openai.com/research-covers/language-unsupervised/language_understanding_paper.pdf">Improving Language Understanding by Generative Pre-Training</a></p>
-<p>现在没有标签的数据上训练一个预训练语言模型，在下游任务的数据上进行有监督微调</p>
-<h4 id="unsupervised-pre-training">Unsupervised pre-training</h4>
-<p>给定词元语料库 <span class="arithmatex">\(\mathcal{U} = \{u_1,u_2,...,u_n\}\)</span> ，最大化以下似然函数</p>
+<p><a href="https://arxiv.org/pdf/2005.12872.pdf">End-to-End Object Detection with Transformers</a>
+（2020.5）</p>
+<p><a href="https://github.com/facebookresearch/detr">官方代码</a></p>
+<p>把目标检测看成集合（框）预测的任务，把目标检测做成端到端的框架，减少了生成anchor的木粉，也用不到nms</p>
+<p>提出的新的目标函数，通过二分图匹配的方式，强制模型生成独一无二的预测。给定一组查询，DETR 推理对象和全局图像上下文的关系，以并行直接输出最终的预测集。</p>
+<p><img alt="DETR_1" src="../../img/DeepLearning/DETR_1.png" /></p>
+<p>首先用CNN抽特征，然后用Transformer Encoder学全局特征，用Decoder去生成预测框
+（decoder中还有输入object query）得到最后输出的框（100个），用二分图匹配的方式算loss</p>
+<p>推理的时候最后一步用一个阈值卡个置信度，大于某个值算前景物体</p>
+<h3 id="_2">基于集合的目标函数</h3>
+<p><span class="arithmatex">\(y\)</span>是ground truth，<span class="arithmatex">\(\hat{y} = \{ \hat{y}_i \}_i ^N\)</span> 是N个预测值，ground truth中没有出现的标记为<span class="arithmatex">\(\varnothing\)</span> （back ground），最优匹配 <span class="arithmatex">\(\hat{\sigma}\)</span> 满足最小化匹配误差<span class="arithmatex">\(\sum_i^N{\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}})\)</span> （最优匹配问题可以用匈牙利算法解决）</p>
+<p>每个<span class="arithmatex">\(y_i = (c_i,b_i)\)</span>，<span class="arithmatex">\(c_i\)</span>表示类别，<span class="arithmatex">\(b_i \in {[0,1]}^4\)</span>表示相对于图像大小的框的中心坐标和宽高，定义<span class="arithmatex">\(y_i和\hat{y}_{\sigma(i)}\)</span>之间的损失为</p>
 <div class="arithmatex">\[
-    L_1(\mathcal{U}) = \sum_i \log(P(u_i \mid u_{i-k},...,u_{i-1};\mathcal{\Theta}))
+\mathcal{L}_{match} = - \mathbb{1}_{c_i \neq \varnothing}\hat{p}_{\hat{\sigma}(i)(c_i)} + \mathbb{1}_{c_i \neq \varnothing} \mathcal{L}_{box}(b_i,\hat{b}_{\hat{\sigma}(i)})
 \]</div>
-<p>其中<span class="arithmatex">\(k\)</span>是上下文窗口大小，<span class="arithmatex">\(\Theta\)</span>表示模型参数</p>
-<p>使用的模型是Transformer的Decoder</p>
+<p>bounding box 损失定义为</p>
 <div class="arithmatex">\[
-    h_0 = UW_e + W_p
+\mathcal{L}_{box}(b_i,\hat{b}_{\sigma(i)}) = \lambda_{IoU}\mathcal{L}_{IoU}(b_i,\hat{b}_{\sigma(i)}) + \lambda_{L_1}  \lVert b_i - \hat{b}_{\sigma(i)} \rVert_1
 \]</div>
-<div class="arithmatex">\[
-    h_l = \text{transformerblock}(h_{l-1})  \forall i \in [1,n]
-\]</div>
-<div class="arithmatex">\[
-    P(u) = \text{softmax}(h_n W_e^T)
-\]</div>
-<p>其中<span class="arithmatex">\(U = (u_{i-k},...,u_{i-1})\)</span>表示上下文词向量，<span class="arithmatex">\(n\)</span>表示decoder层数，<span class="arithmatex">\(W_e\)</span>是token embedding矩阵，<span class="arithmatex">\(W_p\)</span>是position embedding矩阵。</p>
-<blockquote>
-<p>Transformer encoder 和 decoder 最主要的区别就是decoder使用mask，encoder可以看到整个序列而decoder只能够看到前面的</p>
-</blockquote>
-<h4 id="supervised-fine-tuning">Supervised fine-tuning</h4>
-<p>给定一个有标签的数据集<span class="arithmatex">\(\mathcal{C}\)</span>，每个实例是输入tokens组成的句子<span class="arithmatex">\(x^1,x^2,...,x^m\)</span>和一个label <span class="arithmatex">\(y\)</span>，把输入序列放进transformer块中得到最后一层中<span class="arithmatex">\(x_m\)</span>这个词对应的输出<span class="arithmatex">\(h_l^m\)</span>在过全链接层和softmax</p>
-<div class="arithmatex">\[
-    P(y \mid x^1,...,x^m) = \text{softmax}(h_l^m W_y)
-\]</div>
-<p>目标函数是最大化</p>
-<div class="arithmatex">\[
-    L_2(\mathcal{C}) = \sum_{(x,y)}\log(y \mid x^1,...,x^m)
-\]</div>
-<p>使用以下目标函数能够提高性能</p>
-<div class="arithmatex">\[
-    L_3(\mathcal{C}) = L_2(\mathcal{C}) + \lambda L_1(\mathcal{{C}})
-\]</div>
-<h4 id="task-specific-input-transformations">Task-specific input transformations</h4>
-<p><img alt="GPT_1" src="../../img/DeepLearning/GPT_1.png" /></p>
-<p>第一类是对文字进行分类，把想要分类的文本的前面和末尾加一个特殊字符，放进transformer，最后一个字符(extract)的输出放进线性层进行训练，多分类问题，分类个数由任务确定</p>
-<p>第二类是蕴含，给两句话A，B是否有蕴含关系，例如A是1送2玫瑰，B是1喜欢2（A蕴含B），B是1讨厌2（A不蕴含B），B是1和2是邻居（AB没关系），就是一个三分类的问题</p>
-<p>第三类是相似，判断text1和text2是否相似，由于语言模型中有先后顺序，所以这里用两个，交换顺序，分别进入模型后的输出相加过线性层，二分类问题</p>
-<p>第四类是多选题，对每个答案，都把问题+答案放进去，输出经过线性层得到的标量做softmax，计算得到每个问题的是正确答案的置信度</p>
-<h3 id="gpt2">GPT2</h3>
-<p><a href="https://cdn.openai.com/better-language-models/language_models_are_unsupervised_multitask_learners.pdf">Language Models are Unsupervised Multitask Learners</a></p>
-<p>在更大的数据集上训练了更大的模型，但效果并没有比BERT好很多，zero-shot是主要的优势（在下游任务上不需要有标注的数据也不用微调，直接就能够用）</p>
-<p>GPT2的模型和GPT1相同，在GPT1的下游任务微调中加入了一些特殊的符号，但是GPT2希望做zero-shot，因此模型并不知道这些符号所代表的含义，因此在构造输入的时候，要使得输入构造的和之前预训练的时候的文本长的类似，也就是输入的形式更像自然语言。例如翻译任务给输入(translate to french,English text, French text)（就是后面说的prompt）。</p>
-<h3 id="gpt3">GPT3</h3>
-<p><a href="https://arxiv.org/pdf/2005.14165.pdf">Language Models are Few-Shot Learners</a></p>
-<p>尝试提高GPT2的有效性，不追求极致的zero-shot，而是采用few-shot，使得下游任务的训练成本较小</p>
-<p>模型大小为175B，在这么大数量的参数下做微调的成本很高，因此在做子任务也不做任何的梯度更新，而是输入提供样例。</p>
-<p><img alt="GPT_2" src="../../img/DeepLearning/GPT_2.png" /></p>
+<h3 id="_3">模型结构</h3>
+<p><img alt="DETR_2" src="../../img/DeepLearning/DETR_2.png" /></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>输入图片大小为3x800x1066
+--&gt; 过CNN抽特征 2048x25x34(800和1066的1/32) --&gt;256x25x34
+--&gt; 加上位置编码
+--&gt; Transformer Encoder 850x256
+--&gt; 和object query 100x256 (100表示输出100个框)做自注意力操作
+--&gt; decoder输出 100x256过FFN(共享参数)得到100个框和类别的预测
+</code></pre></div></td></tr></table></div>
+<h3 id="_4">模型代码</h3>
+<p>文章给的简化版代码</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet50</span>
+
+<span class="k">class</span> <span class="nc">DETR</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">nheads</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># We take only convolutional layers from ResNet-50 model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">resnet50</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">children</span><span class="p">())[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Transformer</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">nheads</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_class</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear_bbox</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">query_pos</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row_embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">hidden_dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">col_embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">hidden_dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">col_embed</span><span class="p">[:</span><span class="n">W</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">row_embed</span><span class="p">[:</span><span class="n">H</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+        <span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_pos</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_class</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_bbox</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+
+<span class="n">detr</span> <span class="o">=</span> <span class="n">DETR</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">91</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">nheads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">detr</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1200</span><span class="p">)</span>
+<span class="n">logits</span><span class="p">,</span> <span class="n">bboxes</span> <span class="o">=</span> <span class="n">detr</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
 
 
 
@@ -780,7 +762,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../BERT/" class="md-footer__link md-footer__link--prev" aria-label="Previous: BERT">
+          <a href="../SwinTransformer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Swin Transformer">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -790,20 +772,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                BERT
+                Swin Transformer
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ViT/" class="md-footer__link md-footer__link--next" aria-label="Next: ViT">
+          <a href="../Deformable-DETR/" class="md-footer__link md-footer__link--next" aria-label="Next: Deformable DETR">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                ViT
+                Deformable DETR
               </div>
             </div>
             <div class="md-footer__button md-icon">
