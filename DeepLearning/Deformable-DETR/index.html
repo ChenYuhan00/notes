@@ -710,7 +710,7 @@
 \text{MSDeformAttn}(z_q,\hat{p}_q,\{\mathbf{x}^l\}^L_{l=1}) = \sum_{m=1}^{M} \mathbf{W}_m[\sum_{l=1}^L\sum_{k=1}^K A_{mlqk}\mathbf{W}_m^\prime \mathbf{x}^l(\phi_l(\hat{p_q}) + \Delta p_{mlqk})]
 \]</div>
 <p>L表示输入特征的层级，<span class="arithmatex">\(\phi_l(\hat{p}_q)\)</span> 将归一化坐标 <span class="arithmatex">\(\hat{p}_q\)</span> 重新缩放到第 <span class="arithmatex">\(l\)</span> 层级的特征图，<span class="arithmatex">\(A_{mlqk}\)</span> 满足 <span class="arithmatex">\(\sum_{l=1}^L\sum_{k=1}^KA_{mlqk} = 1\)</span></p>
-<p>当 <span class="arithmatex">\(L=K=1\)</span>，$ W_m^\prime$ 为单位矩阵呢时相当于可变形卷积</p>
+<p>当 <span class="arithmatex">\(L=K=1\)</span>，<span class="arithmatex">\(W_m^\prime\)</span> 为单位矩阵呢时相当于可变形卷积</p>
 <h3 id="encoder-decoder">Encoder Decoder</h3>
 <p>用多尺度可形变注意力模块替换DETR中处理特征的Transformer Encoder</p>
 <p><img alt="Deformable-DETR_1" src="../../img/DeepLearning/Deformable-DETR_1.png" /></p>
