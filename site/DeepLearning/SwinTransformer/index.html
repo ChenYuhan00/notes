@@ -8,26 +8,28 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/tools/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/SwinTransformer/">
       
       
-        <link rel="prev" href="../DeepLearning/ViT/">
+        <link rel="prev" href="../ViT/">
       
       
+        <link rel="next" href="../DETR/">
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
-        <title>Tools - CYH's notes</title>
+        <title>Swin Transformer - CYH's notes</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tools" class="md-skip">
+        <a href="#swin-transformer" class="md-skip">
           Skip to content
         </a>
       
@@ -90,7 +92,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="CYH&#39;s notes" class="md-header__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+    <a href="../.." title="CYH&#39;s notes" class="md-header__button md-logo" aria-label="CYH's notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -110,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tools
+              Swin Transformer
             
           </span>
         </div>
@@ -223,7 +225,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="CYH&#39;s notes" class="md-nav__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+    <a href="../.." title="CYH&#39;s notes" class="md-nav__button md-logo" aria-label="CYH's notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -253,7 +255,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -273,11 +275,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    深度学习1
+    深度学习基础
   </span>
   
 
@@ -290,25 +292,7 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../DeepLearning_2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    深度学习2
-  </span>
-  
-
-      </a>
-    </li>
-  
-
     
-      
-      
-  
   
   
   
@@ -316,28 +300,28 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    深度学习
+    Transformer系列
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            深度学习
+            Transformer系列
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -348,7 +332,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/BERT/" class="md-nav__link">
+      <a href="../BERT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -369,7 +353,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/GPT/" class="md-nav__link">
+      <a href="../GPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -390,7 +374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/ViT/" class="md-nav__link">
+      <a href="../ViT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -404,15 +388,8 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
+              
+                
   
   
     
@@ -431,7 +408,7 @@
           
   
   <span class="md-ellipsis">
-    Tools
+    Swin Transformer
   </span>
   
 
@@ -442,7 +419,7 @@
         
   
   <span class="md-ellipsis">
-    Tools
+    Swin Transformer
   </span>
   
 
@@ -464,21 +441,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#torch" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      torch
+      论文阅读
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="torch">
+    <nav class="md-nav" aria-label="论文阅读">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#torchsummay" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      torchsummay
+      整体架构
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      基于移动窗口的自注意力
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于移动窗口的自注意力">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      窗口自注意力计算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      连续块的移动窗口分区
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -490,6 +500,56 @@
     </ul>
   
 </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Deformable-DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deformable DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -522,21 +582,54 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#torch" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      torch
+      论文阅读
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="torch">
+    <nav class="md-nav" aria-label="论文阅读">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#torchsummay" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      torchsummay
+      整体架构
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      基于移动窗口的自注意力
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于移动窗口的自注意力">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      窗口自注意力计算
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      连续块的移动窗口分区
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -563,81 +656,70 @@
   
 
 
-<h1 id="tools">Tools</h1>
-<h2 id="torch">torch</h2>
-<h3 id="torchsummay">torchsummay</h3>
-<p>可以用来打印网络的结构参数</p>
-<p>用法示例</p>
+<h1 id="swin-transformer">Swin Transformer</h1>
+<p><a href="https://arxiv.org/abs/2103.14030">Swin Transformer: Hierarchical Vision Transformer using Shifted Windows</a>
+（2021.5）</p>
+<p><a href="https://github.com/microsoft/Swin-Transformer">官方代码</a></p>
+<h2 id="_1">论文阅读</h2>
+<p>ViT只做了分类任务，Swin Transformer说明了transformer可以做为CV领域的骨干网络</p>
+<p><img alt="SwinTransformer_1" src="../../img/DeepLearning/SwinTransformer_1.png" /></p>
+<p>Transformer每个patch的尺寸都是相同的，虽然能够通过全局的自注意力达到全局的建模能力，但是对于多尺寸的信息把握较弱</p>
+<blockquote>
+<p>CNN多尺寸的信息</p>
+<p>目标检测FPN 利用每个卷积层出来的特征</p>
+<p>物体分割UNet Skip Connection 上采样的过程中还利用之前下采样过程中拿出来的特征</p>
+</blockquote>
+<p>ViT由于使用全局建模，模型的复杂度和输入图像尺寸的平方倍进行增长；Swin Transformer在小窗口上进行注意力的计算</p>
+<p>类似于CNN的Pooling操作，Swin Transformer使用了Patch Merging的操作，增大感受野，并能够抓住图像的多尺寸信息</p>
+<h3 id="_2">整体架构</h3>
+<p><img alt="SwinTransformer_2" src="../../img/DeepLearning/SwinTransformer_2.png" /></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">from</span> <span class="nn">torchsummary</span> <span class="kn">import</span> <span class="n">summary</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet18</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">()</span>
-<span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>输入图片为224x224x3
+--&gt; Patch Partition 56x56x48
+--&gt; Liner Embedding 3136 x 96(这的的Swin-T C为96)
+--&gt; Swin Transformer Block 不改变维度（3136显然太大，这里基于窗口计算自注意力）
+--&gt; Patch Merging （先得到H/2 W/2 4*C 过1x1的卷积得到2*C ）28x28x192
+--&gt; stage3 14x14x384
+--&gt; stage4 7x7x768
+（分类任务 --&gt;1x768-&gt;全连接）
 </code></pre></div></td></tr></table></div>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code>----------------------------------------------------------------
-        Layer (type)               Output Shape         Param #
-================================================================
-            Conv2d-1          [2, 64, 128, 128]           9,408
-       BatchNorm2d-2          [2, 64, 128, 128]             128
-              ReLU-3          [2, 64, 128, 128]               0
-         MaxPool2d-4            [2, 64, 64, 64]               0
-            Conv2d-5            [2, 64, 64, 64]          36,864
-       BatchNorm2d-6            [2, 64, 64, 64]             128
-              ReLU-7            [2, 64, 64, 64]               0
-            Conv2d-8            [2, 64, 64, 64]          36,864
-       BatchNorm2d-9            [2, 64, 64, 64]             128
-             ReLU-10            [2, 64, 64, 64]               0
-       BasicBlock-11            [2, 64, 64, 64]               0
-           Conv2d-12            [2, 64, 64, 64]          36,864
-      BatchNorm2d-13            [2, 64, 64, 64]             128
-             ReLU-14            [2, 64, 64, 64]               0
-           Conv2d-15            [2, 64, 64, 64]          36,864
-      BatchNorm2d-16            [2, 64, 64, 64]             128
-             ReLU-17            [2, 64, 64, 64]               0
-       BasicBlock-18            [2, 64, 64, 64]               0
-           Conv2d-19           [2, 128, 32, 32]          73,728
-      BatchNorm2d-20           [2, 128, 32, 32]             256
-             ReLU-21           [2, 128, 32, 32]               0
-           Conv2d-22           [2, 128, 32, 32]         147,456
-...
-Forward/backward pass size (MB): 164.02
-Params size (MB): 44.59
-Estimated Total Size (MB): 210.12
-----------------------------------------------------------------
+<p>patch merging怎么采样的：</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">x0</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># B H/2 W/2 C</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># B H/2 W/2 C</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># B H/2 W/2 C</span>
+<span class="n">x3</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span>  <span class="c1"># B H/2 W/2 C</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x3</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># B H/2 W/2 4*C</span>
 </code></pre></div></td></tr></table></div>
+<h3 id="_3">基于移动窗口的自注意力</h3>
+<h4 id="_4">窗口自注意力计算</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>56x56x96的输入，分成小窗口，每个窗口有MxM个patch（M默认为7），有8x8=64个窗口
+</code></pre></div></td></tr></table></div>
+<p><strong>计算自注意力的复杂度</strong>假设图像的高宽为 <span class="arithmatex">\(h \times w\)</span>，注意力的输入就是 <span class="arithmatex">\(hw \times C\)</span>，如果使用全局自注意力的计算，分为：</p>
+<ol>
+<li>计算qkv。是<span class="arithmatex">\(hw \times C\)</span> 乘一个 <span class="arithmatex">\(C \times C\)</span>的矩阵，复杂度为 <span class="arithmatex">\(hwC^2 \times 3\)</span></li>
+<li>计算权重矩阵A，然后乘v。是 q乘v的转置，就是<span class="arithmatex">\(hw \times C\)</span>乘上 <span class="arithmatex">\(C \times hw\)</span>，得到权重矩阵和和v乘，就是 <span class="arithmatex">\(hw \times hw\)</span>乘上<span class="arithmatex">\(hw \times C\)</span> ，复杂度为 <span class="arithmatex">\((hw)^2C + (hw)^2C\)</span></li>
+<li>投影得到输出。就是<span class="arithmatex">\(hw \times C\)</span> 乘一个 <span class="arithmatex">\(C \times C\)</span>的矩阵。</li>
+</ol>
+<p>因此复杂度为<span class="arithmatex">\(\Omega(MSA) = 4hwC^2 + 2(hw)^2C\)</span></p>
+<p>如果采用窗口计算，上面公式的<span class="arithmatex">\(h=w=M\)</span>，复杂度就是<span class="arithmatex">\(4MC^2 + 2M^4C\)</span>总共有<span class="arithmatex">\(\frac{h}{M} \times \frac{w}{M}\)</span>个窗口，因此复杂度为<span class="arithmatex">\(\Omega(W-MSA) = 4hwC^2 + 2M^2 hwC\)</span></p>
+<h4 id="_5">连续块的移动窗口分区</h4>
+<p>虽然窗口自注意力能够很好的降低计算复杂度，但是窗口和窗口之间就没有通信了，这样就达不到全局建模了，移动窗口就是为了窗口之间的通信。模型的两个连续的tansformer块中一个做一次窗口自注意力，一个做一次移动窗口的自注意力。</p>
+<p>但是直接做移动窗口的话在边上会出现窗口大小不一致的问题，因此提出了循环移位的自注意计算方法</p>
+<p><img alt="SwinTransformer_3" src="../../img/DeepLearning/SwinTransformer_3.png" /></p>
+<p>由于边上的窗口的东西是从别的地方移过来的，因此不应该对整个窗口做自注意力，因此使用掩码的操作算注意力，完了在把循环位移还原。</p>
+<p>掩码操作：</p>
+<p><img alt="SwinTransformer_4" src="../../img/DeepLearning/SwinTransformer_4.png" />
+（window1这样是因为Flatten横着来的，顺序差不多是111..22...111....）</p>
 
 
 
@@ -673,7 +755,7 @@ Estimated Total Size (MB): 210.12
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../DeepLearning/ViT/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ViT">
+          <a href="../ViT/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ViT">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -688,6 +770,22 @@ Estimated Total Size (MB): 210.12
             </div>
           </a>
         
+        
+          
+          <a href="../DETR/" class="md-footer__link md-footer__link--next" aria-label="Next: DETR">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                DETR
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
         
       </nav>
     
@@ -714,12 +812,12 @@ Estimated Total Size (MB): 210.12
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.footer", "navigation.tracking"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.footer", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
-        <script src="../javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       

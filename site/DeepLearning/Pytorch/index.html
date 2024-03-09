@@ -8,28 +8,24 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning_2/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/Pytorch/">
       
       
-        <link rel="prev" href="../DeepLearning/">
       
       
-        <link rel="next" href="../DeepLearning/BERT/">
-      
-      
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
     
     
       
-        <title>Deep Learning_2 - CYH's notes</title>
+        <title>Pytorch - CYH's notes</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -48,9 +44,9 @@
       
     
     
-      <link rel="stylesheet" href="../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#swin-transformer" class="md-skip">
+        <a href="#pytorch" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="CYH&#39;s notes" class="md-header__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+    <a href="../.." title="CYH&#39;s notes" class="md-header__button md-logo" aria-label="CYH's notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -112,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Deep Learning_2
+              Pytorch
             
           </span>
         </div>
@@ -225,7 +221,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="CYH&#39;s notes" class="md-nav__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+    <a href="../.." title="CYH&#39;s notes" class="md-nav__button md-logo" aria-label="CYH's notes" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -255,7 +251,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -275,89 +271,15 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    深度学习1
+    深度学习基础
   </span>
   
 
       </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    深度学习2
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    深度学习2
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#swin-transformer" class="md-nav__link">
-    <span class="md-ellipsis">
-      Swin Transformer
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#detr" class="md-nav__link">
-    <span class="md-ellipsis">
-      DETR
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -376,24 +298,24 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
-    深度学习
+    Transformer系列
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            深度学习
+            Transformer系列
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -404,7 +326,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/BERT/" class="md-nav__link">
+      <a href="../BERT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -425,7 +347,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/GPT/" class="md-nav__link">
+      <a href="../GPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -446,7 +368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../DeepLearning/ViT/" class="md-nav__link">
+      <a href="../ViT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -460,29 +382,72 @@
 
               
             
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
+              
+                
   
   
   
   
     <li class="md-nav__item">
-      <a href="../tools/" class="md-nav__link">
+      <a href="../SwinTransformer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Tools
+    Swin Transformer
   </span>
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Deformable-DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deformable DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -504,6 +469,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -512,20 +479,107 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#swin-transformer" class="md-nav__link">
+  <a href="#pytorch_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Swin Transformer
+      Pytorch基础
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytorch基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytorch_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pytorch自动求导
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytorch自动求导">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      计算图
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#detr" class="md-nav__link">
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      DETR
+      数据读取
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="数据读取">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      小批量随机梯度下降
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      data iterator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      补充
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#torchsummay" class="md-nav__link">
+    <span class="md-ellipsis">
+      torchsummay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -547,30 +601,135 @@
   
 
 
-  <h1>深度学习2</h1>
+<h1 id="pytorch">Pytorch</h1>
+<h2 id="pytorch_1">Pytorch基础</h2>
+<p>deep-learning-computation章节</p>
+<h3 id="pytorch_2">Pytorch自动求导</h3>
+<p><a href="https://datawhalechina.github.io/thorough-pytorch/第二章/2.2%20自动求导.html">深入浅出Pytroch 第二章</a></p>
+<h4 id="_1">计算图</h4>
+<p>将代码分解成操作子，将计算表示为一个无环图
+一般只有leaf node有grad</p>
+<p>最后的输出看成关于网络权重的函数，backward函数计算出权重的梯度（全微分）</p>
+<blockquote>
+<p>对于leaf和require_grad的节点不能够进行inplace operation</p>
+<p><strong>retain_graph</strong> 防止backward之后释放相关内存</p>
+</blockquote>
+<p><strong>.detach</strong> return a new tensor ,detached from the current graph,the result will never require gradient
+将计算移动到计算图之外，当作常数</p>
+<h3 id="_2">数据读取</h3>
+<h4 id="_3">小批量随机梯度下降</h4>
+<p>随机采样b个样本 <span class="arithmatex">\(i_1,i_2,...,i_b\)</span>来近似损失
+$$
+    \frac{1}{b}\sum_{i \in I_b}l(\hat y_i,y_i)
+$$
+一次迭代用b个数据计算后更新参数
+一个epoch将数据集的数据都用一遍</p>
+<h4 id="data-iterator">data iterator</h4>
+<p>一次随机读取batch_size个数据</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">data_iter</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">):</span>
+    <span class="n">num_examples</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">num_examples</span><span class="p">))</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_examples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">batch_indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span>
+            <span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_examples</span><span class="p">)])</span>
+        <span class="k">yield</span> <span class="n">features</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="_4">补充</h3>
+<ul>
+<li><strong>cat</strong>和<strong>stack</strong> 参考<a href="https://blog.csdn.net/twelve13/article/details/109728210">博客</a></li>
+<li>批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)</li>
+<li><strong>torch.unsqueeze()</strong> 在指定纬度插入纬度1</li>
+<li>X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)</li>
+<li><strong>view 和 reshape</strong> 参考<a href="https://zhuanlan.zhihu.com/p/436892343">博客</a></li>
+</ul>
+<h2 id="tools">Tools</h2>
+<h3 id="torchsummay">torchsummay</h3>
+<p>可以用来打印网络的结构参数</p>
+<p>用法示例</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">from</span> <span class="nn">torchsummary</span> <span class="kn">import</span> <span class="n">summary</span>
+<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet18</span>
 
-<h3 id="swin-transformer">Swin Transformer</h3>
-<p><a href="https://arxiv.org/abs/2103.14030">论文</a>
-<a href="https://github.com/microsoft/Swin-Transformer">作者团队代码</a></p>
-<p>transformer 用作CV领域的骨干网络
-patch merging 多尺度的特征图</p>
-<h3 id="detr">DETR</h3>
-<p>端到端目标检测，基于集合的目标函数去做目标检测，简化了以往目标检测非极大值抑制的部分</p>
-<p>训练：
-CNN抽特征 -&gt; Transformer Encoder 全局特征 -&gt; Decoder 得到固定数量预测框 -&gt; 与Ground truth 做二分图匹配（100个框 2个框匹配上了 剩下的标记为背景）算loss</p>
-<p>预测：
-最后一步卡置信度</p>
-<p>结论：
-COCO数据集上取得和Faster RCNN 差不多的效果，小物体上表现不怎么好，DETR训练太慢，能够作为统一的框架拓展到别的任务上（目标追踪，语义分割，视频里的姿态预测···）</p>
+<span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">()</span>
+<span class="n">summary</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">input_size</span><span class="o">=</span><span class="p">[(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">256</span><span class="p">)],</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span></pre></div></td><td class="code"><div><pre><span></span><code>----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1          [2, 64, 128, 128]           9,408
+       BatchNorm2d-2          [2, 64, 128, 128]             128
+              ReLU-3          [2, 64, 128, 128]               0
+         MaxPool2d-4            [2, 64, 64, 64]               0
+            Conv2d-5            [2, 64, 64, 64]          36,864
+       BatchNorm2d-6            [2, 64, 64, 64]             128
+              ReLU-7            [2, 64, 64, 64]               0
+            Conv2d-8            [2, 64, 64, 64]          36,864
+       BatchNorm2d-9            [2, 64, 64, 64]             128
+             ReLU-10            [2, 64, 64, 64]               0
+       BasicBlock-11            [2, 64, 64, 64]               0
+           Conv2d-12            [2, 64, 64, 64]          36,864
+      BatchNorm2d-13            [2, 64, 64, 64]             128
+             ReLU-14            [2, 64, 64, 64]               0
+           Conv2d-15            [2, 64, 64, 64]          36,864
+      BatchNorm2d-16            [2, 64, 64, 64]             128
+             ReLU-17            [2, 64, 64, 64]               0
+       BasicBlock-18            [2, 64, 64, 64]               0
+           Conv2d-19           [2, 128, 32, 32]          73,728
+      BatchNorm2d-20           [2, 128, 32, 32]             256
+             ReLU-21           [2, 128, 32, 32]               0
+           Conv2d-22           [2, 128, 32, 32]         147,456
+...
+Forward/backward pass size (MB): 164.02
+Params size (MB): 44.59
+Estimated Total Size (MB): 210.12
+----------------------------------------------------------------
+</code></pre></div></td></tr></table></div>
 
 
 
 
 
 
-
-  
-  
 
 
 
@@ -596,44 +755,6 @@ COCO数据集上取得和Faster RCNN 差不多的效果，小物体上表现不�
         <footer class="md-footer">
   
     
-      
-      <nav class="md-footer__inner md-grid" aria-label="Footer" >
-        
-          
-          <a href="../DeepLearning/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 深度学习1">
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-            </div>
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              <div class="md-ellipsis">
-                深度学习1
-              </div>
-            </div>
-          </a>
-        
-        
-          
-          <a href="../DeepLearning/BERT/" class="md-footer__link md-footer__link--next" aria-label="Next: BERT">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                BERT
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </div>
-          </a>
-        
-      </nav>
-    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -657,12 +778,12 @@ COCO数据集上取得和Faster RCNN 差不多的效果，小物体上表现不�
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.footer", "navigation.tracking"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.footer", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
-        <script src="../javascripts/mathjax.js"></script>
+        <script src="../../javascripts/mathjax.js"></script>
       
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
       
