@@ -8,9 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/Pytorch/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/PyTorch/">
       
       
+        <link rel="prev" href="../..">
+      
+      
+        <link rel="next" href="../MLP/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -18,7 +22,7 @@
     
     
       
-        <title>Pytorch - CYH's notes</title>
+        <title>PyTorch - CYH's notes</title>
       
     
     
@@ -108,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Pytorch
+              PyTorch
             
           </span>
         </div>
@@ -268,18 +272,337 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     深度学习基础
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            深度学习基础
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pytorch_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      PyTorch基础
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PyTorch基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytorch_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      PyTorch自动求导
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PyTorch自动求导">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      计算图
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据读取
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据读取">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      小批量随机梯度下降
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data-iterator" class="md-nav__link">
+    <span class="md-ellipsis">
+      data iterator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      补充
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#torchsummay" class="md-nav__link">
+    <span class="md-ellipsis">
+      torchsummay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple GPUs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple GPUs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      拆分数据
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MLP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多层感知机
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CNN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    卷积神经网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RNN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    循环神经网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Attention/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    注意力机制
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CV/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    计算机视觉
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -305,7 +628,7 @@
             
   
   <span class="md-ellipsis">
-    Transformer系列
+    Transformer相关论文
   </span>
   
 
@@ -315,7 +638,7 @@
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Transformer系列
+            Transformer相关论文
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -481,21 +804,21 @@
         <li class="md-nav__item">
   <a href="#pytorch_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Pytorch基础
+      PyTorch基础
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pytorch基础">
+    <nav class="md-nav" aria-label="PyTorch基础">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#pytorch_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Pytorch自动求导
+      PyTorch自动求导
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Pytorch自动求导">
+    <nav class="md-nav" aria-label="PyTorch自动求导">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -583,6 +906,30 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#multiple-gpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple GPUs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multiple GPUs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      拆分数据
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -601,10 +948,10 @@
   
 
 
-<h1 id="pytorch">Pytorch</h1>
-<h2 id="pytorch_1">Pytorch基础</h2>
+<h1 id="pytorch">PyTorch</h1>
+<h2 id="pytorch_1">PyTorch基础</h2>
 <p>deep-learning-computation章节</p>
-<h3 id="pytorch_2">Pytorch自动求导</h3>
+<h3 id="pytorch_2">PyTorch自动求导</h3>
 <p><a href="https://datawhalechina.github.io/thorough-pytorch/第二章/2.2%20自动求导.html">深入浅出Pytroch 第二章</a></p>
 <h4 id="_1">计算图</h4>
 <p>将代码分解成操作子，将计算表示为一个无环图
@@ -724,6 +1071,202 @@ Params size (MB): 44.59
 Estimated Total Size (MB): 210.12
 ----------------------------------------------------------------
 </code></pre></div></td></tr></table></div>
+<h2 id="multiple-gpus">Multiple GPUs</h2>
+<h3 id="_5">拆分数据</h3>
+<p>这种方式下，所有GPU尽管有不同的观测结果，但是执行着相同类型的工作。在完成每个小批量数据的训练之后，梯度在GPU上聚合。
+GPU的数量越多，小批量包含的数据量就越大，从而就能提高训练效率。
+缺点：不能够训练更大的模型</p>
+<p><span class="arithmatex">\(k\)</span>个GPU并行训练过程如下：
+<em>在任何一次训练迭代中，给定的随机的小批量样本都将被分成<span class="arithmatex">\(k\)</span>个部分，并均匀地分配到GPU上；
+</em>每个GPU根据分配给它的小批量子集，计算模型参数的损失和梯度；
+<em>将<span class="arithmatex">\(k\)</span>个GPU中的局部梯度聚合，以获得当前小批量的随机梯度；
+</em>聚合梯度被重新分发到每个GPU中；
+*每个GPU使用这个小批量随机梯度，来更新它所维护的完整的模型参数集。</p>
+<p>向多个设备复制参数</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="n">new_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">new_params</span><span class="p">:</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">new_params</span>
+</code></pre></div></td></tr></table></div>
+<p>能够将所有设备上的梯度进行相加</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">allreduce</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][:]</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+        <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p>分发数据 <code>nn.parallel.scatter(data, devices)</code></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">devices</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:0&#39;</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda:1&#39;</span><span class="p">)]</span>
+<span class="n">split</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">devices</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;input :&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;load into&#39;</span><span class="p">,</span> <span class="n">devices</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;output:&#39;</span><span class="p">,</span> <span class="n">split</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code>input : tensor([ [ 0,  1,  2,  3,  4],
+        [ 5,  6,  7,  8,  9],
+        [10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19] ])
+load into [device(type=&#39;cuda&#39;, index=0), device(type=&#39;cuda&#39;, index=1)]
+output: (tensor([ [0, 1, 2, 3, 4],
+        [5, 6, 7, 8, 9] ], device=&#39;cuda:0&#39;), tensor([ [10, 11, 12, 13, 14],
+        [15, 16, 17, 18, 19] ], device=&#39;cuda:1&#39;))
+</code></pre></div></td></tr></table></div>
+<p>分发数据和标签</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">split_batch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">devices</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">devices</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">devices</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<p>实现多GPU训练</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">train_batch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">device_params</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="n">X_shards</span><span class="p">,</span> <span class="n">y_shards</span> <span class="o">=</span> <span class="n">split_batch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">devices</span><span class="p">)</span>
+    <span class="c1"># 在每个GPU上分别计算损失</span>
+    <span class="n">ls</span> <span class="o">=</span> <span class="p">[</span><span class="n">loss</span><span class="p">(</span><span class="n">lenet</span><span class="p">(</span><span class="n">X_shard</span><span class="p">,</span> <span class="n">device_W</span><span class="p">),</span> <span class="n">y_shard</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+          <span class="k">for</span> <span class="n">X_shard</span><span class="p">,</span> <span class="n">y_shard</span><span class="p">,</span> <span class="n">device_W</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+              <span class="n">X_shards</span><span class="p">,</span> <span class="n">y_shards</span><span class="p">,</span> <span class="n">device_params</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">ls</span><span class="p">:</span>  <span class="c1"># 反向传播在每个GPU上分别执行</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="c1"># 将每个GPU的所有梯度相加，并将其广播到所有GPU</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">device_params</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="n">allreduce</span><span class="p">([</span><span class="n">device_params</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">grad</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">devices</span><span class="p">))])</span>
+    <span class="c1"># 在每个GPU上分别更新模型参数</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">device_params</span><span class="p">:</span>
+        <span class="n">d2l</span><span class="o">.</span><span class="n">sgd</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># 在这里，我们使用全尺寸的小批量</span>
+</code></pre></div></td></tr></table></div>
+<p>评估模型的时候只在一个GPU上</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="n">train_iter</span><span class="p">,</span> <span class="n">test_iter</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">load_data_fashion_mnist</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">devices</span> <span class="o">=</span> <span class="p">[</span><span class="n">d2l</span><span class="o">.</span><span class="n">try_gpu</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)]</span>
+    <span class="c1"># 将模型参数复制到num_gpus个GPU</span>
+    <span class="n">device_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_params</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">devices</span><span class="p">]</span>
+    <span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">animator</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Animator</span><span class="p">(</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;test acc&#39;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">])</span>
+    <span class="n">timer</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Timer</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">train_iter</span><span class="p">:</span>
+            <span class="c1"># 为单个小批量执行多GPU训练</span>
+            <span class="n">train_batch</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">device_params</span><span class="p">,</span> <span class="n">devices</span><span class="p">,</span> <span class="n">lr</span><span class="p">)</span>
+            <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">synchronize</span><span class="p">()</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="c1"># 在GPU0上评估模型</span>
+        <span class="n">animator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">evaluate_accuracy_gpu</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">lenet</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">device_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">test_iter</span><span class="p">,</span> <span class="n">devices</span><span class="p">[</span><span class="mi">0</span><span class="p">]),))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;测试精度：</span><span class="si">{</span><span class="n">animator</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">，</span><span class="si">{</span><span class="n">timer</span><span class="o">.</span><span class="n">avg</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">秒/轮，&#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;在</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p>简洁实现<code>net = nn.DataParallel(net, device_ids=devices)</code>，和之前几乎没什么区别</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">num_gpus</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">lr</span><span class="p">):</span>
+    <span class="n">train_iter</span><span class="p">,</span> <span class="n">test_iter</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">load_data_fashion_mnist</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">devices</span> <span class="o">=</span> <span class="p">[</span><span class="n">d2l</span><span class="o">.</span><span class="n">try_gpu</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_gpus</span><span class="p">)]</span>
+    <span class="k">def</span> <span class="nf">init_weights</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">]:</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">init_weights</span><span class="p">)</span>
+    <span class="c1"># 在多个GPU上设置模型</span>
+    <span class="n">net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">DataParallel</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="n">devices</span><span class="p">)</span>
+    <span class="n">trainer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">net</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+    <span class="n">timer</span><span class="p">,</span> <span class="n">num_epochs</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Timer</span><span class="p">(),</span> <span class="mi">10</span>
+    <span class="n">animator</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Animator</span><span class="p">(</span><span class="s1">&#39;epoch&#39;</span><span class="p">,</span> <span class="s1">&#39;test acc&#39;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+        <span class="n">net</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">train_iter</span><span class="p">:</span>
+            <span class="n">trainer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">devices</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">devices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">net</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">y</span><span class="p">)</span>
+            <span class="n">l</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">trainer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="n">animator</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">evaluate_accuracy_gpu</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">test_iter</span><span class="p">),))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;测试精度：</span><span class="si">{</span><span class="n">animator</span><span class="o">.</span><span class="n">Y</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1">，</span><span class="si">{</span><span class="n">timer</span><span class="o">.</span><span class="n">avg</span><span class="p">()</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">秒/轮，&#39;</span>
+          <span class="sa">f</span><span class="s1">&#39;在</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
 
 
 
@@ -754,6 +1297,44 @@ Estimated Total Size (MB): 210.12
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: 主页">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                主页
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../MLP/" class="md-footer__link md-footer__link--next" aria-label="Next: 多层感知机">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                多层感知机
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">

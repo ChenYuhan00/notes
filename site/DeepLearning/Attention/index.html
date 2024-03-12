@@ -1,0 +1,1535 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/Attention/">
+      
+      
+        <link rel="prev" href="../RNN/">
+      
+      
+        <link rel="next" href="../CV/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
+    
+    
+      
+        <title>注意力机制 - CYH's notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CCascadia:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Cascadia"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#attention" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CYH&#39;s notes" class="md-header__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CYH's notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              注意力机制
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ChenYuhan00/notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    notes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CYH&#39;s notes" class="md-nav__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    CYH's notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ChenYuhan00/notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    notes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    深度学习基础
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            深度学习基础
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PyTorch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MLP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多层感知机
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CNN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    卷积神经网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RNN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    循环神经网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    注意力机制
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    注意力机制
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nadaraya-waston" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nadaraya-Waston 核回归
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      注意力评分函数
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="注意力评分函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additive-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additive Attention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaled-dot-product-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaled dot-product attention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attention-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attention Decoder
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutihead-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mutihead-Attention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-Attention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#positional-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Positional-Encoding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transformer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transformer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addnorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add&amp;Norm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decoder
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CV/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    计算机视觉
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Transformer相关论文
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Transformer相关论文
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BERT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BERT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GPT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ViT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ViT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SwinTransformer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Swin Transformer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Deformable-DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deformable DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#nadaraya-waston" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nadaraya-Waston 核回归
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      注意力评分函数
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="注意力评分函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#additive-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Additive Attention
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaled-dot-product-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scaled dot-product attention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attention-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attention Decoder
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutihead-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mutihead-Attention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#self-attention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Self-Attention
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#positional-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Positional-Encoding
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transformer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transformer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#addnorm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Add&amp;Norm
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Decoder
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="attention">Attention</h1>
+<p>每个值（Value）和一个键（key）一一对应，通过查询（query）与键进行匹配，得到最匹配的值。</p>
+<h2 id="nadaraya-waston">Nadaraya-Waston 核回归</h2>
+<div class="arithmatex">\[f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i\]</div>
+<p>更一般的表示</p>
+<div class="arithmatex">\[f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,\]</div>
+<p>用高斯核<span class="arithmatex">\(K(u) = \frac{1}{\sqrt{2\pi}} \exp(-\frac{u^2}{2}).\)</span>带入第一个式子</p>
+<p>得到</p>
+<div class="arithmatex">\[\begin{aligned} f(x) &amp;= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}(x - x_i)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}(x - x_j)^2\right)} y_i \\&amp;= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}(x - x_i)^2\right) y_i. \end{aligned}\]</div>
+<p>带学习参数w</p>
+<div class="arithmatex">\[\begin{aligned}f(x) &amp;= \sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}((x - x_i)w)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}((x - x_j)w)^2\right)} y_i \\&amp;= \sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}((x - x_i)w)^2\right) y_i.\end{aligned}\]</div>
+<h2 id="_1">注意力评分函数</h2>
+<p>用数学语言描述，假设有一个查询<span class="arithmatex">\(\mathbf{q} \in \mathbb{R}^q\)</span>和<span class="arithmatex">\(m\)</span>个“键－值”对<span class="arithmatex">\((\mathbf{k}_1, \mathbf{v}_1), \ldots, (\mathbf{k}_m, \mathbf{v}_m)\)</span>，
+其中<span class="arithmatex">\(\mathbf{k}_i \in \mathbb{R}^k\)</span>，<span class="arithmatex">\(\mathbf{v}_i \in \mathbb{R}^v\)</span>。
+注意力汇聚函数<span class="arithmatex">\(f\)</span>就被表示成值的加权和：</p>
+<div class="arithmatex">\[f(\mathbf{q}, (\mathbf{k}_1, \mathbf{v}_1), \ldots, (\mathbf{k}_m, \mathbf{v}_m)) = \sum_{i=1}^m \alpha(\mathbf{q}, \mathbf{k}_i) \mathbf{v}_i \in \mathbb{R}^v,\]</div>
+<p>其中查询<span class="arithmatex">\(\mathbf{q}\)</span>和键<span class="arithmatex">\(\mathbf{k}_i\)</span>的注意力权重（标量）是通过注意力评分函数<span class="arithmatex">\(a\)</span>将两个向量映射成标量，再经过softmax运算得到的：</p>
+<div class="arithmatex">\[\alpha(\mathbf{q}, \mathbf{k}_i) = \mathrm{softmax}(a(\mathbf{q}, \mathbf{k}_i)) = \frac{\exp(a(\mathbf{q}, \mathbf{k}_i))}{\sum_{j=1}^m \exp(a(\mathbf{q}, \mathbf{k}_j))} \in \mathbb{R}.\]</div>
+<h3 id="additive-attention">Additive Attention</h3>
+<div class="arithmatex">\[a(\mathbf q, \mathbf k) = \mathbf w_v^\top \text{tanh}(\mathbf W_q\mathbf q + \mathbf W_k \mathbf k) \in \mathbb{R},\]</div>
+<p>其中可学习的参数是<span class="arithmatex">\(\mathbf W_q\in\mathbb R^{h\times q}\)</span>、<span class="arithmatex">\(\mathbf W_k\in\mathbb R^{h\times k}\)</span>和<span class="arithmatex">\(\mathbf w_v\in\mathbb R^{h}\)</span>。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AdditiveAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AdditiveAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_k</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">W_q</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">query_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w_v</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queries</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">):</span>
+        <span class="n">queries</span><span class="p">,</span> <span class="n">keys</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W_q</span><span class="p">(</span><span class="n">queries</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">W_k</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="c1"># 在维度扩展后，</span>
+        <span class="c1"># queries的形状：(batch_size，查询的个数，1，num_hidden)</span>
+        <span class="c1"># key的形状：(batch_size，1，“键－值”对的个数，num_hiddens)</span>
+        <span class="c1"># 使用广播方式进行求和</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">keys</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+        <span class="c1"># self.w_v仅有一个输出，因此从形状中移除最后那个维度。</span>
+        <span class="c1"># scores的形状：(batch_size，查询的个数，“键-值”对的个数)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">w_v</span><span class="p">(</span><span class="n">features</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span> <span class="o">=</span> <span class="n">masked_softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">)</span>
+        <span class="c1"># values的形状：(batch_size，“键－值”对的个数，值的维度)</span>
+        <span class="c1"># 输出的形状：(batch_size,查询的个数,值的维度)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">),</span> <span class="n">values</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="scaled-dot-product-attention">Scaled dot-product attention</h3>
+<p><em>缩放点积注意力</em>（scaled dot-product attention）要求query和Key长度相同，评分函数为：</p>
+<div class="arithmatex">\[a(\mathbf q, \mathbf k) = \mathbf{q}^\top \mathbf{k}  /\sqrt{d}.\]</div>
+<p>基于<span class="arithmatex">\(n\)</span>个查询和<span class="arithmatex">\(m\)</span>个键－值对计算注意力，其中查询和键的长度均为<span class="arithmatex">\(d\)</span>，值的长度为<span class="arithmatex">\(v\)</span>。查询<span class="arithmatex">\(\mathbf Q\in\mathbb R^{n\times d}\)</span>、键<span class="arithmatex">\(\mathbf K\in\mathbb R^{m\times d}\)</span>和值<span class="arithmatex">\(\mathbf V\in\mathbb R^{m\times v}\)</span>的缩放点积注意力是：</p>
+<div class="arithmatex">\[ \mathrm{softmax}\left(\frac{\mathbf Q \mathbf K^\top }{\sqrt{d}}\right) \mathbf V \in \mathbb{R}^{n\times v}.\]</div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DotProductAttention</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;缩放点积注意力&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DotProductAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+
+    <span class="c1"># queries的形状：(batch_size，查询的个数，d)</span>
+    <span class="c1"># keys的形状：(batch_size，“键－值”对的个数，d)</span>
+    <span class="c1"># values的形状：(batch_size，“键－值”对的个数，值的维度)</span>
+    <span class="c1"># valid_lens的形状:(batch_size，)或者(batch_size，查询的个数)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queries</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">valid_lens</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">queries</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># 设置transpose_b=True为了交换keys的最后两个维度</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">queries</span><span class="p">,</span> <span class="n">keys</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span> <span class="o">=</span> <span class="n">masked_softmax</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">),</span> <span class="n">values</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="attention-decoder">Attention Decoder</h2>
+<p>与之前Seq2Seq相比，上下文变量<span class="arithmatex">\(\mathbf{c}\)</span>在任何解码时间步<span class="arithmatex">\(t'\)</span>都会被<span class="arithmatex">\(\mathbf{c}_{t'}\)</span>替换。假设输入序列中有<span class="arithmatex">\(T\)</span>个词元，解码时间步<span class="arithmatex">\(t'\)</span>的上下文变量是注意力集中的输出：</p>
+<div class="arithmatex">\[\mathbf{c}_{t'} = \sum_{t=1}^T \alpha(\mathbf{s}_{t' - 1}, \mathbf{h}_t) \mathbf{h}_t\]</div>
+<p>其中，时间步<span class="arithmatex">\(t' - 1\)</span>时的解码器隐状态<span class="arithmatex">\(\mathbf{s}_{t' - 1}\)</span>是查询，编码器隐状态<span class="arithmatex">\(\mathbf{h}_t\)</span>既是键，也是值。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Seq2SeqAttentionDecoder</span><span class="p">(</span><span class="n">AttentionDecoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Seq2SeqAttentionDecoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">AdditiveAttention</span><span class="p">(</span>
+            <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span>
+            <span class="n">embed_size</span> <span class="o">+</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span>
+            <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dense</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_valid_lens</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="c1"># outputs的形状为(batch_size，num_steps，num_hiddens).</span>
+        <span class="c1"># hidden_state的形状为(num_layers，batch_size，num_hiddens)</span>
+        <span class="n">outputs</span><span class="p">,</span> <span class="n">hidden_state</span> <span class="o">=</span> <span class="n">enc_outputs</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">hidden_state</span><span class="p">,</span> <span class="n">enc_valid_lens</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="c1"># enc_outputs的形状为(batch_size,num_steps,num_hiddens).</span>
+        <span class="c1"># hidden_state的形状为(num_layers,batch_size,</span>
+        <span class="c1"># num_hiddens)</span>
+        <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">hidden_state</span><span class="p">,</span> <span class="n">enc_valid_lens</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="c1"># 输出X的形状为(num_steps,batch_size,embed_size)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+            <span class="c1"># query的形状为(batch_size,1,num_hiddens)</span>
+            <span class="n">query</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">hidden_state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># context的形状为(batch_size,1,num_hiddens)</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention</span><span class="p">(</span>
+                <span class="n">query</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_valid_lens</span><span class="p">)</span>
+            <span class="c1"># 在特征维度上连结</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">context</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)),</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># 将x变形为(1,batch_size,embed_size+num_hiddens)</span>
+            <span class="n">out</span><span class="p">,</span> <span class="n">hidden_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">hidden_state</span><span class="p">)</span>
+            <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attention</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">)</span>
+        <span class="c1"># 全连接层变换后，outputs的形状为</span>
+        <span class="c1"># (num_steps,batch_size,vocab_size)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">outputs</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">[</span><span class="n">enc_outputs</span><span class="p">,</span> <span class="n">hidden_state</span><span class="p">,</span>
+                                          <span class="n">enc_valid_lens</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">attention_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="mutihead-attention">Mutihead-Attention</h2>
+<p>给定查询<span class="arithmatex">\(\mathbf{q} \in \mathbb{R}^{d_q}\)</span>、键<span class="arithmatex">\(\mathbf{k} \in \mathbb{R}^{d_k}\)</span>和值<span class="arithmatex">\(\mathbf{v} \in \mathbb{R}^{d_v}\)</span>，每个注意力头<span class="arithmatex">\(\mathbf{h}_i\)</span>（<span class="arithmatex">\(i = 1, \ldots, h\)</span>）的计算方法为：</p>
+<div class="arithmatex">\[\mathbf{h}_i = f(\mathbf W_i^{(q)}\mathbf q, \mathbf W_i^{(k)}\mathbf k,\mathbf W_i^{(v)}\mathbf v) \in \mathbb R^{p_v},\]</div>
+<p>其中，可学习的参数包括<span class="arithmatex">\(\mathbf W_i^{(q)}\in\mathbb R^{p_q\times d_q}\)</span>、<span class="arithmatex">\(\mathbf W_i^{(k)}\in\mathbb R^{p_k\times d_k}\)</span>和
+<span class="arithmatex">\(\mathbf W_i^{(v)}\in\mathbb R^{p_v\times d_v}\)</span>，以及代表注意力汇聚的函数<span class="arithmatex">\(f\)</span>。
+多头注意力的输出需要经过另一个线性转换，它对应着<span class="arithmatex">\(h\)</span>个头连结后的结果，可学习参数是<span class="arithmatex">\(\mathbf W_o\in\mathbb R^{p_o\times h p_v}\)</span>：</p>
+<div class="arithmatex">\[\mathbf W_o \begin{bmatrix}\mathbf h_1\\\vdots\\\mathbf h_h\end{bmatrix} \in \mathbb{R}^{p_o}.\]</div>
+<p>在实现过程中通常选择缩放点积注意力作为每一个注意力头。
+设定<span class="arithmatex">\(p_q = p_k = p_v = p_o / h\)</span>。如果将查询、键和值的线性变换的输出数量设置为<span class="arithmatex">\(p_q h = p_k h = p_v h = p_o\)</span>，则可以并行计算<span class="arithmatex">\(h\)</span>个头。</p>
+<h2 id="self-attention">Self-Attention</h2>
+<p>给定一个由词元组成的输入序列<span class="arithmatex">\(\mathbf{x}_1, \ldots, \mathbf{x}_n\)</span>，其中任意<span class="arithmatex">\(\mathbf{x}_i \in \mathbb{R}^d\)</span>（<span class="arithmatex">\(1 \leq i \leq n\)</span>）。该序列的自注意力输出为一个长度相同的序列
+<span class="arithmatex">\(\mathbf{y}_1, \ldots, \mathbf{y}_n\)</span>，其中：</p>
+<div class="arithmatex">\[\mathbf{y}_i = f(\mathbf{x}_i, (\mathbf{x}_1, \mathbf{x}_1), \ldots, (\mathbf{x}_n, \mathbf{x}_n)) \in \mathbb{R}^d\]</div>
+<h2 id="positional-encoding">Positional-Encoding</h2>
+<p>由于Self Attention 没有记录位置信息，假设长度为n的序列<span class="arithmatex">\(\mathbf{X} \in \mathbb{R}^{n \times d}\)</span>,用位置编码矩阵<span class="arithmatex">\(\mathbf{P} \in \mathbb{R}^{n \times d}\)</span> 来计算<span class="arithmatex">\(\mathbf{X} + \mathbf{P}\)</span> 作为Self Attention 的输入。</p>
+<p>矩阵<span class="arithmatex">\(\mathbf{P}\)</span>第<span class="arithmatex">\(i\)</span>行、第<span class="arithmatex">\(2j\)</span>列和<span class="arithmatex">\(2j+1\)</span>列上的元素为：</p>
+<div class="arithmatex">\[\begin{aligned} p_{i, 2j} &amp;= \sin\left(\frac{i}{10000^{2j/d}}\right),\\p_{i, 2j+1} &amp;= \cos\left(\frac{i}{10000^{2j/d}}\right).\end{aligned}\]</div>
+<p>相对位置信息
+<span class="arithmatex">\((p_{i, 2j}, p_{i, 2j+1})\)</span>都可以线性投影到<span class="arithmatex">\((p_{i+\delta, 2j}, p_{i+\delta, 2j+1})\)</span>：</p>
+<div class="arithmatex">\[\begin{aligned}
+&amp;\begin{bmatrix} \cos(\delta \omega_j) &amp; \sin(\delta \omega_j) \\  -\sin(\delta \omega_j) &amp; \cos(\delta \omega_j) \\ \end{bmatrix}
+\begin{bmatrix} p_{i, 2j} \\  p_{i, 2j+1} \\ \end{bmatrix}\\
+=&amp;\begin{bmatrix} \cos(\delta \omega_j) \sin(i \omega_j) + \sin(\delta \omega_j) \cos(i \omega_j) \\  -\sin(\delta \omega_j) \sin(i \omega_j) + \cos(\delta \omega_j) \cos(i \omega_j) \\ \end{bmatrix}\\
+=&amp;\begin{bmatrix} \sin\left((i+\delta) \omega_j\right) \\  \cos\left((i+\delta) \omega_j\right) \\ \end{bmatrix}\\
+=&amp;
+\begin{bmatrix} p_{i+\delta, 2j} \\  p_{i+\delta, 2j+1} \\ \end{bmatrix},
+\end{aligned}\]</div>
+<p>因此这个矩阵不依赖于任何位置的索引。</p>
+<h2 id="transformer">Transformer</h2>
+<h3 id="addnorm">Add&amp;Norm</h3>
+<p>使用LayerNorm （不改变语义向量的方向，改变模长）</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">AddNorm</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">normalized_shape</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AddNorm</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ln</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">normalized_shape</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ln</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span> <span class="o">+</span> <span class="n">X</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="encoder">Encoder</h3>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">EncoderBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span>
+                 <span class="n">norm_shape</span><span class="p">,</span> <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EncoderBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span>
+            <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span>
+            <span class="n">use_bias</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addnorm1</span> <span class="o">=</span> <span class="n">AddNorm</span><span class="p">(</span><span class="n">norm_shape</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span> <span class="o">=</span> <span class="n">PositionWiseFFN</span><span class="p">(</span>
+            <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addnorm2</span> <span class="o">=</span> <span class="n">AddNorm</span><span class="p">(</span><span class="n">norm_shape</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">):</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addnorm1</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">addnorm2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span><span class="p">(</span><span class="n">Y</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<p>Encoder层都不会改变输入的形状。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransformerEncoder</span><span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">Encoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span>
+                 <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">norm_shape</span><span class="p">,</span> <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span>
+                 <span class="n">num_heads</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformerEncoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span> <span class="o">=</span> <span class="n">num_hiddens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos_encoding</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">PositionalEncoding</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blks</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;block&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                <span class="n">EncoderBlock</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span>
+                             <span class="n">norm_shape</span><span class="p">,</span> <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span>
+                             <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">use_bias</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="c1"># 因为位置编码值在-1和1之间，</span>
+        <span class="c1"># 因此嵌入值乘以嵌入维度的平方根进行缩放，</span>
+        <span class="c1"># 然后再与位置编码相加。</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_encoding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blks</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">blk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blks</span><span class="p">):</span>
+            <span class="n">X</span> <span class="o">=</span> <span class="n">blk</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">valid_lens</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">[</span>
+                <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">attention</span><span class="o">.</span><span class="n">attention</span><span class="o">.</span><span class="n">attention_weights</span>
+        <span class="k">return</span> <span class="n">X</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="decoder">Decoder</h3>
+<p>在掩蔽多头解码器自注意力层（第一个子层）中，查询、键和值都来自上一个解码器层的输出。为了在解码器中保留自回归的属性，其掩蔽自注意力设定了参数，以便任何查询都只会与解码器中所有已经生成词元的位置（即直到该查询位置为止）进行注意力计算。</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DecoderBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span>
+                 <span class="n">norm_shape</span><span class="p">,</span> <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DecoderBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">i</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention1</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span>
+            <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addnorm1</span> <span class="o">=</span> <span class="n">AddNorm</span><span class="p">(</span><span class="n">norm_shape</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">attention2</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">MultiHeadAttention</span><span class="p">(</span>
+            <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addnorm2</span> <span class="o">=</span> <span class="n">AddNorm</span><span class="p">(</span><span class="n">norm_shape</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span> <span class="o">=</span> <span class="n">PositionWiseFFN</span><span class="p">(</span><span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span>
+                                   <span class="n">num_hiddens</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addnorm3</span> <span class="o">=</span> <span class="n">AddNorm</span><span class="p">(</span><span class="n">norm_shape</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_valid_lens</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">state</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># 训练阶段，输出序列的所有词元都在同一时间处理，</span>
+        <span class="c1"># 因此state[2][self.i]初始化为None。</span>
+        <span class="c1"># 预测阶段，输出序列是通过词元一个接着一个解码的，</span>
+        <span class="c1"># 因此state[2][self.i]包含着直到当前时间步第i个块解码的输出表示</span>
+        <span class="k">if</span> <span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">key_values</span> <span class="o">=</span> <span class="n">X</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">key_values</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">],</span> <span class="n">X</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">state</span><span class="p">[</span><span class="mi">2</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">key_values</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
+            <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+            <span class="c1"># dec_valid_lens的开头:(batch_size,num_steps),</span>
+            <span class="c1"># 其中每一行是[1,2,...,num_steps]</span>
+            <span class="n">dec_valid_lens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+                <span class="mi">1</span><span class="p">,</span> <span class="n">num_steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dec_valid_lens</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># 自注意力</span>
+        <span class="n">X2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention1</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">key_values</span><span class="p">,</span> <span class="n">key_values</span><span class="p">,</span> <span class="n">dec_valid_lens</span><span class="p">)</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addnorm1</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
+        <span class="c1"># 编码器－解码器注意力。</span>
+        <span class="c1"># enc_outputs的开头:(batch_size,num_steps,num_hiddens)</span>
+        <span class="n">Y2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_valid_lens</span><span class="p">)</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">addnorm2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">Y2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">addnorm3</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span><span class="p">(</span><span class="n">Z</span><span class="p">)),</span> <span class="n">state</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">TransformerDecoder</span><span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">AttentionDecoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span>
+                 <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">norm_shape</span><span class="p">,</span> <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span>
+                 <span class="n">num_heads</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TransformerDecoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span> <span class="o">=</span> <span class="n">num_hiddens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos_encoding</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">PositionalEncoding</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">blks</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_layers</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">blks</span><span class="o">.</span><span class="n">add_module</span><span class="p">(</span><span class="s2">&quot;block&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">),</span>
+                <span class="n">DecoderBlock</span><span class="p">(</span><span class="n">key_size</span><span class="p">,</span> <span class="n">query_size</span><span class="p">,</span> <span class="n">value_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span>
+                             <span class="n">norm_shape</span><span class="p">,</span> <span class="n">ffn_num_input</span><span class="p">,</span> <span class="n">ffn_num_hiddens</span><span class="p">,</span>
+                             <span class="n">num_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dense</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_valid_lens</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">enc_outputs</span><span class="p">,</span> <span class="n">enc_valid_lens</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_encoding</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span> <span class="o">=</span> <span class="p">[[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blks</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">blk</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">blks</span><span class="p">):</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">blk</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+            <span class="c1"># 解码器自注意力权重</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span>
+                <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">attention1</span><span class="o">.</span><span class="n">attention</span><span class="o">.</span><span class="n">attention_weights</span>
+            <span class="c1"># “编码器－解码器”自注意力权重</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span>
+                <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">blk</span><span class="o">.</span><span class="n">attention2</span><span class="o">.</span><span class="n">attention</span><span class="o">.</span><span class="n">attention_weights</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">state</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">attention_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_attention_weights</span>
+</code></pre></div></td></tr></table></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../RNN/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 循环神经网络">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                循环神经网络
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../CV/" class="md-footer__link md-footer__link--next" aria-label="Next: 计算机视觉">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                计算机视觉
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.footer", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

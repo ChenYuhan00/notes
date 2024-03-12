@@ -4,6 +4,18 @@
 
 deep-learning-computation章节
 
+## Tensor
+
+### broadcast
+
+broadcast的条件：
+
+1. 每个Tensor至少有一个维度
+2. 迭代维度尺寸时，从尾部开始，依次每个维度尺寸必须满足一下条件之一：
+   - 相等
+   - 其中一个tensor的维度为1
+   - 其中一个tensor的维度不存在
+
 ### PyTorch自动求导
 
 [深入浅出Pytroch 第二章](https://datawhalechina.github.io/thorough-pytorch/第二章/2.2%20自动求导.html)
@@ -54,6 +66,7 @@ def data_iter(batch_size, features, labels):
 - **torch.unsqueeze()** 在指定纬度插入纬度1
   - X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)
 - **view 和 reshape** 参考[博客](https://zhuanlan.zhihu.com/p/436892343)
+- **contiguous** 参考[博客](https://blog.csdn.net/kdongyi/article/details/108180250)
 
 ## Tools
 

@@ -6,12 +6,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://chenyuhan00.github.io/notes/DeepLearning/</loc>
+         <loc>https://chenyuhan00.github.io/notes/DeepLearning/Attention/</loc>
          <lastmod>2024-03-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://chenyuhan00.github.io/notes/DeepLearning/BERT/</loc>
+         <lastmod>2024-03-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenyuhan00.github.io/notes/DeepLearning/CNN/</loc>
+         <lastmod>2024-03-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenyuhan00.github.io/notes/DeepLearning/CV/</loc>
          <lastmod>2024-03-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -31,7 +41,17 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://chenyuhan00.github.io/notes/DeepLearning/Pytorch/</loc>
+         <loc>https://chenyuhan00.github.io/notes/DeepLearning/MLP/</loc>
+         <lastmod>2024-03-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenyuhan00.github.io/notes/DeepLearning/PyTorch/</loc>
+         <lastmod>2024-03-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenyuhan00.github.io/notes/DeepLearning/RNN/</loc>
          <lastmod>2024-03-09</lastmod>
          <changefreq>daily</changefreq>
     </url>

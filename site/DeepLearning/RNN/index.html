@@ -1,0 +1,1879 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/RNN/">
+      
+      
+        <link rel="prev" href="../CNN/">
+      
+      
+        <link rel="next" href="../Attention/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.11">
+    
+    
+      
+        <title>循环神经网络 - CYH's notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CCascadia:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Cascadia"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rnn" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="CYH&#39;s notes" class="md-header__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            CYH's notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              循环神经网络
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ChenYuhan00/notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    notes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="CYH&#39;s notes" class="md-nav__button md-logo" aria-label="CYH's notes" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    CYH's notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ChenYuhan00/notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    notes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    主页
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    深度学习基础
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            深度学习基础
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PyTorch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PyTorch
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../MLP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多层感知机
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CNN/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    卷积神经网络
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    循环神经网络
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    循环神经网络
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      序列模型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      文本预处理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#language-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Language Model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Language Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      读取长序列数据
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="读取长序列数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      随机采样
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      顺序采样
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rnn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RNN实现
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      反向传播
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gru" class="md-nav__link">
+    <span class="md-ellipsis">
+      GRU
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lstm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LSTM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deep-rnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deep RNN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      BRNN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seq2seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      Seq2Seq
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seq2Seq">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      预测序列评估
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Attention/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    注意力机制
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CV/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    计算机视觉
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Transformer相关论文
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Transformer相关论文
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BERT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BERT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GPT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GPT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ViT/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ViT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SwinTransformer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Swin Transformer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Deformable-DETR/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Deformable DETR
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      序列模型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      文本预处理
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#language-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Language Model
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Language Model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      读取长序列数据
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="读取长序列数据">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      随机采样
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      顺序采样
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rnn_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      RNN实现
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      反向传播
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gru" class="md-nav__link">
+    <span class="md-ellipsis">
+      GRU
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lstm" class="md-nav__link">
+    <span class="md-ellipsis">
+      LSTM
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deep-rnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deep RNN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#brnn" class="md-nav__link">
+    <span class="md-ellipsis">
+      BRNN
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seq2seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      Seq2Seq
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Seq2Seq">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      预测序列评估
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="rnn">RNN</h1>
+<h2 id="_1">序列模型</h2>
+<p>通过<span class="arithmatex">\(\mathbf{x}_t = [x_{t-\tau}, \ldots, x_{t-1}]\)</span> 的取值，预测<span class="arithmatex">\(y_t = x_t\)</span>。</p>
+<h2 id="_2">文本预处理</h2>
+<ol>
+<li>读取数据集得到所有文本行（lines）
+<code>the time machine by h g wells</code></li>
+<li>词元化（tokenize） 把lines分成一个一个词
+<code>['the', 'time', 'machine', 'by', 'h', 'g', 'wells']</code></li>
+<li>建立词表（vocabulary）</li>
+</ol>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Vocab</span><span class="p">:</span>  
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;文本词表&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_freq</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">reserved_tokens</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tokens</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">reserved_tokens</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">reserved_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># 按出现频率排序</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="n">count_corpus</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_token_freqs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                   <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># 未知词元的索引为0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;&lt;unk&gt;&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">reserved_tokens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">token_to_idx</span> <span class="o">=</span> <span class="p">{</span><span class="n">token</span><span class="p">:</span> <span class="n">idx</span>
+                             <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">token</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span><span class="p">)}</span>
+        <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">freq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_token_freqs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">freq</span> <span class="o">&lt;</span> <span class="n">min_freq</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_to_idx</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">token_to_idx</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span><span class="c1">#给token返回index</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_to_idx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">unk</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">to_tokens</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span><span class="c1">#给index返回token</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">idx_to_token</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">unk</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c1"># 未知词元的索引为0</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">token_freqs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_token_freqs</span>
+
+<span class="k">def</span> <span class="nf">count_corpus</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>  <span class="c1">#@save</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;统计词元的频率&quot;&quot;&quot;</span>
+    <span class="c1"># 这里的tokens是1D列表或2D列表</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tokens</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="c1"># 将词元列表展平成一个列表</span>
+        <span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">token</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">tokens</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">line</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p>转换结果（词频高下标小）</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">vocab</span> <span class="o">=</span> <span class="n">Vocab</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">vocab</span><span class="o">.</span><span class="n">token_to_idx</span><span class="o">.</span><span class="n">items</span><span class="p">())[:</span><span class="mi">10</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>[(&#39;&lt;unk&gt;&#39;, 0), (&#39;the&#39;, 1), (&#39;i&#39;, 2), (&#39;and&#39;, 3), (&#39;of&#39;, 4), (&#39;a&#39;, 5), (&#39;to&#39;, 6), (&#39;was&#39;, 7), (&#39;in&#39;, 8), (&#39;that&#39;, 9)]
+</code></pre></div></td></tr></table></div>
+<h2 id="language-model">Language Model</h2>
+<p>n元语法</p>
+<div class="arithmatex">\[
+\begin{aligned}
+P(x_1, x_2, x_3, x_4) &amp;=  P(x_1) P(x_2) P(x_3) P(x_4),\\
+P(x_1, x_2, x_3, x_4) &amp;=  P(x_1) P(x_2  \mid  x_1) P(x_3  \mid  x_2) P(x_4  \mid  x_3),\\
+P(x_1, x_2, x_3, x_4) &amp;=  P(x_1) P(x_2  \mid  x_1) P(x_3  \mid  x_1, x_2) P(x_4  \mid  x_2, x_3).
+\end{aligned}
+\]</div>
+<p>得到二元词</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">bigram_tokens</span> <span class="o">=</span> <span class="p">[</span><span class="n">pair</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">corpus</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">corpus</span><span class="p">[</span><span class="mi">1</span><span class="p">:])]</span>
+<span class="n">bigram_vocab</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Vocab</span><span class="p">(</span><span class="n">bigram_tokens</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p>第<span class="arithmatex">\(i\)</span>个最常用的频率 <span class="arithmatex">\(n_i\)</span></p>
+<div class="arithmatex">\[\log n_i = -\alpha \log i + c\]</div>
+<p>虽然n元词组合方式增加，但是由于大致遵循上述规律，将词频小于某个值的略去，词表中记录反而更少</p>
+<h3 id="_3">读取长序列数据</h3>
+<h4 id="_4">随机采样</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">seq_data_iter_random</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;使用随机抽样生成一个小批量子序列&quot;&quot;&quot;</span>
+    <span class="c1"># 从随机偏移量开始对序列进行分区，随机范围包括num_steps-1</span>
+    <span class="n">corpus</span> <span class="o">=</span> <span class="n">corpus</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_steps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):]</span>
+    <span class="c1"># 减去1，是因为我们需要考虑标签</span>
+    <span class="n">num_subseqs</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">num_steps</span>
+    <span class="c1"># 长度为num_steps的子序列的起始索引</span>
+    <span class="n">initial_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_subseqs</span> <span class="o">*</span> <span class="n">num_steps</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">))</span>
+    <span class="c1"># 在随机抽样的迭代过程中，</span>
+    <span class="c1"># 来自两个相邻的、随机的、小批量中的子序列不一定在原始序列上相邻</span>
+    <span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">initial_indices</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="n">pos</span><span class="p">):</span>
+        <span class="c1"># 返回从pos位置开始的长度为num_steps的序列</span>
+        <span class="k">return</span> <span class="n">corpus</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">num_steps</span><span class="p">]</span>
+
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="n">num_subseqs</span> <span class="o">//</span> <span class="n">batch_size</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">*</span> <span class="n">num_batches</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="c1"># 在这里，initial_indices包含子序列的随机起始索引</span>
+        <span class="n">initial_indices_per_batch</span> <span class="o">=</span> <span class="n">initial_indices</span><span class="p">[</span><span class="n">i</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">initial_indices_per_batch</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">(</span><span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">initial_indices_per_batch</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p>生成样例(0-34序列,batch_size=2,num_steps=5)</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code>X:  tensor([ [13, 14, 15, 16, 17],
+        [28, 29, 30, 31, 32] ])
+Y: tensor([ [14, 15, 16, 17, 18],
+        [29, 30, 31, 32, 33] ])
+X:  tensor([ [ 3,  4,  5,  6,  7],
+        [18, 19, 20, 21, 22] ])
+Y: tensor([ [ 4,  5,  6,  7,  8],
+        [19, 20, 21, 22, 23] ])
+X:  tensor([ [ 8,  9, 10, 11, 12],
+        [23, 24, 25, 26, 27] ])
+Y: tensor([ [ 9, 10, 11, 12, 13],
+        [24, 25, 26, 27, 28] ])
+</code></pre></div></td></tr></table></div>
+<h4 id="_5">顺序采样</h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">seq_data_iter_sequential</span><span class="p">(</span><span class="n">corpus</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;使用顺序分区生成一个小批量子序列&quot;&quot;&quot;</span>
+    <span class="c1"># 从随机偏移量开始划分序列</span>
+    <span class="n">offset</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">)</span>
+    <span class="n">num_tokens</span> <span class="o">=</span> <span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">corpus</span><span class="p">)</span> <span class="o">-</span> <span class="n">offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">batch_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch_size</span>
+    <span class="n">Xs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">corpus</span><span class="p">[</span><span class="n">offset</span><span class="p">:</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">num_tokens</span><span class="p">])</span>
+    <span class="n">Ys</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">corpus</span><span class="p">[</span><span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span> <span class="n">offset</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">num_tokens</span><span class="p">])</span>
+    <span class="n">Xs</span><span class="p">,</span> <span class="n">Ys</span> <span class="o">=</span> <span class="n">Xs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">Ys</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="n">Xs</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">num_steps</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_steps</span> <span class="o">*</span> <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">Xs</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">num_steps</span><span class="p">]</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">Ys</span><span class="p">[:,</span> <span class="n">i</span><span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">num_steps</span><span class="p">]</span>
+        <span class="k">yield</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span>
+</code></pre></div></td></tr></table></div>
+<p>生成样例</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code>X:  tensor([ [ 0,  1,  2,  3,  4],
+        [17, 18, 19, 20, 21] ])
+Y: tensor([ [ 1,  2,  3,  4,  5],
+        [18, 19, 20, 21, 22] ])
+X:  tensor([ [ 5,  6,  7,  8,  9],
+        [22, 23, 24, 25, 26] ])
+Y: tensor([ [ 6,  7,  8,  9, 10],
+        [23, 24, 25, 26, 27] ])
+X:  tensor([ [10, 11, 12, 13, 14],
+        [27, 28, 29, 30, 31] ])
+Y: tensor([ [11, 12, 13, 14, 15],
+        [28, 29, 30, 31, 32] ])
+</code></pre></div></td></tr></table></div>
+<h2 id="rnn_1">RNN实现</h2>
+<p>更新隐藏状态</p>
+<div class="arithmatex">\[
+    h_t = \phi(W_{hh} h_{t-1} + W_{hx}\mathbf{x}_{t-1}+b_h)
+\]</div>
+<p>输出</p>
+<div class="arithmatex">\[
+    o_t = \phi(W_{ho} h_t + b_o)
+\]</div>
+<p><strong>困惑度(perplexity)</strong>：
+衡量语言模型的好坏可以用平均交叉熵</p>
+<div class="arithmatex">\[\pi = \frac{1}{n} \sum_{t=1}^n -\log P(x_t \mid x_{t-1}, \ldots, x_1)\]</div>
+<p>困惑度为<span class="arithmatex">\(\exp(\pi)\)</span></p>
+<p><strong>梯度剪裁</strong>：
+预防梯度爆炸
+梯度长度超过<span class="arithmatex">\(\theta\)</span>，那么拖回长度<span class="arithmatex">\(\theta\)</span></p>
+<div class="arithmatex">\[
+    g \leftarrow \min(1,\frac{\theta}{\Vert \mathbf{g} \Vert}) \mathbf{g}
+\]</div>
+<p><strong>参数初始化</strong>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="n">num_inputs</span> <span class="o">=</span> <span class="n">num_outputs</span> <span class="o">=</span> <span class="n">vocab_size</span>
+    <span class="c1">#因为这里用的onehot码</span>
+    <span class="k">def</span> <span class="nf">normal</span><span class="p">(</span><span class="n">shape</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">shape</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span>
+
+    <span class="c1"># 隐藏层参数</span>
+    <span class="n">W_xh</span> <span class="o">=</span> <span class="n">normal</span><span class="p">((</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">))</span>
+    <span class="n">W_hh</span> <span class="o">=</span> <span class="n">normal</span><span class="p">((</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">))</span>
+    <span class="n">b_h</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># 输出层参数</span>
+    <span class="n">W_hq</span> <span class="o">=</span> <span class="n">normal</span><span class="p">((</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">))</span>
+    <span class="n">b_q</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_outputs</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="c1"># 附加梯度</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="n">W_xh</span><span class="p">,</span> <span class="n">W_hh</span><span class="p">,</span> <span class="n">b_h</span><span class="p">,</span> <span class="n">W_hq</span><span class="p">,</span> <span class="n">b_q</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">params</span>
+
+<span class="c1">#初始化隐藏状态</span>
+<span class="k">def</span> <span class="nf">init_rnn_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span> <span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p><span class="arithmatex">\(X\)</span>的形状为（batch_size,vocab_size），执行操作</p>
+<div class="arithmatex">\[
+    H_{b \times h} = \phi(X_{b \times x}W_{x \times h} + H_{b \times h}W_{h \times h } + b_h(Broadcast))
+\]</div>
+<p>可以看出对于每个批量的隐状态是独立存储更新的</p>
+<p>输出<span class="arithmatex">\(Y\)</span>的形状为(batch_size,vocab_size)，cat完了return的形状为(time_steps<span class="arithmatex">\(\times\)</span>batch_size,vocab_size)</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">rnn</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+    <span class="c1"># inputs的形状：(时间步数量，批量大小，词表大小)</span>
+    <span class="n">W_xh</span><span class="p">,</span> <span class="n">W_hh</span><span class="p">,</span> <span class="n">b_h</span><span class="p">,</span> <span class="n">W_hq</span><span class="p">,</span> <span class="n">b_q</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="n">H</span><span class="p">,</span> <span class="o">=</span> <span class="n">state</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># X的形状：(批量大小，词表大小)</span>
+    <span class="k">for</span> <span class="n">X</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+        <span class="n">H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W_xh</span><span class="p">)</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">W_hh</span><span class="p">)</span><span class="o">+</span><span class="n">b_h</span><span class="p">)</span><span class="c1">#torch.mm表示矩阵乘起来</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">W_hq</span><span class="p">)</span> <span class="o">+</span> <span class="n">b_q</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">H</span><span class="p">,)</span>
+</code></pre></div></td></tr></table></div>
+<p>完整的如下</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RNNModelScratch</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span>
+                 <span class="n">get_params</span><span class="p">,</span> <span class="n">init_state</span><span class="p">,</span> <span class="n">forward_fn</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span> <span class="o">=</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">num_hiddens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_fn</span> <span class="o">=</span> <span class="n">init_state</span><span class="p">,</span> <span class="n">forward_fn</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">)</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_fn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">begin_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+
+<span class="n">num_hiddens</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">RNNModelScratch</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">),</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">d2l</span><span class="o">.</span><span class="n">try_gpu</span><span class="p">(),</span> <span class="n">get_params</span><span class="p">,</span>
+                      <span class="n">init_rnn_state</span><span class="p">,</span> <span class="n">rnn</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">begin_state</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">d2l</span><span class="o">.</span><span class="n">try_gpu</span><span class="p">())</span>
+<span class="n">Y</span><span class="p">,</span> <span class="n">new_state</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">try_gpu</span><span class="p">()),</span> <span class="n">state</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p>使用网络进行预测，前几个（prefix）不产生输出但是更新隐状态</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">predict_ch8</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">num_preds</span><span class="p">,</span> <span class="n">net</span><span class="p">,</span> <span class="n">vocab</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>  <span class="c1">#@save</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;在prefix后面生成新字符&quot;&quot;&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">begin_state</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">vocab</span><span class="p">[</span><span class="n">prefix</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span>
+    <span class="n">get_input</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="n">outputs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">#用上次输出的最后的字符</span>
+    <span class="c1">#一个一个进去得到输出</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">prefix</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>  <span class="c1"># 预热期</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">get_input</span><span class="p">(),</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">vocab</span><span class="p">[</span><span class="n">y</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_preds</span><span class="p">):</span>  <span class="c1"># 预测num_preds步</span>
+        <span class="n">y</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">get_input</span><span class="p">(),</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">vocab</span><span class="o">.</span><span class="n">idx_to_token</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">])</span>
+</code></pre></div></td></tr></table></div>
+<p>训练示例</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">train_epoch_ch8</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">train_iter</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">updater</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">use_random_iter</span><span class="p">):</span>
+    <span class="n">state</span><span class="p">,</span> <span class="n">timer</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Timer</span><span class="p">()</span>
+    <span class="n">metric</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">Accumulator</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># 训练损失之和,词元数量</span>
+    <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="ow">in</span> <span class="n">train_iter</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">use_random_iter</span><span class="p">:</span>
+            <span class="c1"># 在第一次迭代或使用随机抽样时要重新初始化state</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">net</span><span class="o">.</span><span class="n">begin_state</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="c1"># state对于nn.GRU是个张量</span>
+                <span class="n">state</span><span class="o">.</span><span class="n">detach_</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">state</span><span class="p">:</span>
+                    <span class="n">s</span><span class="o">.</span><span class="n">detach_</span><span class="p">()</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">y_hat</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">net</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">y_hat</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">long</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="c1">#这里y_hat为二维张量，y为真实标签，类似于多分类问题</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">updater</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">):</span>
+            <span class="n">updater</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">l</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">grad_clipping</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="c1">#梯度剪裁</span>
+            <span class="n">updater</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">l</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">grad_clipping</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># 因为已经调用了mean函数</span>
+            <span class="n">updater</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">metric</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">l</span> <span class="o">*</span> <span class="n">y</span><span class="o">.</span><span class="n">numel</span><span class="p">(),</span> <span class="n">y</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span><span class="c1">#numel函数返回张量元素总数量，</span>
+    <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">metric</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">metric</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">metric</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<p>使用pytorch API</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">rnn_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">RNN</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">),</span> <span class="n">num_hiddens</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">))</span><span class="c1">#(隐藏层数，批量大小，隐变量长度)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">num_steps</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">)))</span>
+<span class="n">Y</span><span class="p">,</span> <span class="n">state_new</span> <span class="o">=</span> <span class="n">rnn_layer</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="_6">反向传播</h2>
+<p>主要是循环计算梯度的方法和近似方法，t大时产生梯度消失或者爆炸的问题
+具体参考动手深度学习bptt章节</p>
+<h2 id="gru">GRU</h2>
+<p>重置门和更新门(<span class="arithmatex">\(\mathbb{R}_{b \times h}\)</span>)更新</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathbf{R}_t = \sigma(\mathbf{X}_t \mathbf{W}_{xr} + \mathbf{H}_{t-1} \mathbf{W}_{hr} + \mathbf{b}_r),\\
+\mathbf{Z}_t = \sigma(\mathbf{X}_t \mathbf{W}_{xz} + \mathbf{H}_{t-1} \mathbf{W}_{hz} + \mathbf{b}_z),
+\end{aligned}
+\]</div>
+<p>($\sigma 为 $sigmoid函数)</p>
+<p>隐候选状态</p>
+<div class="arithmatex">\[\tilde{\mathbf{H}}_t = \tanh(\mathbf{X}_t \mathbf{W}_{xh} + \left(\mathbf{R}_t \odot \mathbf{H}_{t-1}\right) \mathbf{W}_{hh} + \mathbf{b}_h),\]</div>
+<p>隐状态更新</p>
+<div class="arithmatex">\[\mathbf{H}_t = \mathbf{Z}_t \odot \mathbf{H}_{t-1}  + (1 - \mathbf{Z}_t) \odot \tilde{\mathbf{H}}_t.\]</div>
+<p>相比前面基本RNN只是隐状态更新公式更为复杂</p>
+<p>pytorch框架</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">num_inputs</span> <span class="o">=</span> <span class="n">vocab_size</span>
+<span class="n">gru_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">RNNModel</span><span class="p">(</span><span class="n">gru_layer</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<p>d2l.RNNModel</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">RNNModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;循环神经网络模型&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rnn_layer</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RNNModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">rnn_layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="n">vocab_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">hidden_size</span>
+        <span class="c1"># 如果RNN是双向的（之后将介绍），num_directions应该是2，否则应该是1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">bidirectional</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_directions</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">num_directions</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">one_hot</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">long</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">Y</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="c1"># 全连接层首先将Y的形状改为(时间步数*批量大小,隐藏单元数)</span>
+        <span class="c1"># 它的输出形状是(时间步数*批量大小,词表大小)。</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">state</span>
+
+    <span class="k">def</span> <span class="nf">begin_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">):</span>
+            <span class="c1"># nn.GRU以张量作为隐状态</span>
+            <span class="k">return</span>  <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">num_directions</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">num_layers</span><span class="p">,</span>
+                                 <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">),</span>
+                                <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># nn.LSTM以元组作为隐状态</span>
+            <span class="k">return</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_directions</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">num_layers</span><span class="p">,</span>
+                <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span>
+                    <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">num_directions</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">num_layers</span><span class="p">,</span>
+                        <span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_hiddens</span><span class="p">),</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="lstm">LSTM</h2>
+<p>输入门是<span class="arithmatex">\(\mathbf{I}_t \in \mathbb{R}^{n \times h}\)</span>，
+遗忘门是<span class="arithmatex">\(\mathbf{F}_t \in \mathbb{R}^{n \times h}\)</span>，
+输出门是<span class="arithmatex">\(\mathbf{O}_t \in \mathbb{R}^{n \times h}\)</span>。</p>
+<p>更新公式为</p>
+<div class="arithmatex">\[
+\begin{aligned}
+\mathbf{I}_t &amp;= \sigma(\mathbf{X}_t \mathbf{W}_{xi} + \mathbf{H}_{t-1} \mathbf{W}_{hi} + \mathbf{b}_i),\\
+\mathbf{F}_t &amp;= \sigma(\mathbf{X}_t \mathbf{W}_{xf} + \mathbf{H}_{t-1} \mathbf{W}_{hf} + \mathbf{b}_f),\\
+\mathbf{O}_t &amp;= \sigma(\mathbf{X}_t \mathbf{W}_{xo} + \mathbf{H}_{t-1} \mathbf{W}_{ho} + \mathbf{b}_o),
+\end{aligned}
+\]</div>
+<p>候选记忆元</p>
+<div class="arithmatex">\[\tilde{\mathbf{C}}_t = \text{tanh}(\mathbf{X}_t \mathbf{W}_{xc} + \mathbf{H}_{t-1} \mathbf{W}_{hc} + \mathbf{b}_c),\]</div>
+<p>记忆元</p>
+<div class="arithmatex">\[\mathbf{C}_t = \mathbf{F}_t \odot \mathbf{C}_{t-1} + \mathbf{I}_t \odot \tilde{\mathbf{C}}_t.\]</div>
+<p>隐状态</p>
+<div class="arithmatex">\[\mathbf{H}_t = \mathbf{O}_t \odot \tanh(\mathbf{C}_t).\]</div>
+<p>pytorch框架</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">num_inputs</span> <span class="o">=</span> <span class="n">vocab_size</span>
+<span class="n">lstm_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">RNNModel</span><span class="p">(</span><span class="n">lstm_layer</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="deep-rnn">Deep RNN</h2>
+<p>设置<span class="arithmatex">\(\mathbf{H}_t^{(0)} = \mathbf{X}_t\)</span>，</p>
+<p>第<span class="arithmatex">\(l\)</span>层的隐状态更新</p>
+<div class="arithmatex">\[\mathbf{H}_t^{(l)} = \phi_l(\mathbf{H}_t^{(l-1)} \mathbf{W}_{xh}^{(l)} + \mathbf{H}_{t-1}^{(l)} \mathbf{W}_{hh}^{(l)}  + \mathbf{b}_h^{(l)}),\]</div>
+<p>最后，输出层的计算仅基于第<span class="arithmatex">\(l\)</span>个隐藏层最终的隐状态：</p>
+<div class="arithmatex">\[\mathbf{O}_t = \mathbf{H}_t^{(L)} \mathbf{W}_{hq} + \mathbf{b}_q,\]</div>
+<p>也能用GRU或者LSTM来代替这里的隐状态</p>
+<p>pytorch实现深度的LSTM</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">lstm_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">d2l</span><span class="o">.</span><span class="n">RNNModel</span><span class="p">(</span><span class="n">lstm_layer</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">vocab</span><span class="p">))</span>
+</code></pre></div></td></tr></table></div>
+<h2 id="brnn">BRNN</h2>
+<div class="arithmatex">\[
+\begin{aligned}
+\overrightarrow{\mathbf{H}}_t &amp;= \phi(\mathbf{X}_t \mathbf{W}_{xh}^{(f)} + \overrightarrow{\mathbf{H}}_{t-1} \mathbf{W}_{hh}^{(f)}  + \mathbf{b}_h^{(f)}),\\
+\overleftarrow{\mathbf{H}}_t &amp;= \phi(\mathbf{X}_t \mathbf{W}_{xh}^{(b)} + \overleftarrow{\mathbf{H}}_{t+1} \mathbf{W}_{hh}^{(b)}  + \mathbf{b}_h^{(b)}),
+\end{aligned}
+\]</div>
+<p>正向隐状态<span class="arithmatex">\(\overrightarrow{\mathbf{H}}_t\)</span>和反向隐状态<span class="arithmatex">\(\overleftarrow{\mathbf{H}}_t\)</span>连接起来，获得需要送入输出层的隐状态<span class="arithmatex">\(\mathbf{H}_t \in \mathbb{R}^{n \times 2h}\)</span>。</p>
+<p><span class="arithmatex">\(\mathbf{O}_t \in \mathbb{R}^{n \times q}\)</span>（<span class="arithmatex">\(q\)</span>是输出单元的数目）:</p>
+<div class="arithmatex">\[\mathbf{O}_t = \mathbf{H}_t \mathbf{W}_{hq} + \mathbf{b}_q.\]</div>
+<p>这里<span class="arithmatex">\(\mathbf{W}_{hq} \in \mathbb{R}^{2h \times q}\)</span></p>
+<h2 id="seq2seq">Seq2Seq</h2>
+<p>机器翻译</p>
+<p>编码器是一个RNN(可以是双向)，读取输入句子
+解码器用另一个RNN来输出</p>
+<p>编码器最后时间步的隐状态用作编码器的初始隐状态</p>
+<p>训练时解码器使用目标句子作为输入（就算某一步预测错了，下一步输入的还是正确的翻译结果）</p>
+<h3 id="_7">预测序列评估</h3>
+<p>衡量生成序列好坏的BLEU</p>
+<div class="arithmatex">\[ \exp\left(\min\left(0, 1 - \frac{\mathrm{len}_{\text{label}}}{\mathrm{len}_{\text{pred}}}\right)\right) \prod_{n=1}^k p_n^{1/2^n},\]</div>
+<p><span class="arithmatex">\(p_n\)</span>表示预测中所有n_gram（n元语法）的精度</p>
+<blockquote>
+<p><strong><em>Example</em></strong>
+标签序列ABCDEF，预测序列为ABBCD
+<span class="arithmatex">\(p_1\)</span> = 4/5 <span class="arithmatex">\(p_2\)</span> = 3/4 <span class="arithmatex">\(p_3\)</span> = 1/3 <span class="arithmatex">\(p_4\)</span> = 0</p>
+</blockquote>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Seq2SeqEncoder</span><span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">Encoder</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Seq2SeqEncoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># 嵌入层</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">embed_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span>
+                          <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="c1"># 输入&#39;X&#39;形状(batch_size,num_steps) 输出&#39;X&#39;的形状：(batch_size,num_steps,embed_size)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="c1"># 在循环神经网络模型中，第一个轴对应于时间步</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># 如果未提及状态，则默认为0</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="c1"># output的形状:(num_steps,batch_size,num_hiddens)</span>
+        <span class="c1"># state的形状:(num_layers,batch_size,num_hiddens)</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">state</span>
+</code></pre></div></td></tr></table></div>
+<p>Decoder的embedding和Encoder不同</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">Seq2SeqDecoder</span><span class="p">(</span><span class="n">d2l</span><span class="o">.</span><span class="n">Decoder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;用于序列到序列学习的循环神经网络解码器&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Seq2SeqDecoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">GRU</span><span class="p">(</span><span class="n">embed_size</span> <span class="o">+</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_hiddens</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span>
+                          <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dense</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">num_hiddens</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enc_outputs</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+        <span class="c1">#outputs:(output,state)</span>
+        <span class="k">return</span> <span class="n">enc_outputs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="c1"># 输出&#39;X&#39;的形状：(batch_size,num_steps,embed_size)</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># 广播context，使其具有与X相同的num_steps</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="n">state</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="c1">#最后一个时间步的最后一层输出</span>
+        <span class="n">X_and_context</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">X</span><span class="p">,</span> <span class="n">context</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rnn</span><span class="p">(</span><span class="n">X_and_context</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># output的形状:(batch_size,num_steps,vocab_size)</span>
+        <span class="c1"># state的形状:(num_layers,batch_size,num_hiddens)</span>
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">state</span>
+</code></pre></div></td></tr></table></div>
+<p>在序列中屏蔽不相关的项</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">sequence_mask</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">valid_len</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">maxlen</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">((</span><span class="n">maxlen</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                        <span class="n">device</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">device</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> <span class="o">&lt;</span> <span class="n">valid_len</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">X</span><span class="p">[</span><span class="o">~</span><span class="n">mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">X</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">sequence_mask</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+</code></pre></div></td></tr></table></div>
+<blockquote>
+<p>tensor([ [1, 0, 0],
+        [4, 5, 0] ])</p>
+</blockquote>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">MaskedSoftmaxCELoss</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;带遮蔽的softmax交叉熵损失函数&quot;&quot;&quot;</span>
+    <span class="c1"># pred的形状：(batch_size,num_steps,vocab_size)</span>
+    <span class="c1"># label的形状：(batch_size,num_steps)</span>
+    <span class="c1"># valid_len的形状：(batch_size,)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">label</span><span class="p">,</span> <span class="n">valid_len</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">sequence_mask</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">valid_len</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;none&#39;</span>
+        <span class="n">unweighted_loss</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">MaskedSoftmaxCELoss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span>
+            <span class="n">pred</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">label</span><span class="p">)</span>
+        <span class="n">weighted_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">unweighted_loss</span> <span class="o">*</span> <span class="n">weights</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#无效的全部置为0，对每个样本返回loss</span>
+        <span class="k">return</span> <span class="n">weighted_loss</span>
+</code></pre></div></td></tr></table></div>
+<p>（具体没看很懂怎么练的，先过了后面补</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../CNN/" class="md-footer__link md-footer__link--prev" aria-label="Previous: 卷积神经网络">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                卷积神经网络
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../Attention/" class="md-footer__link md-footer__link--next" aria-label="Next: 注意力机制">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                注意力机制
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.footer", "navigation.tracking"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
