@@ -6,6 +6,15 @@ deep-learning-computation章节
 
 ## Tensor
 
+### tensor函数
+
+- **cat**和**stack** 参考[博客](https://blog.csdn.net/twelve13/article/details/109728210)
+- 批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)
+- **torch.unsqueeze()** 在指定纬度插入纬度1
+  - X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)
+- **view 和 reshape** 参考[博客](https://zhuanlan.zhihu.com/p/436892343)
+- **contiguous** 参考[博客](https://blog.csdn.net/kdongyi/article/details/108180250)
+
 ### broadcast
 
 broadcast的条件：
@@ -15,6 +24,8 @@ broadcast的条件：
    - 相等
    - 其中一个tensor的维度为1
    - 其中一个tensor的维度不存在
+
+[code示例](https://github.com/ChenYuhan00/notes/blob/main/code/broadcast.ipynb)
 
 ### PyTorch自动求导
 
@@ -61,12 +72,7 @@ def data_iter(batch_size, features, labels):
 
 ### 补充
 
-- **cat**和**stack** 参考[博客](https://blog.csdn.net/twelve13/article/details/109728210)
-- 批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)
-- **torch.unsqueeze()** 在指定纬度插入纬度1
-  - X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)
-- **view 和 reshape** 参考[博客](https://zhuanlan.zhihu.com/p/436892343)
-- **contiguous** 参考[博客](https://blog.csdn.net/kdongyi/article/details/108180250)
+
 
 ## Tools
 
