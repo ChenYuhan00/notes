@@ -697,6 +697,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -808,6 +817,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#code" class="md-nav__link">
+    <span class="md-ellipsis">
+      Code
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -837,12 +855,26 @@
 <p>Deformable DETR结合和变形卷积和DETR解决DETR的问题</p>
 <p>每个特征像素不必与所有的特征像素交互计算，只需与部分基于采样的其他像素交互即可，加快了模型的收敛</p>
 <h2 id="dcn">DCN</h2>
+<p><a href="https://blog.csdn.net/justsolow/article/details/105971437">参考博客</a></p>
 <p>可形变卷积公式</p>
 <div class="arithmatex">\[
     \mathbf{y}(\mathbf{p_0}) = \sum_{p_n \in \mathcal{R}} \mathbf{w}(\mathbf{p_n}) \mathbf{x}(\mathbf{p_0} + \mathbf{p_n} + \Delta\mathbf{p_n})
 \]</div>
-<p><a href="">code</a></p>
-<p><a href="https://blog.csdn.net/justsolow/article/details/105971437">来源</a></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">#...</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">offsets</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">DeformConv2D</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1">#...</span>
+<span class="n">offsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">offsets</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">offsets</span><span class="p">))</span>
+<span class="c1">#...</span>
+</code></pre></div></td></tr></table></div>
+<p>对每个输入的特征图，比如使用3x3的卷积核，offset就是2x3x3=18（x，y），先过卷积层得到feature map上每个点对应的9个点的offset的xy，然后通过算出每个点对应的九个点的值（对9个点每个点用双线性插值算出值），然后把每个点对应的3x3的搞在一起，比如10x10的特征图变成30x30，然后过一个3x3的kernel，strike为3的卷积层。DCN可训练的参数就是得到offset的卷积核的参数以及最后那个卷积核的参数。这里对于所有进defromConv2D的特征图都用的同一个偏移量。</p>
 <h2 id="deformable-transformers">Deformable Transformers</h2>
 <h3 id="multi-head-attention">Multi-Head Attention</h3>
 <p>这里重写了一下多头注意力的计算公式</p>
@@ -871,6 +903,214 @@
 <h2 id="additional-inprovements">Additional Inprovements</h2>
 <p>Iterative Bounding Box Refinement和Two-Stage Deformable DETR</p>
 <p>（没看懂</p>
+<h2 id="code">Code</h2>
+<p><a href="https://github.com/xunull/read-Deformable-DETR">注释版源代码</a></p>
+<p>找到了一篇源码解析的<a href="https://www.jianshu.com/p/a1f4831a21b2">博客</a></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">#class MSDeformAttn</span>
+<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span>
+                <span class="n">input_flatten</span><span class="p">,</span> <span class="n">input_spatial_shapes</span><span class="p">,</span>
+                <span class="n">input_level_start_index</span><span class="p">,</span>
+                <span class="n">input_padding_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        query是上一层的输出加上了位置编码</span>
+<span class="sd">        :param query                       (N, Length_{query}, C)</span>
+<span class="sd">        参考点位的坐标</span>
+<span class="sd">        :param reference_points            (N, Length_{query}, n_levels, 2), range in [0, 1], top-left (0,0), bottom-right (1, 1), including padding area</span>
+<span class="sd">                                        or (N, Length_{query}, n_levels, 4), add additional (w, h) to form reference boxes</span>
+<span class="sd">        encoder是上一层的输出，decoder使用的是encoder的输出 [bs, all hw, 256]</span>
+<span class="sd">        :param input_flatten               (N, \sum_{l=0}^{L-1} H_l \cdot W_l, C)</span>
+<span class="sd">        4个特征层的高宽</span>
+<span class="sd">        :param input_spatial_shapes        (n_levels, 2), [(H_0, W_0), (H_1, W_1), ..., (H_{L-1}, W_{L-1})]</span>
+<span class="sd">        各个特征层的起始index的下标 如: [    0,  8056, 10070, 10583]</span>
+<span class="sd">        :param input_level_start_index     (n_levels, ), [0, H_0*W_0, H_0*W_0+H_1*W_1, H_0*W_0+H_1*W_1+H_2*W_2, ..., H_0*W_0+H_1*W_1+...+H_{L-1}*W_{L-1}]</span>
+<span class="sd">        [bs,all hw]</span>
+<span class="sd">        :param input_padding_mask          (N, \sum_{l=0}^{L-1} H_l \cdot W_l), True for padding elements, False for non-padding elements</span>
+
+<span class="sd">        :return output                     (N, Length_{query}, C)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># query 是src+pos，query下面变成了attention_weights</span>
+        <span class="c1"># input_flatten 是src，input_flatten 对应了V</span>
+        <span class="c1"># bs, all hw（decoder 是300）, 256</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">Len_q</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">shape</span>
+        <span class="c1"># [bs,all hw,256]</span>
+        <span class="n">N</span><span class="p">,</span> <span class="n">Len_in</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">input_flatten</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="k">assert</span> <span class="p">(</span><span class="n">input_spatial_shapes</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">input_spatial_shapes</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">==</span> <span class="n">Len_in</span>
+        <span class="c1"># 对encoder上一层的输出，或者decoder使用的encoder的输出 进行一层全连接变换，channel不变</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value_proj</span><span class="p">(</span><span class="n">input_flatten</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">input_padding_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># 填充0 [bs, all hw,256]</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">input_padding_mask</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="nb">float</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># 分成多头，拆分的是最后的256 [bs,all hw,256] -&gt; [bs,all hw, 8, 32]</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">Len_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_model</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_heads</span><span class="p">)</span>
+        <span class="c1"># sampling_offsets 是一个全连接</span>
+        <span class="c1"># like (bs, all hw,8,4,4,2) 8个头，4个特征层，4个采样点 2个偏移量坐标</span>
+        <span class="n">sampling_offsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sampling_offsets</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">Len_q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_points</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># attention_weights 是一个全连接</span>
+        <span class="c1"># like (bs, all hw,8,16)</span>
+        <span class="n">attention_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attention_weights</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">Len_q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_points</span><span class="p">)</span>
+
+        <span class="c1"># like (bs,all hw,8,4,4)</span>
+        <span class="c1"># 经过softmax 保证权重和为1</span>
+        <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attention_weights</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">Len_q</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_heads</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_levels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_points</span><span class="p">)</span>
+
+        <span class="c1"># N, Len_q, n_heads, n_levels, n_points, 2</span>
+        <span class="k">if</span> <span class="n">reference_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+
+            <span class="c1"># input_spatial_shapes 换位置，高宽 变成 宽高</span>
+            <span class="n">offset_normalizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">input_spatial_shapes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">input_spatial_shapes</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># reference_points  [bs,all hw,4,2] -&gt; [bs,all hw,1,4,1,2]</span>
+            <span class="c1"># sampling_offsets  [bs,all hw,8,4,4,2]</span>
+            <span class="c1"># offset_normalizer [4,2] -&gt; [1,1,1,4,1,2]</span>
+            <span class="c1"># like (bs, hw,8,4,4,2)</span>
+            <span class="c1"># 采样点加上偏移量</span>
+            <span class="n">sampling_locations</span> <span class="o">=</span> <span class="n">reference_points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span> \
+                                 <span class="o">+</span> <span class="n">sampling_offsets</span> <span class="o">/</span> <span class="n">offset_normalizer</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="k">elif</span> <span class="n">reference_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+
+            <span class="n">sampling_locations</span> <span class="o">=</span> <span class="n">reference_points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> \
+                                 <span class="o">+</span> <span class="n">sampling_offsets</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_points</span> <span class="o">*</span> <span class="n">reference_points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">:]</span> <span class="o">*</span> <span class="mf">0.5</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Last dim of reference_points must be 2 or 4, but get </span><span class="si">{}</span><span class="s1"> instead.&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">reference_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="c1"># 这里调用了cuda实现</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">MSDeformAttnFunction</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="n">value</span><span class="p">,</span> <span class="n">input_spatial_shapes</span><span class="p">,</span> <span class="n">input_level_start_index</span><span class="p">,</span>
+            <span class="n">sampling_locations</span><span class="p">,</span> <span class="n">attention_weights</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">im2col_step</span><span class="p">)</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_proj</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span>
+</code></pre></div></td></tr></table></div>
+<p>这个算到的是attention weight算出来了 <span class="arithmatex">\(\mathbf{x}^l(\phi_l(\hat{p_q}) + \Delta p_{mlqk}\)</span> 这个是通过<code>F.grid_sample()</code>双线性插值算出来的</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">ms_deform_attn_core_pytorch</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_spatial_shapes</span><span class="p">,</span> <span class="n">sampling_locations</span><span class="p">,</span> <span class="n">attention_weights</span><span class="p">):</span>
+    <span class="c1"># for debug and test only,</span>
+    <span class="c1"># need to use cuda version instead</span>
+    <span class="n">N_</span><span class="p">,</span> <span class="n">S_</span><span class="p">,</span> <span class="n">M_</span><span class="p">,</span> <span class="n">D_</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">Lq_</span><span class="p">,</span> <span class="n">M_</span><span class="p">,</span> <span class="n">L_</span><span class="p">,</span> <span class="n">P_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">sampling_locations</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">value_list</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">([</span><span class="n">H_</span> <span class="o">*</span> <span class="n">W_</span> <span class="k">for</span> <span class="n">H_</span><span class="p">,</span> <span class="n">W_</span> <span class="ow">in</span> <span class="n">value_spatial_shapes</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sampling_grids</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sampling_locations</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">sampling_value_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">lid_</span><span class="p">,</span> <span class="p">(</span><span class="n">H_</span><span class="p">,</span> <span class="n">W_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value_spatial_shapes</span><span class="p">):</span>
+        <span class="c1"># N_, H_*W_, M_, D_ -&gt; N_, H_*W_, M_*D_ -&gt; N_, M_*D_, H_*W_ -&gt; N_*M_, D_, H_, W_</span>
+        <span class="n">value_l_</span> <span class="o">=</span> <span class="n">value_list</span><span class="p">[</span><span class="n">lid_</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N_</span> <span class="o">*</span> <span class="n">M_</span><span class="p">,</span> <span class="n">D_</span><span class="p">,</span> <span class="n">H_</span><span class="p">,</span> <span class="n">W_</span><span class="p">)</span>
+        <span class="c1"># N_, Lq_, M_, P_, 2 -&gt; N_, M_, Lq_, P_, 2 -&gt; N_*M_, Lq_, P_, 2</span>
+        <span class="n">sampling_grid_l_</span> <span class="o">=</span> <span class="n">sampling_grids</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">lid_</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># N_*M_, D_, Lq_, P_</span>
+        <span class="n">sampling_value_l_</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">grid_sample</span><span class="p">(</span><span class="n">value_l_</span><span class="p">,</span> <span class="n">sampling_grid_l_</span><span class="p">,</span>
+                                          <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;bilinear&#39;</span><span class="p">,</span> <span class="n">padding_mode</span><span class="o">=</span><span class="s1">&#39;zeros&#39;</span><span class="p">,</span> <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">sampling_value_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sampling_value_l_</span><span class="p">)</span>
+    <span class="c1"># (N_, Lq_, M_, L_, P_) -&gt; (N_, M_, Lq_, L_, P_) -&gt; (N_, M_, 1, Lq_, L_*P_)</span>
+    <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">attention_weights</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N_</span> <span class="o">*</span> <span class="n">M_</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Lq_</span><span class="p">,</span> <span class="n">L_</span> <span class="o">*</span> <span class="n">P_</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sampling_value_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">attention_weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">N_</span><span class="p">,</span> <span class="n">M_</span> <span class="o">*</span> <span class="n">D_</span><span class="p">,</span> <span class="n">Lq_</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
 
 
 

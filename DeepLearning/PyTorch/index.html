@@ -364,8 +364,26 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="PyTorch基础">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tensor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tensor">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      broadcast
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#pytorch_2" class="md-nav__link">
@@ -808,8 +826,26 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="PyTorch基础">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tensor
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tensor">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#broadcast" class="md-nav__link">
+    <span class="md-ellipsis">
+      broadcast
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#pytorch_2" class="md-nav__link">
@@ -951,6 +987,16 @@
 <h1 id="pytorch">PyTorch</h1>
 <h2 id="pytorch_1">PyTorch基础</h2>
 <p>deep-learning-computation章节</p>
+<h2 id="tensor">Tensor</h2>
+<h3 id="broadcast">broadcast</h3>
+<p>broadcast的条件：</p>
+<ol>
+<li>每个Tensor至少有一个维度</li>
+<li>迭代维度尺寸时，从尾部开始，依次每个维度尺寸必须满足一下条件之一：</li>
+<li>相等</li>
+<li>其中一个tensor的维度为1</li>
+<li>其中一个tensor的维度不存在</li>
+</ol>
 <h3 id="pytorch_2">PyTorch自动求导</h3>
 <p><a href="https://datawhalechina.github.io/thorough-pytorch/第二章/2.2%20自动求导.html">深入浅出Pytroch 第二章</a></p>
 <h4 id="_1">计算图</h4>
@@ -996,6 +1042,7 @@ $$
 <li><strong>torch.unsqueeze()</strong> 在指定纬度插入纬度1</li>
 <li>X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)</li>
 <li><strong>view 和 reshape</strong> 参考<a href="https://zhuanlan.zhihu.com/p/436892343">博客</a></li>
+<li><strong>contiguous</strong> 参考<a href="https://blog.csdn.net/kdongyi/article/details/108180250">博客</a></li>
 </ul>
 <h2 id="tools">Tools</h2>
 <h3 id="torchsummay">torchsummay</h3>
