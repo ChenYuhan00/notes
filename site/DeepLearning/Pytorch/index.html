@@ -377,6 +377,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#tensor_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      tensor函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#broadcast" class="md-nav__link">
     <span class="md-ellipsis">
       broadcast
@@ -442,15 +451,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      补充
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -491,7 +491,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       拆分数据
     </span>
@@ -839,6 +839,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#tensor_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      tensor函数
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#broadcast" class="md-nav__link">
     <span class="md-ellipsis">
       broadcast
@@ -904,15 +913,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      补充
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -953,7 +953,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       拆分数据
     </span>
@@ -988,6 +988,15 @@
 <h2 id="pytorch_1">PyTorch基础</h2>
 <p>deep-learning-computation章节</p>
 <h2 id="tensor">Tensor</h2>
+<h3 id="tensor_1">tensor函数</h3>
+<ul>
+<li><strong>cat</strong>和<strong>stack</strong> 参考<a href="https://blog.csdn.net/twelve13/article/details/109728210">博客</a></li>
+<li>批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)</li>
+<li><strong>torch.unsqueeze()</strong> 在指定纬度插入纬度1</li>
+<li>X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)</li>
+<li><strong>view 和 reshape</strong> 参考<a href="https://zhuanlan.zhihu.com/p/436892343">博客</a></li>
+<li><strong>contiguous</strong> 参考<a href="https://blog.csdn.net/kdongyi/article/details/108180250">博客</a></li>
+</ul>
 <h3 id="broadcast">broadcast</h3>
 <p>broadcast的条件：</p>
 <ol>
@@ -997,6 +1006,7 @@
 <li>其中一个tensor的维度为1</li>
 <li>其中一个tensor的维度不存在</li>
 </ol>
+<p><a href="https://github.com/ChenYuhan00/notes/blob/main/code/broadcast.ipynb">code示例</a></p>
 <h3 id="pytorch_2">PyTorch自动求导</h3>
 <p><a href="https://datawhalechina.github.io/thorough-pytorch/第二章/2.2%20自动求导.html">深入浅出Pytroch 第二章</a></p>
 <h4 id="_1">计算图</h4>
@@ -1035,15 +1045,6 @@ $$
             <span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_examples</span><span class="p">)])</span>
         <span class="k">yield</span> <span class="n">features</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
-<h3 id="_4">补充</h3>
-<ul>
-<li><strong>cat</strong>和<strong>stack</strong> 参考<a href="https://blog.csdn.net/twelve13/article/details/109728210">博客</a></li>
-<li>批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)</li>
-<li><strong>torch.unsqueeze()</strong> 在指定纬度插入纬度1</li>
-<li>X.shape = (2,3) X.unsqueeze(0).shape = (1，2，3) X.unsqueeze(1).shape = (2,1,3)</li>
-<li><strong>view 和 reshape</strong> 参考<a href="https://zhuanlan.zhihu.com/p/436892343">博客</a></li>
-<li><strong>contiguous</strong> 参考<a href="https://blog.csdn.net/kdongyi/article/details/108180250">博客</a></li>
-</ul>
 <h2 id="tools">Tools</h2>
 <h3 id="torchsummay">torchsummay</h3>
 <p>可以用来打印网络的结构参数</p>
@@ -1119,7 +1120,7 @@ Estimated Total Size (MB): 210.12
 ----------------------------------------------------------------
 </code></pre></div></td></tr></table></div>
 <h2 id="multiple-gpus">Multiple GPUs</h2>
-<h3 id="_5">拆分数据</h3>
+<h3 id="_4">拆分数据</h3>
 <p>这种方式下，所有GPU尽管有不同的观测结果，但是执行着相同类型的工作。在完成每个小批量数据的训练之后，梯度在GPU上聚合。
 GPU的数量越多，小批量包含的数据量就越大，从而就能提高训练效率。
 缺点：不能够训练更大的模型</p>

@@ -70,10 +70,6 @@ def data_iter(batch_size, features, labels):
         yield features[batch_indices], labels[batch_indices]
 ```
 
-### 补充
-
-
-
 ## Tools
 
 ### torchsummay
