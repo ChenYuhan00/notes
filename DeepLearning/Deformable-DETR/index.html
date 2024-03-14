@@ -695,6 +695,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Additional Inprovements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iterative-bounding-box-refinement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iterative Bounding Box Refinement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#two-stage-deformable-detr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two-Stage Deformable DETR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -703,6 +727,30 @@
       Code
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#msdefromatten" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSDefromAtten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deformable-transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deformable transformer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -815,6 +863,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Additional Inprovements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#iterative-bounding-box-refinement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Iterative Bounding Box Refinement
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#two-stage-deformable-detr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two-Stage Deformable DETR
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -823,6 +895,30 @@
       Code
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Code">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#msdefromatten" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSDefromAtten
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deformable-transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Deformable transformer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -876,6 +972,7 @@
 </code></pre></div></td></tr></table></div>
 <p>对每个输入的特征图，比如使用3x3的卷积核，offset就是2x3x3=18（x，y），先过卷积层得到feature map上每个点对应的9个点的offset的xy，然后通过算出每个点对应的九个点的值（对9个点每个点用双线性插值算出值），然后把每个点对应的3x3的搞在一起，比如10x10的特征图变成30x30，然后过一个3x3的kernel，strike为3的卷积层。DCN可训练的参数就是得到offset的卷积核的参数以及最后那个卷积核的参数。这里对于所有进defromConv2D的特征图都用的同一个偏移量。</p>
 <h2 id="deformable-transformers">Deformable Transformers</h2>
+<p><img alt="Deformable-DETR_1" src="../../img/DeepLearning/Deformable-DETR_1.png" /></p>
 <h3 id="multi-head-attention">Multi-Head Attention</h3>
 <p>这里重写了一下多头注意力的计算公式</p>
 <div class="arithmatex">\[
@@ -898,14 +995,29 @@
 <p>当 <span class="arithmatex">\(L=K=1\)</span>，<span class="arithmatex">\(W_m^\prime\)</span> 为单位矩阵呢时相当于可变形卷积</p>
 <h3 id="encoder-decoder">Encoder Decoder</h3>
 <p>用多尺度可形变注意力模块替换DETR中处理特征的Transformer Encoder</p>
-<p><img alt="Deformable-DETR_1" src="../../img/DeepLearning/Deformable-DETR_1.png" /></p>
 <p>Decoder中只把cross-attention的模块替换为多尺度可变形注意力，self-attention保持不变</p>
 <h2 id="additional-inprovements">Additional Inprovements</h2>
 <p>Iterative Bounding Box Refinement和Two-Stage Deformable DETR</p>
-<p>（没看懂</p>
+<h3 id="iterative-bounding-box-refinement">Iterative Bounding Box Refinement</h3>
+<p><strong>Bounding Box 偏移量修正</strong>
+deformable DERR 的bbox预测头的预测结果是相对于参考点的坐标偏移量，这样设计可以降低网络的优化难度</p>
+<p>首先经过simoid得到的参考点坐标过一个逆函数，后面加上偏移量修正坐标</p>
+<div class="arithmatex">\[
+\hat{\mathbf{b}}_q = \{\sigma(\mathbf{b}_{qx} + \sigma ^{-1}(\hat{p}_{qx})),\sigma(\mathbf{b}_{qy} + \sigma ^{-1}(\hat{p}_{qy})),\sigma(\mathbf{b}_{qw}),\sigma(\mathbf{b}_{qh}) \}
+\]</div>
+<p>就是每次过一层decoder，reference point都用输出的参考点的值（不启用的话就是用初始的值加上偏移量）</p>
+<p>第d层decoder layer</p>
+<div class="arithmatex">\[
+\hat{\mathbf{b}}_q^d = \{\sigma(\Delta b^{d}_{qx} + \sigma^{-1}(\hat{b}^{d-1}_{qx})),\sigma(\Delta b^{d}_{qy} + \sigma^{-1}(\hat{b}^{d-1}_{qy})),\sigma(\Delta b^{d}_{qw} + \sigma^{-1}(\hat{b}^{d-1}_{qw})),\sigma(\Delta b^{d}_{qh} + \sigma^{-1}(\hat{b}^{d-1}_{qh}))\}
+\]</div>
+<p>初始化<span class="arithmatex">\(b^{0}_{qx} = \hat{p}_{qx}\)</span>，<span class="arithmatex">\(b^{0}_{qy} = \hat{p}_{qy}\)</span>，<span class="arithmatex">\(b^{0}_{qw} = 0.1\)</span>，<span class="arithmatex">\(b^{0}_{qh} = 0.1\)</span></p>
+<p>并且每一层decoder得到box的FFN不共享参数（clone了6个）。</p>
+<h3 id="two-stage-deformable-detr">Two-Stage Deformable DETR</h3>
+<p>没有two stage的话decoder的query embedding是可以学习的参数，two stage decoder 的query是encoder的输出得到bounding box，top score（300个）的得到proposal生成的。</p>
 <h2 id="code">Code</h2>
 <p><a href="https://github.com/xunull/read-Deformable-DETR">注释版源代码</a></p>
 <p>找到了一篇源码解析的<a href="https://www.jianshu.com/p/a1f4831a21b2">博客</a></p>
+<h3 id="msdefromatten">MSDefromAtten</h3>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -987,7 +1099,7 @@
 <span class="normal">79</span>
 <span class="normal">80</span>
 <span class="normal">81</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">#class MSDeformAttn</span>
-<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">query</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span>
                 <span class="n">input_flatten</span><span class="p">,</span> <span class="n">input_spatial_shapes</span><span class="p">,</span>
                 <span class="n">input_level_start_index</span><span class="p">,</span>
                 <span class="n">input_padding_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -1068,7 +1180,7 @@
         <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_proj</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">output</span>
 </code></pre></div></td></tr></table></div>
-<p>这个算到的是attention weight算出来了 <span class="arithmatex">\(\mathbf{x}^l(\phi_l(\hat{p_q}) + \Delta p_{mlqk}\)</span> 这个是通过<code>F.grid_sample()</code>双线性插值算出来的</p>
+<p>这里算到的是attention weight算出来了， <span class="arithmatex">\(\mathbf{x}^l(\phi_l(\hat{p_q}) + \Delta p_{mlqk})\)</span> 这个是通过<code>F.grid_sample()</code>双线性插值算出来的</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -1110,6 +1222,887 @@
     <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">attention_weights</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N_</span> <span class="o">*</span> <span class="n">M_</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Lq_</span><span class="p">,</span> <span class="n">L_</span> <span class="o">*</span> <span class="n">P_</span><span class="p">)</span>
     <span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">sampling_value_list</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">attention_weights</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">N_</span><span class="p">,</span> <span class="n">M_</span> <span class="o">*</span> <span class="n">D_</span><span class="p">,</span> <span class="n">Lq_</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+<h3 id="deformable-transformer">Deformable transformer</h3>
+<p>Encoder主要就是把Mutihead-attention换成MSDeformAtten，输入增加了一些点和层级的信息，输入的src的形状为(batch_size,sum of hw, d_model)</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeformableTransformerEncoderLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">d_model</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">d_ffn</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span>
+                 <span class="n">n_levels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_heads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                 <span class="c1"># Deformable的内容</span>
+                 <span class="n">n_points</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># self attention</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span> <span class="o">=</span> <span class="n">MSDeformAttn</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_levels</span><span class="p">,</span> <span class="n">n_heads</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+
+        <span class="c1"># ffn 的内容</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_ffn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">_get_activation_fn</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_ffn</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">with_pos_embed</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tensor</span> <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">tensor</span> <span class="o">+</span> <span class="n">pos</span>
+
+    <span class="k">def</span> <span class="nf">forward_ffn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">):</span>
+        <span class="c1"># 一个全连接，一个激活，一个dropout，一个全连接</span>
+        <span class="n">src2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">src</span><span class="p">))))</span>
+        <span class="c1"># add 和 dropout</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">src</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout3</span><span class="p">(</span><span class="n">src2</span><span class="p">)</span>
+        <span class="c1"># norm</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">src</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span> <span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span> <span class="n">padding_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        src: [bs,all hw,256]</span>
+<span class="sd">        pos: [bs,all hw,256]</span>
+<span class="sd">        reference_points: [bs,all hw,4,2]</span>
+<span class="sd">        spatial_shapes: [4,2] 4个特征层的高宽</span>
+<span class="sd">        level_start_index: 各个特征层的起始index的下标 如: [    0,  8056, 10070, 10583]</span>
+<span class="sd">        padding_mask: [bs,all hw]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># with_pos_embed 就是将src和pos相加, src是上一层encoder的输出</span>
+        <span class="c1"># 1. self attention</span>
+        <span class="n">src2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">with_pos_embed</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">pos</span><span class="p">),</span> <span class="n">reference_points</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span>
+                              <span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">)</span>
+        <span class="c1"># 2. add</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">src</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span><span class="p">(</span><span class="n">src2</span><span class="p">)</span>
+        <span class="c1"># 3. norm</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+        <span class="c1"># 4. ffn + add &amp; norm</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_ffn</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">src</span>
+</code></pre></div></td></tr></table></div>
+<p>获取参考点</p>
+<p>valid ratio在transformer块中定义</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">#class DeformableTransformer</span>
+    <span class="k">def</span> <span class="nf">get_valid_ratio</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        图像的大小在一个batch内统一成了最大的高宽，但是具体的一个张图会占据其中左上的某个区域，其他的区域在Mask中是True</span>
+<span class="sd">        这里就要求出真实的图像大小占据的比率</span>
+<span class="sd">        mask [bs,h,w]</span>
+<span class="sd">        有效高宽占总的高宽的比率</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 特征图的高 宽</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># tensor的size就是bs的大小 [:,:,0] 就是取的第一列，那么就是高度的意思，~mask，有mask的位置是True，~mask取反</span>
+        <span class="c1"># 有效的高度</span>
+        <span class="n">valid_H</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">mask</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># 有效的宽度</span>
+        <span class="n">valid_W</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">mask</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># 占总长度的比例</span>
+        <span class="n">valid_ratio_h</span> <span class="o">=</span> <span class="n">valid_H</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="n">H</span>
+        <span class="c1"># 占总宽度的比例</span>
+        <span class="n">valid_ratio_w</span> <span class="o">=</span> <span class="n">valid_W</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="n">W</span>
+
+        <span class="n">valid_ratio</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">valid_ratio_w</span><span class="p">,</span> <span class="n">valid_ratio_h</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1">#(bs,2)</span>
+        <span class="k">return</span> <span class="n">valid_ratio</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeformableTransformerEncoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder_layer</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">_get_clones</span><span class="p">(</span><span class="n">encoder_layer</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_reference_points</span><span class="p">(</span><span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">valid_ratios</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+        <span class="c1"># spatial_shapes [特征层数,2] valid_ratios [bs,特征层数,2]</span>
+        <span class="n">reference_points_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">lvl</span><span class="p">,</span> <span class="p">(</span><span class="n">H_</span><span class="p">,</span> <span class="n">W_</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">spatial_shapes</span><span class="p">):</span>
+            <span class="c1"># 生成网格点,从0.5开始 到 减掉一个0.5</span>
+            <span class="n">ref_y</span><span class="p">,</span> <span class="n">ref_x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">H_</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">H_</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">),</span>
+                                          <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">W_</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">W_</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
+
+            <span class="c1"># 坐标进行缩放 valid_ratios[:, None, lvl, 1] * H_是在H_基础上进一步缩减范围</span>
+
+            <span class="c1"># reshape(-1) 拉平会变成一维的 shape=hw，[None]，会在最前面加上一个1维度(1,hw)</span>
+            <span class="c1"># valid_ratios(bs,num_lvl,2) 切片操作 -&gt; (bs,1)</span>
+            <span class="n">ref_y</span> <span class="o">=</span> <span class="n">ref_y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">valid_ratios</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">H_</span><span class="p">)</span>
+            <span class="n">ref_x</span> <span class="o">=</span> <span class="n">ref_x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="kc">None</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">valid_ratios</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">lvl</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">W_</span><span class="p">)</span>
+            <span class="c1"># ref 的形状(bs,hw,2)</span>
+            <span class="n">ref</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">((</span><span class="n">ref_x</span><span class="p">,</span> <span class="n">ref_y</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">reference_points_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref</span><span class="p">)</span>
+        <span class="c1"># 所有特征层的参考点拼在一起 [bs,all hw,2]</span>
+        <span class="n">reference_points</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">reference_points_list</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># reference_points[:,:,None] -&gt; [bs,all hw,1,2]</span>
+        <span class="c1"># valid_ratios[:,None] -&gt; [bs,1,特征层数量,2]</span>
+        <span class="n">reference_points</span> <span class="o">=</span> <span class="n">reference_points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">valid_ratios</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+        <span class="c1"># [bs,all hw,特征层数,2]</span>
+        <span class="k">return</span> <span class="n">reference_points</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span> <span class="n">valid_ratios</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">padding_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        src: [bs,all hw,256] backbone的特征</span>
+<span class="sd">        spatial_shapes: [特征层的数量,2] 各个特征层的高宽</span>
+<span class="sd">        level_start_index: 各个层的 all hw中的起始坐标位置</span>
+<span class="sd">        valid_ratios: [bs,4,2] todo </span>
+<span class="sd">        pos: [bs,all hw,256] 位置编码</span>
+<span class="sd">        padding_mask: [bs, all hw]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="c1"># 获取参考点</span>
+        <span class="c1"># encoder的参考点是grid生成的，并且不会精炼，不会有迭代的更新</span>
+        <span class="c1"># [bs,all hw,4,2]</span>
+        <span class="n">reference_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_reference_points</span><span class="p">(</span><span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">valid_ratios</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+            <span class="c1"># [bs,all hw,256]</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span>
+                           <span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeformableTransformerDecoderLayer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">d_ffn</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+                 <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span>
+                 <span class="n">n_levels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">n_heads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_points</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Deformable DETR实现的Attention</span>
+        <span class="c1"># cross attention</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cross_attn</span> <span class="o">=</span> <span class="n">MSDeformAttn</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_levels</span><span class="p">,</span> <span class="n">n_heads</span><span class="p">,</span> <span class="n">n_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+        <span class="c1"># 标准的Attention</span>
+        <span class="c1"># self attention</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MultiheadAttention</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">n_heads</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+
+        <span class="c1"># ffn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">d_ffn</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation</span> <span class="o">=</span> <span class="n">_get_activation_fn</span><span class="p">(</span><span class="n">activation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_ffn</span><span class="p">,</span> <span class="n">d_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout4</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm3</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">d_model</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">with_pos_embed</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">tensor</span> <span class="k">if</span> <span class="n">pos</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">tensor</span> <span class="o">+</span> <span class="n">pos</span>
+
+    <span class="k">def</span> <span class="nf">forward_ffn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgt</span><span class="p">):</span>
+        <span class="n">tgt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dropout3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">tgt</span><span class="p">))))</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="n">tgt</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout4</span><span class="p">(</span><span class="n">tgt2</span><span class="p">)</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm3</span><span class="p">(</span><span class="n">tgt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tgt</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">query_pos</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span>
+                <span class="n">src</span><span class="p">,</span> <span class="n">src_spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span>
+                <span class="n">src_padding_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        tgt 是上一层的输出 [bs,300,256]</span>
+<span class="sd">        query_pos 就是外面的query_embed [bs,300,256]</span>
+<span class="sd">        reference_points 各个image在300个query上每个特征层上的参考点的坐标 [bs,300,4,2]</span>
+<span class="sd">        src是encoder的输出 [bs,all hw,256]</span>
+<span class="sd">        src_spatial_shapes 各个特征层的高宽 [4,2]</span>
+<span class="sd">        level_start_index 各个特征层的起始下标</span>
+<span class="sd">        src_padding_mask mask</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># self attention</span>
+        <span class="c1"># tgt和query_pos相加, q k就是这两个构成了</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_pos_embed</span><span class="p">(</span><span class="n">tgt</span><span class="p">,</span> <span class="n">query_pos</span><span class="p">)</span>
+        <span class="c1"># 1. self-attention, q k在上面创建了，value就还是tgt</span>
+        <span class="n">tgt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">self_attn</span><span class="p">(</span><span class="n">q</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">k</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tgt</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># 2. add</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="n">tgt</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout2</span><span class="p">(</span><span class="n">tgt2</span><span class="p">)</span>
+        <span class="c1"># 3. norm</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">tgt</span><span class="p">)</span>
+
+        <span class="c1"># Deformable DETR实现的attention</span>
+        <span class="c1"># 4. cross attention</span>
+
+        <span class="c1"># reference_points 各个image在300个query上每个特征层上的目标点位 [bs,300,4,2]</span>
+        <span class="c1"># src是encoder的输出 [bs,all hw,256]</span>
+        <span class="c1"># src_spatial_shapes 各个特征层的高宽 [4,2]</span>
+        <span class="c1"># level_start_index 各个特征层的起始下标</span>
+        <span class="c1"># src_padding_mask mask</span>
+        <span class="n">tgt2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cross_attn</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">with_pos_embed</span><span class="p">(</span><span class="n">tgt</span><span class="p">,</span> <span class="n">query_pos</span><span class="p">),</span>
+                               <span class="n">reference_points</span><span class="p">,</span>
+                               <span class="n">src</span><span class="p">,</span>
+                               <span class="n">src_spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span> <span class="n">src_padding_mask</span><span class="p">)</span>
+
+        <span class="c1"># 5. add</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="n">tgt</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout1</span><span class="p">(</span><span class="n">tgt2</span><span class="p">)</span>
+        <span class="c1"># 6. norm</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">tgt</span><span class="p">)</span>
+
+        <span class="c1"># 7. ffn add &amp; norm</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_ffn</span><span class="p">(</span><span class="n">tgt</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tgt</span>
+</code></pre></div></td></tr></table></div>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeformableTransformerDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">decoder_layer</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">return_intermediate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layers</span> <span class="o">=</span> <span class="n">_get_clones</span><span class="p">(</span><span class="n">decoder_layer</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">return_intermediate</span> <span class="o">=</span> <span class="n">return_intermediate</span>
+
+        <span class="c1"># hack implementation for iterative bounding box refinement and two-stage Deformable DETR</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bbox_embed</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">class_embed</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tgt</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span>
+                <span class="n">src_spatial_shapes</span><span class="p">,</span> <span class="n">src_level_start_index</span><span class="p">,</span> <span class="n">src_valid_ratios</span><span class="p">,</span>
+                <span class="n">query_pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">src_padding_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        tgt 从query_embed分出来的 [bs,300,256]</span>
+<span class="sd">        reference_points reference_point query_embed经过全连接网络生成的 [bs,300,2], 参考点的初始参考点</span>
+<span class="sd">        src encoder的输出 [bs, all hw,256]</span>
+<span class="sd">        src_spatial_shapes 各个特征层的高宽 [4,2]</span>
+<span class="sd">        src_level_start_index 各个特征层的起始下标</span>
+<span class="sd">        src_valid_ratios [bs,4,2] 各个图像真实的高宽占据Mask大小中的比率</span>
+<span class="sd">        query_pos 就是外面的query_embed [bs,300,256]</span>
+<span class="sd">        src_padding_mask [bs,all hw]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">tgt</span>
+
+        <span class="n">intermediate</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">intermediate_reference_points</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">lid</span><span class="p">,</span> <span class="n">layer</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">layers</span><span class="p">):</span>
+            <span class="c1"># 参考点的坐标</span>
+            <span class="k">assert</span> <span class="n">reference_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="c1"># [bs,300,2] -&gt; [bs,300,1,2] [bs,4,2] -&gt; [bs,1,4,2]</span>
+            <span class="c1"># reference_points_input [bs,300,4,2]</span>
+            <span class="c1"># 参考点坐标也要按比例的进行缩放</span>
+            <span class="n">reference_points_input</span> <span class="o">=</span> <span class="n">reference_points</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">src_valid_ratios</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+            <span class="c1"># 如果没有使用bbox精炼，那么每次的reference_points_input 其实是相同的</span>
+            <span class="c1"># 如果使用了bbox精炼，那么每次的reference_points_input 是不同的，会使用decoder的输出得到偏移量修正</span>
+
+            <span class="c1"># output 是上一层的输出</span>
+            <span class="c1"># query_pos 就是外面的query_embed</span>
+            <span class="c1"># reference_points_input 各个image在300个query上每个特征层上的目标点位</span>
+            <span class="c1"># src是encoder的输出</span>
+            <span class="c1"># src_spatial_shapes 各个特征层的高宽</span>
+            <span class="c1"># src_level_start_index 各个特征层的起始下标</span>
+            <span class="c1"># src_padding_mask mask</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">query_pos</span><span class="p">,</span> <span class="n">reference_points_input</span><span class="p">,</span>
+                           <span class="n">src</span><span class="p">,</span> <span class="n">src_spatial_shapes</span><span class="p">,</span> <span class="n">src_level_start_index</span><span class="p">,</span>
+                           <span class="n">src_padding_mask</span><span class="p">)</span>
+
+            <span class="c1"># 如果使用了with_box_refine模式, 这个地方的bbox_embed 是非None的</span>
+            <span class="c1"># hack implementation for iterative bounding box refinement</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_embed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># output 是上一层decoder的输出，经过bbox预测网络 [bs,300,4]</span>
+                <span class="c1"># 得到此次的bbox的偏移量修正</span>
+                <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_embed</span><span class="p">[</span><span class="n">lid</span><span class="p">](</span><span class="n">output</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">reference_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                    <span class="c1"># inverse_sigmoid sigmoid的反函数</span>
+                    <span class="n">new_reference_points</span> <span class="o">=</span> <span class="n">tmp</span> <span class="o">+</span> <span class="n">inverse_sigmoid</span><span class="p">(</span><span class="n">reference_points</span><span class="p">)</span>
+
+                    <span class="n">new_reference_points</span> <span class="o">=</span> <span class="n">new_reference_points</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">assert</span> <span class="n">reference_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span>  <span class="c1"># [bs,300,2]</span>
+                    <span class="c1"># [bs,300,4]</span>
+                    <span class="n">new_reference_points</span> <span class="o">=</span> <span class="n">tmp</span>
+                    <span class="c1"># 前两个是bbox的中心坐标，中心坐标用reference_points的内容+偏移量修正</span>
+                    <span class="n">new_reference_points</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">inverse_sigmoid</span><span class="p">(</span><span class="n">reference_points</span><span class="p">)</span>
+                    <span class="c1"># [bs,300,4] 经过sigmoid 约束在0-1</span>
+                    <span class="n">new_reference_points</span> <span class="o">=</span> <span class="n">new_reference_points</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+                <span class="c1"># 替换了原来的reference_points</span>
+                <span class="n">reference_points</span> <span class="o">=</span> <span class="n">new_reference_points</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+            <span class="c1"># 返回前几层，否则只返回最后一层</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_intermediate</span><span class="p">:</span>
+                <span class="n">intermediate</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+                <span class="c1"># 如果是精炼模式，reference_points在各个层之后是不同的</span>
+                <span class="c1"># 如果不是精炼模型，reference_points在各个层之后还是同一份内容</span>
+                <span class="n">intermediate_reference_points</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reference_points</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">return_intermediate</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">intermediate</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">intermediate_reference_points</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span><span class="p">,</span> <span class="n">reference_points</span>
+</code></pre></div></td></tr></table></div>
+<p>当不是two_stage的情况</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">DeformableTransformer</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">d_model</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">nhead</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+                 <span class="n">num_encoder_layers</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">dim_feedforward</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                 <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span> <span class="n">return_intermediate_dec</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">num_feature_levels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                 <span class="c1"># 这两个4应该就是这个论文主要的Deformable的内容</span>
+                 <span class="n">dec_n_points</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                 <span class="n">enc_n_points</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+
+                 <span class="n">two_stage</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">two_stage_num_proposals</span><span class="o">=</span><span class="mi">300</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_model</span> <span class="o">=</span> <span class="n">d_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nhead</span> <span class="o">=</span> <span class="n">nhead</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">two_stage</span> <span class="o">=</span> <span class="n">two_stage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">two_stage_num_proposals</span> <span class="o">=</span> <span class="n">two_stage_num_proposals</span>
+
+        <span class="n">encoder_layer</span> <span class="o">=</span> <span class="n">DeformableTransformerEncoderLayer</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">dim_feedforward</span><span class="p">,</span>
+                                                          <span class="n">dropout</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span>
+                                                          <span class="n">num_feature_levels</span><span class="p">,</span> <span class="n">nhead</span><span class="p">,</span> <span class="n">enc_n_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">DeformableTransformerEncoder</span><span class="p">(</span><span class="n">encoder_layer</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="p">)</span>
+
+        <span class="n">decoder_layer</span> <span class="o">=</span> <span class="n">DeformableTransformerDecoderLayer</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="n">dim_feedforward</span><span class="p">,</span>
+                                                          <span class="n">dropout</span><span class="p">,</span> <span class="n">activation</span><span class="p">,</span>
+                                                          <span class="n">num_feature_levels</span><span class="p">,</span> <span class="n">nhead</span><span class="p">,</span> <span class="n">dec_n_points</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">DeformableTransformerDecoder</span><span class="p">(</span><span class="n">decoder_layer</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="p">,</span> <span class="n">return_intermediate_dec</span><span class="p">)</span>
+
+        <span class="c1"># deformable detr 多的内容 论文中有提及</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">level_embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">num_feature_levels</span><span class="p">,</span> <span class="n">d_model</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reference_points</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">d_model</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># 参数重制</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_reset_parameters</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">srcs</span><span class="p">,</span> <span class="n">masks</span><span class="p">,</span> <span class="n">pos_embeds</span><span class="p">,</span> <span class="n">query_embed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        srcs backbone的特征</span>
+<span class="sd">        masks seg使用的</span>
+<span class="sd">        pos_embeds 位置编码</span>
+<span class="sd">        query_embed decoder使用</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># 有two_stage 或者不是two_stage但是要有query_embed</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">two_stage</span> <span class="ow">or</span> <span class="n">query_embed</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+
+        <span class="c1"># prepare input for encoder</span>
+        <span class="n">src_flatten</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">mask_flatten</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">lvl_pos_embed_flatten</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># 特征图的高宽</span>
+        <span class="n">spatial_shapes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># src内的特征图是从大尺寸到小尺寸</span>
+        <span class="k">for</span> <span class="n">lvl</span><span class="p">,</span> <span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">pos_embed</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">srcs</span><span class="p">,</span> <span class="n">masks</span><span class="p">,</span> <span class="n">pos_embeds</span><span class="p">)):</span>
+            <span class="n">bs</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">shape</span>
+            <span class="c1"># 特征图的高宽</span>
+            <span class="n">spatial_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+
+            <span class="n">spatial_shapes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spatial_shape</span><span class="p">)</span>
+            <span class="c1"># [bs,hw,256]</span>
+            <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># 这块维度的顺序与detr不同 detr 是 hw，bs，dim，这里是 bs,hw, dim</span>
+            <span class="c1"># [bs,hw]</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># [bs,hw,256]</span>
+            <span class="n">pos_embed</span> <span class="o">=</span> <span class="n">pos_embed</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="c1"># level embed 会被加入到位置编码中,level是在论文中提到过的</span>
+            <span class="c1"># 这个还多个level pos embed [bs,hw,256]</span>
+            <span class="n">lvl_pos_embed</span> <span class="o">=</span> <span class="n">pos_embed</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">level_embed</span><span class="p">[</span><span class="n">lvl</span><span class="p">]</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">lvl_pos_embed_flatten</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lvl_pos_embed</span><span class="p">)</span>
+            <span class="n">src_flatten</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+            <span class="n">mask_flatten</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+
+        <span class="c1"># [bs,all hw,256]</span>
+        <span class="c1"># 所有特征层的拼在一起</span>
+        <span class="c1"># 他们就是在维度1上长度不同，尺寸越大的特征层，1上的数量越多</span>
+        <span class="n">src_flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">src_flatten</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># [bs,all hw]</span>
+        <span class="n">mask_flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">mask_flatten</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># [bs, all hw,256]</span>
+        <span class="n">lvl_pos_embed_flatten</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">lvl_pos_embed_flatten</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># [特征层的数量，2] 存储的是高宽</span>
+        <span class="n">spatial_shapes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">src_flatten</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># 各个src层 起始的位置, 第一个spatial_shapes.new_zeros((1,))是在起始位置填的0</span>
+        <span class="n">level_start_index</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">((</span><span class="n">spatial_shapes</span><span class="o">.</span><span class="n">new_zeros</span><span class="p">((</span><span class="mi">1</span><span class="p">,)),</span> <span class="n">spatial_shapes</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="mi">0</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="c1"># 有效高宽占总的batch高宽的比率 [bs,4,2]</span>
+        <span class="n">valid_ratios</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">get_valid_ratio</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">masks</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># src_flatten 类似detr中的src，mask_flatten应该是对应了src_key_padding_mask，lvl_pos_embed_flatten对应了pos</span>
+        <span class="c1"># 其他的三个完全是这里多出来的参数</span>
+        <span class="c1"># encoder</span>
+        <span class="c1"># [bs,all hw,256]</span>
+        <span class="n">memory</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">src_flatten</span><span class="p">,</span> <span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span>
+                              <span class="n">valid_ratios</span><span class="p">,</span> <span class="n">lvl_pos_embed_flatten</span><span class="p">,</span> <span class="n">mask_flatten</span><span class="p">)</span>
+
+        <span class="c1"># prepare input for decoder</span>
+        <span class="n">bs</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">c</span> <span class="o">=</span> <span class="n">memory</span><span class="o">.</span><span class="n">shape</span>
+
+
+        <span class="c1"># query_embed [300,512] -&gt; [300,256] tgt [300,256]</span>
+        <span class="n">query_embed</span><span class="p">,</span> <span class="n">tgt</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">query_embed</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># 扩出第0维度，bs</span>
+        <span class="n">query_embed</span> <span class="o">=</span> <span class="n">query_embed</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># 扩充第0维度成为bs</span>
+        <span class="n">tgt</span> <span class="o">=</span> <span class="n">tgt</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">bs</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># [bs,300,2]  reference_points为全连接层 512-2，生成出参考点位坐标</span>
+        <span class="c1"># 这些坐标经过了sigmoid处理，在最后得到修正的点的坐标时，还会使用sigmoid的反函数</span>
+        <span class="n">reference_points</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reference_points</span><span class="p">(</span><span class="n">query_embed</span><span class="p">)</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+        <span class="c1"># 经过网络初始生成出的参考点坐标</span>
+        <span class="n">init_reference_out</span> <span class="o">=</span> <span class="n">reference_points</span>
+
+        <span class="c1"># decoder</span>
+        <span class="c1"># tgt 从query_embed分出来的 [bs,300,256]</span>
+        <span class="c1"># reference_points  query_embed经过全连接网络生成的 [bs,300,2] 为初始的参考点坐标</span>
+        <span class="c1"># memory encoder的输出 [bs, all hw,256]</span>
+        <span class="c1"># spatial_shapes 各个特征层的高宽 [4,2]</span>
+        <span class="c1"># level_start_index 各个特征层的起始下标</span>
+        <span class="c1"># valid_ratios [bs,4,2]</span>
+        <span class="c1"># query_embed [bs,300,256]</span>
+        <span class="c1"># mask_flatten [bs,all hw]</span>
+        <span class="c1"># hs [6,bs,300,256]</span>
+        <span class="c1"># inter_references [6,bs,300,2]</span>
+        <span class="n">hs</span><span class="p">,</span> <span class="n">inter_references</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">tgt</span><span class="p">,</span> <span class="n">reference_points</span><span class="p">,</span> <span class="n">memory</span><span class="p">,</span>
+                                            <span class="n">spatial_shapes</span><span class="p">,</span> <span class="n">level_start_index</span><span class="p">,</span> <span class="n">valid_ratios</span><span class="p">,</span>
+                                            <span class="n">query_embed</span><span class="p">,</span> <span class="n">mask_flatten</span><span class="p">)</span>
+
+        <span class="n">inter_references_out</span> <span class="o">=</span> <span class="n">inter_references</span>
+
+        <span class="k">return</span> <span class="n">hs</span><span class="p">,</span> <span class="n">init_reference_out</span><span class="p">,</span> <span class="n">inter_references_out</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
 
 

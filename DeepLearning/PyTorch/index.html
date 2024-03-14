@@ -451,15 +451,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      补充
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -500,7 +491,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       拆分数据
     </span>
@@ -922,15 +913,6 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      补充
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
@@ -971,7 +953,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       拆分数据
     </span>
@@ -1063,7 +1045,6 @@ $$
             <span class="n">indices</span><span class="p">[</span><span class="n">i</span><span class="p">:</span> <span class="nb">min</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_examples</span><span class="p">)])</span>
         <span class="k">yield</span> <span class="n">features</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">],</span> <span class="n">labels</span><span class="p">[</span><span class="n">batch_indices</span><span class="p">]</span>
 </code></pre></div></td></tr></table></div>
-<h3 id="_4">补充</h3>
 <h2 id="tools">Tools</h2>
 <h3 id="torchsummay">torchsummay</h3>
 <p>可以用来打印网络的结构参数</p>
@@ -1139,7 +1120,7 @@ Estimated Total Size (MB): 210.12
 ----------------------------------------------------------------
 </code></pre></div></td></tr></table></div>
 <h2 id="multiple-gpus">Multiple GPUs</h2>
-<h3 id="_5">拆分数据</h3>
+<h3 id="_4">拆分数据</h3>
 <p>这种方式下，所有GPU尽管有不同的观测结果，但是执行着相同类型的工作。在完成每个小批量数据的训练之后，梯度在GPU上聚合。
 GPU的数量越多，小批量包含的数据量就越大，从而就能提高训练效率。
 缺点：不能够训练更大的模型</p>
