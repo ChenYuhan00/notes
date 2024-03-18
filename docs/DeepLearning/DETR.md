@@ -22,10 +22,14 @@
 
 $y$是ground truth，$\hat{y} = \{ \hat{y}_i \}_i ^N$ 是N个预测值，ground truth中没有出现的标记为$\varnothing$ （back ground），最优匹配 $\hat{\sigma}$ 满足最小化匹配误差$\sum_i^N{\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}})$ （最优匹配问题可以用匈牙利算法解决）
 
+$$
+\hat{\sigma} = \argmin \sum_i^N{\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}})
+$$
+
 每个$y_i = (c_i,b_i)$，$c_i$表示类别，$b_i \in {[0,1]}^4$表示相对于图像大小的框的中心坐标和宽高，定义$y_i和\hat{y}_{\sigma(i)}$之间的损失为
 
 $$
-\mathcal{L}_{match} = - \mathbb{1}_{c_i \neq \varnothing}\hat{p}_{\hat{\sigma}(i)(c_i)} + \mathbb{1}_{c_i \neq \varnothing} \mathcal{L}_{box}(b_i,\hat{b}_{\hat{\sigma}(i)})
+\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}) = - \mathbb{1}_{c_i \neq \varnothing}\hat{p}_{\sigma(i)}(c_i) + \mathbb{1}_{c_i \neq \varnothing} \mathcal{L}_{box}(b_i,\hat{b}_{\sigma(i)})
 $$
 
 bounding box 损失定义为

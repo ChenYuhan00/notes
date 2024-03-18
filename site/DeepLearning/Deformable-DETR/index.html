@@ -1013,7 +1013,7 @@ deformable DERR 的bbox预测头的预测结果是相对于参考点的坐标偏
 <p>初始化<span class="arithmatex">\(b^{0}_{qx} = \hat{p}_{qx}\)</span>，<span class="arithmatex">\(b^{0}_{qy} = \hat{p}_{qy}\)</span>，<span class="arithmatex">\(b^{0}_{qw} = 0.1\)</span>，<span class="arithmatex">\(b^{0}_{qh} = 0.1\)</span></p>
 <p>并且每一层decoder得到box的FFN不共享参数（clone了6个）。</p>
 <h3 id="two-stage-deformable-detr">Two-Stage Deformable DETR</h3>
-<p>没有two stage的话decoder的query embedding是可以学习的参数，two stage decoder 的query是encoder的输出得到bounding box，top score（300个）的得到proposal生成的。</p>
+<p>没有two stage的话decoder的query embedding是可以学习的参数，two stage decoder 的query是encoder的输出得到proposal，直接用decoder最后的class分类头得到top score（300个）的得到proposal生成的。</p>
 <h2 id="code">Code</h2>
 <p><a href="https://github.com/xunull/read-Deformable-DETR">注释版源代码</a></p>
 <p>找到了一篇源码解析的<a href="https://www.jianshu.com/p/a1f4831a21b2">博客</a></p>

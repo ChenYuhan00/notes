@@ -110,7 +110,7 @@ $$
 
 ### Two-Stage Deformable DETR
 
-没有two stage的话decoder的query embedding是可以学习的参数，two stage decoder 的query是encoder的输出得到bounding box，top score（300个）的得到proposal生成的。
+没有two stage的话decoder的query embedding是可以学习的参数，two stage decoder 的query是encoder的输出得到proposal，直接用decoder最后的class分类头得到top score（300个）的得到proposal生成的。
 
 ## Code
 
