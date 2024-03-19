@@ -1,12 +1,16 @@
 # PyTorch
 
+[官方文档](https://pytorch.org/resources/)
+
+常用API
+
+- [torch.split](https://pytorch.org/docs/stable/generated/torch.split.html)
+
 ## PyTorch基础
 
-deep-learning-computation章节
+### Tensor
 
-## Tensor
-
-### tensor函数
+#### tensor函数
 
 - **cat**和**stack** 参考[博客](https://blog.csdn.net/twelve13/article/details/109728210)
 - 批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)
@@ -15,7 +19,7 @@ deep-learning-computation章节
 - **view 和 reshape** 参考[博客](https://zhuanlan.zhihu.com/p/436892343)
 - **contiguous** 参考[博客](https://blog.csdn.net/kdongyi/article/details/108180250)
 
-### broadcast
+#### broadcast
 
 broadcast的条件：
 
