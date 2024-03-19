@@ -364,9 +364,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="PyTorch基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#tensor" class="md-nav__link">
     <span class="md-ellipsis">
       Tensor
@@ -391,6 +392,11 @@
       broadcast
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -826,9 +832,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="PyTorch基础">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#tensor" class="md-nav__link">
     <span class="md-ellipsis">
       Tensor
@@ -853,6 +860,11 @@
       broadcast
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -985,10 +997,14 @@
 
 
 <h1 id="pytorch">PyTorch</h1>
+<p><a href="https://pytorch.org/resources/">官方文档</a></p>
+<p>常用API</p>
+<ul>
+<li><a href="https://pytorch.org/docs/stable/generated/torch.split.html">torch.split</a></li>
+</ul>
 <h2 id="pytorch_1">PyTorch基础</h2>
-<p>deep-learning-computation章节</p>
-<h2 id="tensor">Tensor</h2>
-<h3 id="tensor_1">tensor函数</h3>
+<h3 id="tensor">Tensor</h3>
+<h4 id="tensor_1">tensor函数</h4>
 <ul>
 <li><strong>cat</strong>和<strong>stack</strong> 参考<a href="https://blog.csdn.net/twelve13/article/details/109728210">博客</a></li>
 <li>批量矩阵乘法 torch.bmm(X,Y),X的shape为(n,a,b)，Y的shape为(n,b,c)，输出形状(n,a,c)</li>
@@ -997,7 +1013,7 @@
 <li><strong>view 和 reshape</strong> 参考<a href="https://zhuanlan.zhihu.com/p/436892343">博客</a></li>
 <li><strong>contiguous</strong> 参考<a href="https://blog.csdn.net/kdongyi/article/details/108180250">博客</a></li>
 </ul>
-<h3 id="broadcast">broadcast</h3>
+<h4 id="broadcast">broadcast</h4>
 <p>broadcast的条件：</p>
 <ol>
 <li>每个Tensor至少有一个维度</li>
