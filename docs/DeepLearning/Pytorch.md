@@ -1,6 +1,6 @@
 # PyTorch
 
-[官方文档](https://pytorch.org/resources/)
+[官方文档](https://pytorch.org/docs/stable/index.html)
 
 常用API
 
