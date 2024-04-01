@@ -8,7 +8,7 @@ Low-Rank Adaptation of Large Language Models
 
 ![alt text](../img/PEFT/LoRA1.png)
 
-对于预训练好的模型的一个权重矩阵 $W_0 \in \mathbb{R}^{d \times k}$ ， 使用 $W_0 + \Delta W = W_0 + BA$ 其中 $B \in \mathbb{R}^{d \times r}$ ，$A \in \mathbb{R}^{r \times k}$ ， $r \ll \min(d,k)$。在训练过程中，$W_0$保持固定，$B A$是可学习的参数。对于 $h = W_0 x$ ，前递层变为 
+对于预训练好的模型的一个权重矩阵 $W_0 \in \mathbb{R}^{d \times k}$ ， 使用 $W_0 + \Delta W = W_0 + BA$ 其中 $B \in \mathbb{R}^{d \times r}$ ，$A \in \mathbb{R}^{r \times k}$ ， $r \ll \min(d,k)$。在训练过程中，$W_0$保持固定，$B A$是可学习的参数。对于 $h = W_0 x$ ，前递层变为
 
 $$
 h = W_0 x + BAx
@@ -18,8 +18,8 @@ $$
 
 ### 梯度计算
 
-
+todo
 
 ### Apply to Transformer
 
-在Self-Attention 模块中，四个参数$W_q,W_k,W_v,W_o$ 
+在Self-Attention 模块中，对四个参数$W_q,W_k,W_v,W_o$进行上述

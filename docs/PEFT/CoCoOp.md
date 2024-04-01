@@ -1,5 +1,7 @@
 # CoCoOp
 
+Conditional Context Optimization
+
 [Conditional Prompt Learning for Vision-Language Models](https://arxiv.org/pdf/2203.05557.pdf)
 
 CoOp的泛化性并不好，很难泛化到同一个数据集上的unsee class，说明在训练过程中过拟合到了base classes。

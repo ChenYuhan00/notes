@@ -19,6 +19,13 @@ nav:
     - Swin Transformer: DeepLearning/SwinTransformer.md
     - DETR: DeepLearning/DETR.md
     - Deformable DETR: DeepLearning/Deformable-DETR.md
+  - PEFT相关论文:
+    - LoRA: PEFT/LoRA.md
+    - CLIP: PEFT/CLIP.md
+    - CoOp: PEFT/CoOp.md
+    - CoCoOp: PEFT/CoCoOp.md
+    - MaPLe: PEFT/MaPLe.md
+
 theme:
   name: material
   palette:
