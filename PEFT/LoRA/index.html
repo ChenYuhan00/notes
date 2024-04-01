@@ -788,7 +788,7 @@
         
   
   <span class="md-ellipsis">
-    CoCOOp
+    CoCoOp
   </span>
   
 
@@ -887,7 +887,7 @@
 <p><a href="https://arxiv.org/pdf/2106.09685.pdf">论文</a></p>
 <h2 id="_1">主要方法</h2>
 <p><img alt="alt text" src="../../img/PEFT/LoRA1.png" /></p>
-<p>对于预训练好的模型的一个权重矩阵 <span class="arithmatex">\(W_0 \in \mathbb{R}^{d \times k}\)</span> ， 使用 <span class="arithmatex">\(W_0 + \Delta W = W_0 + BA\)</span> 其中 <span class="arithmatex">\(B \in \mathbb{R}^{d \times r}\)</span> ，<span class="arithmatex">\(A \in \mathbb{R}^{r \times k}\)</span> ， <span class="arithmatex">\(r \ll \min(d,k)\)</span>。在训练过程中，<span class="arithmatex">\(W_0\)</span>保持固定，<span class="arithmatex">\(B A\)</span>是可学习的参数。对于 <span class="arithmatex">\(h = W_0 x\)</span> ，前递层变为 </p>
+<p>对于预训练好的模型的一个权重矩阵 <span class="arithmatex">\(W_0 \in \mathbb{R}^{d \times k}\)</span> ， 使用 <span class="arithmatex">\(W_0 + \Delta W = W_0 + BA\)</span> 其中 <span class="arithmatex">\(B \in \mathbb{R}^{d \times r}\)</span> ，<span class="arithmatex">\(A \in \mathbb{R}^{r \times k}\)</span> ， <span class="arithmatex">\(r \ll \min(d,k)\)</span>。在训练过程中，<span class="arithmatex">\(W_0\)</span>保持固定，<span class="arithmatex">\(B A\)</span>是可学习的参数。对于 <span class="arithmatex">\(h = W_0 x\)</span> ，前递层变为</p>
 <div class="arithmatex">\[
 h = W_0 x + BAx
 \]</div>
