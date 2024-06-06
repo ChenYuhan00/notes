@@ -76,16 +76,6 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://chenyuhan00.github.io/notes/PEFT/BLIP-2/</loc>
-         <lastmod>2024-06-06</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://chenyuhan00.github.io/notes/PEFT/BLIP/</loc>
-         <lastmod>2024-06-06</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://chenyuhan00.github.io/notes/PEFT/CLIP/</loc>
          <lastmod>2024-06-06</lastmod>
          <changefreq>daily</changefreq>
@@ -107,6 +97,16 @@
     </url>
     <url>
          <loc>https://chenyuhan00.github.io/notes/PEFT/MaPLe/</loc>
+         <lastmod>2024-06-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenyuhan00.github.io/notes/VLP/BLIP-2/</loc>
+         <lastmod>2024-06-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://chenyuhan00.github.io/notes/VLP/BLIP/</loc>
          <lastmod>2024-06-06</lastmod>
          <changefreq>daily</changefreq>
     </url>

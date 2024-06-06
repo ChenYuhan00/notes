@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/PEFT/BLIP-2/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/VLP/BLIP/">
       
       
       
@@ -18,7 +18,7 @@
     
     
       
-        <title>BLIP-2 - CYH's notes</title>
+        <title>BLIP - CYH's notes</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#blip-2" class="md-skip">
+        <a href="#blip" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BLIP-2
+              BLIP
             
           </span>
         </div>
@@ -642,7 +642,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../LoRA/" class="md-nav__link">
+      <a href="../../PEFT/LoRA/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -663,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CLIP/" class="md-nav__link">
+      <a href="../../PEFT/CLIP/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -684,7 +684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CoOp/" class="md-nav__link">
+      <a href="../../PEFT/CoOp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -705,7 +705,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CoCoOp/" class="md-nav__link">
+      <a href="../../PEFT/CoCoOp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -726,7 +726,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../MaPLe/" class="md-nav__link">
+      <a href="../../PEFT/MaPLe/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -747,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../BLIP/" class="md-nav__link">
+      <a href="../../PEFT/BLIP.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -788,6 +788,140 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multimodal-mixture-of-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal mixture of Encoder-Decoder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal mixture of Encoder-Decoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unimodal-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unimodal encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text decoder
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-training-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-training Objectives
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-training Objectives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-text-contrastive-loss-itc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Contrastive Loss (ITC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-text-matching-loss-itm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Matching Loss (ITM)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#language-modeling-loss-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Language Modeling Loss (LM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      模型细节
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capfilt" class="md-nav__link">
+    <span class="md-ellipsis">
+      CapFilt
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -804,9 +938,43 @@
   
 
 
-<h1 id="blip-2">BLIP-2</h1>
-<p><a href="https://arxiv.org/pdf/2301.12597">Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models</a></p>
-<p><a href="https://github.com/salesforce/BLIP">code</a></p>
+<h1 id="blip">BLIP</h1>
+<p><a href="https://arxiv.org/abs/2201.12086">Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a></p>
+<h2 id="_1">相关工作</h2>
+<ul>
+<li>
+<p>ALBEF</p>
+</li>
+<li>
+<p>VLMO</p>
+</li>
+</ul>
+<h2 id="multimodal-mixture-of-encoder-decoder">Multimodal mixture of Encoder-Decoder</h2>
+<p><img alt="alt text" src="../../img/VLP/BLIP1.png" /></p>
+<h3 id="model-architecture">Model Architecture</h3>
+<p>Image Encoder部分使用ViT进行编码</p>
+<h4 id="unimodal-encoder">Unimodal encoder</h4>
+<p>分别编码Image和text，text部分类似于BERT，放一个[CLS] token在输入句子的开头作为语义信息的总结。</p>
+<h4 id="image-grounded-text-encoder">Image-grounded text encoder</h4>
+<p>通过在每个block的Self Attention和Feed Forward层之间加入 Cross Attention层来引入图像信息， 输入的句子开头有一个特定于任务的[Encode] token。</p>
+<h4 id="image-grounded-text-decoder">Image-grounded text decoder</h4>
+<p>用causal self-attention层（masked multihead-attn）取代前面的双向自注意力。输入的句子开头放一个[Decode] token，标志句子结束的token放到输入的末尾。</p>
+<h3 id="pre-training-objectives">Pre-training Objectives</h3>
+<p>把一个图像-文本对放到模型，图像过一个encoder，文本同时过一个encoder和decoder，来计算三个损失。</p>
+<h4 id="image-text-contrastive-loss-itc">Image-Text Contrastive Loss (ITC)</h4>
+<p>对齐 visual transformer和text transformer的feature space(ALBEF中提出的loss)</p>
+<h4 id="image-text-matching-loss-itm">Image-Text Matching Loss (ITM)</h4>
+<p>是一个二分类任务，其中模型使用 ITM 头（线性层）来预测图像-文本对在给定多模态特征的情况下是否匹配或不匹配</p>
+<h4 id="language-modeling-loss-lm">Language Modeling Loss (LM)</h4>
+<p>旨在生成给定图像的文本描述,将视觉信息转换成连贯的字幕</p>
+<h3 id="_2">模型细节</h3>
+<p>Text encoder和decoder共享除了self-attn层之外的所有参数，以提高训练效率。encoder使用双向自主意力做类似完形填空的任务，decoder使用因果自主意力预测下一个词</p>
+<h2 id="capfilt">CapFilt</h2>
+<p><img alt="alt text" src="../../img/VLP/BLIP2.png" /></p>
+<p><span class="arithmatex">\(\{ (I_h,T_h) \}\)</span> （COCO） 是人工标注的高质量图像文本对，<span class="arithmatex">\(\{ (I_w,T_w) \}\)</span> 是从网络上获取的大量未标注图像文本对，使用Captioning and Filtering来提高文本语料库的质量</p>
+<p>用一个Captioner为图像生成文字，一个Filter来移除不匹配的图像文本对。Captioner和Filter都是从预训练的MED中得到的，然后在COCO数据集上进行微调。</p>
+<p><strong>Captioner</strong>是MED模型中的image-grounded text decoder，给定网络图像<span class="arithmatex">\(I_w\)</span>， Captioner为图像合成字幕<span class="arithmatex">\(T_s\)</span></p>
+<p><strong>Filter</strong>是image-grounded text encoder，用 ITC and ITM 来学习图像和文本是否匹配，filter把原来网络上得到的文本 <span class="arithmatex">\(T_w\)</span> 和 合成的文本 <span class="arithmatex">\(T_s\)</span> 中不匹配的去掉（用ITM分类头），最后将过滤后的图像-文本对与人工注释对相结合，形成一个新的数据集，在预训练一个新的模型。</p>
 
 
 
