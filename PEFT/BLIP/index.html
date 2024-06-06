@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/PEFT/CoOp/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/PEFT/BLIP/">
       
       
-        <link rel="prev" href="../CLIP/">
+        <link rel="prev" href="../MaPLe/">
       
-      
-        <link rel="next" href="../CoCoOp/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>CoOp - CYH's notes</title>
+        <title>BLIP - CYH's notes</title>
       
     
     
@@ -76,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#coop" class="md-skip">
+        <a href="#blip" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CoOp
+              BLIP
             
           </span>
         </div>
@@ -687,30 +685,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    CoOp
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../CoOp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -719,53 +697,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#unified-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unified Context
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#class-specific-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      Class-Specific Context
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#training" class="md-nav__link">
-    <span class="md-ellipsis">
-      Training
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -817,10 +748,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../BLIP/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    BLIP
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -829,6 +780,152 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multimodal-mixture-of-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal mixture of Encoder-Decoder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal mixture of Encoder-Decoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unimodal-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unimodal encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text decoder
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-training-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-training Objectives
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-training Objectives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-text-contrastive-loss-itc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Contrastive Loss (ITC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-text-matching-loss-itm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Matching Loss (ITM)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#language-modeling-loss-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Language Modeling Loss (LM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      模型细节
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capfilt" class="md-nav__link">
+    <span class="md-ellipsis">
+      CapFilt
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -868,27 +965,126 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#unified-context" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Unified Context
+      相关工作
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#class-specific-context" class="md-nav__link">
+  <a href="#multimodal-mixture-of-encoder-decoder" class="md-nav__link">
     <span class="md-ellipsis">
-      Class-Specific Context
+      Multimodal mixture of Encoder-Decoder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal mixture of Encoder-Decoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unimodal-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unimodal encoder
     </span>
   </a>
   
 </li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text decoder
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-training-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-training Objectives
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-training Objectives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-text-contrastive-loss-itc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Contrastive Loss (ITC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-text-matching-loss-itm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Matching Loss (ITM)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#language-modeling-loss-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Language Modeling Loss (LM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      模型细节
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
-  <a href="#training" class="md-nav__link">
+  <a href="#capfilt" class="md-nav__link">
     <span class="md-ellipsis">
-      Training
+      CapFilt
     </span>
   </a>
   
@@ -912,31 +1108,49 @@
   
 
 
-<h1 id="coop">CoOp</h1>
-<p>Context Optimazation</p>
-<p><a href="https://arxiv.org/pdf/2109.01134.pdf">Learning to Prompt for Vision-Language Models</a></p>
-<p><img alt="alt text" src="../../img/PEFT/CoOP1.png" /></p>
-<h2 id="unified-context">Unified Context</h2>
-<p>所有的类别使用相同的上下文</p>
-<div class="arithmatex">\[
-t = [\mathbf{V}]_1[\mathbf{V}]_2...[\mathbf{V}]_M[\text{CLASS}]
-\]</div>
-<p>这里<span class="arithmatex">\([\mathbf{V}]_m\)</span>是embedding后的向量（512 in CLIP），M是超参数。</p>
-<p>令g表示text encoder，每个类别的预测为</p>
-<div class="arithmatex">\[
-p(y=i|x) = \frac{\exp(\cos(g(t_i),f)/\tau)}{\sum_{j=1}^K\exp(\cos(g(t_j),f)/\tau)}
-\]</div>
-<p>同样也能够把[CLASS]放在中间</p>
-<div class="arithmatex">\[
-t = [\mathbf{V}]_1[\mathbf{V}]_2...[\mathbf{V}]_{\frac{M}{2}}[\text{CLASS}][\mathbf{V}]_{\frac{M}{2} + 1}...[\mathbf{V}]_{M}
-\]</div>
-<h2 id="class-specific-context">Class-Specific Context</h2>
-<p>对于每个类别<span class="arithmatex">\(i,j \in \{1,2,...,K\}\)</span>，</p>
-<div class="arithmatex">\[
-[\mathbf{V}]_1^i[\mathbf{V}]_2^i...[\mathbf{V}]_M^i  \neq [\mathbf{V}]_1^j[\mathbf{V}]_2^j...[\mathbf{V}]_M^j ,i \neq j
-\]</div>
-<h2 id="training">Training</h2>
-<p>最小化交叉熵进行梯度反传</p>
+<h1 id="blip">BLIP</h1>
+<p><a href="https://arxiv.org/abs/2201.12086">Bootstrapping Language-Image Pre-training for Unified Vision-Language Understanding and Generation</a></p>
+<h2 id="_1">相关工作</h2>
+<ul>
+<li>
+<p>ALBEF</p>
+</li>
+<li>
+<p>VLMO</p>
+</li>
+</ul>
+<h2 id="multimodal-mixture-of-encoder-decoder">Multimodal mixture of Encoder-Decoder</h2>
+<p><img alt="alt text" src="../../img/PEFT/BLIP1.png" /></p>
+<p>模型由三个目标预训练：</p>
+<ul>
+<li>imagetext contrastive learning</li>
+<li>image-text matching</li>
+<li>and imageconditioned language modeling</li>
+</ul>
+<h3 id="model-architecture">Model Architecture</h3>
+<p>Image Encoder部分使用ViT进行编码</p>
+<h4 id="unimodal-encoder">Unimodal encoder</h4>
+<p>分别编码Image和text，text部分类似于BERT，放一个[CLS] token在输入句子的开头作为语义信息的总结。</p>
+<h4 id="image-grounded-text-encoder">Image-grounded text encoder</h4>
+<p>通过在每个block的Self Attention和Feed Forward层之间加入 Cross Attention层来引入图像信息， 输入的句子开头有一个特定于任务的[Encode] token。</p>
+<h4 id="image-grounded-text-decoder">Image-grounded text decoder</h4>
+<p>用causal self-attention层（masked multihead-attn）取代前面的双向自注意力。输入的句子开头放一个[Decode] token，标志句子结束的token放到输入的末尾。</p>
+<h3 id="pre-training-objectives">Pre-training Objectives</h3>
+<p>把一个图像-文本对放到模型，图像过一个encoder，文本同时过一个encoder和decoder，来计算三个损失。</p>
+<h4 id="image-text-contrastive-loss-itc">Image-Text Contrastive Loss (ITC)</h4>
+<p>对齐 visual transformer和text transformer的feature space(ALBEF中提出的loss)</p>
+<h4 id="image-text-matching-loss-itm">Image-Text Matching Loss (ITM)</h4>
+<p>是一个二分类任务，其中模型使用 ITM 头（线性层）来预测图像-文本对在给定多模态特征的情况下是否匹配或不匹配</p>
+<h4 id="language-modeling-loss-lm">Language Modeling Loss (LM)</h4>
+<p>旨在生成给定图像的文本描述,将视觉信息转换成连贯的字幕</p>
+<h3 id="_2">模型细节</h3>
+<p>Text encoder和decoder共享除了self-attn层之外的所有参数，以提高训练效率。encoder使用双向自主意力做类似完形填空的任务，decoder使用因果自主意力预测下一个词</p>
+<h2 id="capfilt">CapFilt</h2>
+<p><img alt="alt text" src="../../img/PEFT/BLIP2.png" /></p>
+<p><span class="arithmatex">\(\{ (I_h,T_h) \}\)</span> （COCO） 是人工标注的高质量图像文本对，<span class="arithmatex">\(\{ (I_w,T_w) \}\)</span> 是从网络上获取的大量未标注图像文本对，使用Captioning and Filtering来提高文本语料库的质量</p>
+<p>用一个Captioner为图像生成文字，一个Filter来移除不匹配的图像文本对。Captioner和Filter都是从预训练的MED中得到的，然后在COCO数据集上进行微调。</p>
+<p><strong>Captioner</strong>是MED模型中的image-grounded text decoder，给定网络图像<span class="arithmatex">\(I_w\)</span>， Captioner为图像合成字幕<span class="arithmatex">\(T_s\)</span></p>
+<p><strong>Filter</strong>是image-grounded text encoder，用 ITC and ITM 来学习图像和文本是否匹配，filter把原来网络上得到的文本 <span class="arithmatex">\(T_w\)</span> 和 合成的文本 <span class="arithmatex">\(T_s\)</span> 中不匹配的去掉（用ITM分类头），最后将过滤后的图像-文本对与人工注释对相结合，形成一个新的数据集，在预训练一个新的模型。</p>
 
 
 
@@ -972,7 +1186,7 @@ t = [\mathbf{V}]_1[\mathbf{V}]_2...[\mathbf{V}]_{\frac{M}{2}}[\text{CLASS}][\mat
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../CLIP/" class="md-footer__link md-footer__link--prev" aria-label="Previous: CLIP">
+          <a href="../MaPLe/" class="md-footer__link md-footer__link--prev" aria-label="Previous: MaPLe">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -982,27 +1196,11 @@ t = [\mathbf{V}]_1[\mathbf{V}]_2...[\mathbf{V}]_{\frac{M}{2}}[\text{CLASS}][\mat
                 Previous
               </span>
               <div class="md-ellipsis">
-                CLIP
+                MaPLe
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../CoCoOp/" class="md-footer__link md-footer__link--next" aria-label="Next: CoCoOp">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                CoCoOp
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </div>
-          </a>
         
       </nav>
     
