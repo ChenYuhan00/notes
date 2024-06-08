@@ -11,6 +11,10 @@
         <link rel="canonical" href="https://chenyuhan00.github.io/notes/VLP/BLIP/">
       
       
+        <link rel="prev" href="../../PEFT/MaPLe/">
+      
+      
+        <link rel="next" href="../BLIP-2/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -740,6 +744,237 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    VLP相关论文
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            VLP相关论文
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    BLIP
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    BLIP
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      相关工作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multimodal-mixture-of-encoder-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multimodal mixture of Encoder-Decoder
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Multimodal mixture of Encoder-Decoder">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#model-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      Model Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Model Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unimodal-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unimodal encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-encoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text encoder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-grounded-text-decoder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-grounded text decoder
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-training-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-training Objectives
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pre-training Objectives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#image-text-contrastive-loss-itc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Contrastive Loss (ITC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#image-text-matching-loss-itm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Image-Text Matching Loss (ITM)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#language-modeling-loss-lm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Language Modeling Loss (LM)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      模型细节
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capfilt" class="md-nav__link">
+    <span class="md-ellipsis">
+      CapFilt
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
               
                 
   
@@ -747,11 +982,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../PEFT/BLIP.md" class="md-nav__link">
+      <a href="../BLIP-2/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    BLIP
+    BLIP-2
   </span>
   
 
@@ -966,7 +1201,7 @@
 <h4 id="image-text-matching-loss-itm">Image-Text Matching Loss (ITM)</h4>
 <p>是一个二分类任务，其中模型使用 ITM 头（线性层）来预测图像-文本对在给定多模态特征的情况下是否匹配或不匹配</p>
 <h4 id="language-modeling-loss-lm">Language Modeling Loss (LM)</h4>
-<p>旨在生成给定图像的文本描述,将视觉信息转换成连贯的字幕</p>
+<p>旨在生成给定图像的文本描述,将视觉信息转换成连贯的字幕，优化交叉熵损失，该损失训练模型以自回归方式最大化文本的可能性</p>
 <h3 id="_2">模型细节</h3>
 <p>Text encoder和decoder共享除了self-attn层之外的所有参数，以提高训练效率。encoder使用双向自主意力做类似完形填空的任务，decoder使用因果自主意力预测下一个词</p>
 <h2 id="capfilt">CapFilt</h2>
@@ -1005,6 +1240,44 @@
       
         <footer class="md-footer">
   
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../PEFT/MaPLe/" class="md-footer__link md-footer__link--prev" aria-label="Previous: MaPLe">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                MaPLe
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../BLIP-2/" class="md-footer__link md-footer__link--next" aria-label="Next: BLIP-2">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                BLIP-2
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">
