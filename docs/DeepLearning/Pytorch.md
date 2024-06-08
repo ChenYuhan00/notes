@@ -5,6 +5,8 @@
 常用API
 
 - [torch.split](https://pytorch.org/docs/stable/generated/torch.split.html)
+- [torch.mm](https://pytorch.org/docs/stable/generated/torch.mm.html#torch.mm)
+- [torch.nn.ParameterList](https://pytorch.org/docs/stable/generated/torch.nn.ParameterList.html#torch.nn.ParameterList)
 
 ## PyTorch基础
 

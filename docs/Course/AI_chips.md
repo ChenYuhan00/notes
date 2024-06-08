@@ -38,4 +38,35 @@ Hump2: Reorder buffer
 
 ...
 
-不如看[q神](https://note.hobbitqia.cc/CA/CA4/#tomasulos-approach)
+不如看[Q](https://note.hobbitqia.cc/CA/CA4/#tomasulos-approach)
+
+## 复习
+
+- Amdhal Law
+- Roofline Model
+- Little's Law
+
+`PPT9 10:20`
+
+- Reorder Buffer
+- Dispatch stall
+- Tomasulo's algorithm
+
+`PPT61 10:45`
+
+- Performace Analysis
+- Flynn's Taxonomy of Computers
+- Hardware execution model
+
+- Memory
+- FF SRAM DRAM
+- DRAM Access States refresh
+- cache Memory Hierarchy
+
+`PPT111 11:35`
+
+- Chache Coherence
+- MSI protocol
+
+- AI Acceletator
+- 图优化

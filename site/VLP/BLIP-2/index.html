@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/PEFT/CLIP/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/VLP/BLIP-2/">
       
       
-        <link rel="prev" href="../LoRA/">
+        <link rel="prev" href="../BLIP/">
       
-      
-        <link rel="next" href="../CoOp/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>CLIP - CYH's notes</title>
+        <title>BLIP-2 - CYH's notes</title>
       
     
     
@@ -76,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#clip" class="md-skip">
+        <a href="#blip-2" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CLIP
+              BLIP-2
             
           </span>
         </div>
@@ -608,19 +606,17 @@
       
   
   
-    
   
   
-  
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
@@ -634,7 +630,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             PEFT相关论文
@@ -648,11 +644,160 @@
   
   
     <li class="md-nav__item">
-      <a href="../LoRA/" class="md-nav__link">
+      <a href="../../PEFT/LoRA/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     LoRA
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PEFT/CLIP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CLIP
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PEFT/CoOp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CoOp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PEFT/CoCoOp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CoCoOp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../PEFT/MaPLe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MaPLe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    VLP相关论文
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            VLP相关论文
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BLIP/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BLIP
   </span>
   
 
@@ -682,7 +827,7 @@
           
   
   <span class="md-ellipsis">
-    CLIP
+    BLIP-2
   </span>
   
 
@@ -693,7 +838,7 @@
         
   
   <span class="md-ellipsis">
-    CLIP
+    BLIP-2
   </span>
   
 
@@ -715,18 +860,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#q-former" class="md-nav__link">
     <span class="md-ellipsis">
-      预训练方法
+      Q-Former
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#zero-shot" class="md-nav__link">
+  <a href="#bootstrap-vision-to-language-generative-learning-from-a-frozen-llm" class="md-nav__link">
     <span class="md-ellipsis">
-      Zero-shot推理
+      Bootstrap Vision-to-Language Generative Learning from a Frozen LLM
     </span>
   </a>
   
@@ -736,153 +881,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../CoOp/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    CoOp
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../CoCoOp/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    CoCoOp
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../MaPLe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    MaPLe
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
-        
-          
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
-  
-  <span class="md-ellipsis">
-    VLP相关论文
-  </span>
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
-            <span class="md-nav__icon md-icon"></span>
-            VLP相关论文
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../VLP/BLIP/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BLIP
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../VLP/BLIP-2/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BLIP-2
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -922,18 +920,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#q-former" class="md-nav__link">
     <span class="md-ellipsis">
-      预训练方法
+      Q-Former
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#zero-shot" class="md-nav__link">
+  <a href="#bootstrap-vision-to-language-generative-learning-from-a-frozen-llm" class="md-nav__link">
     <span class="md-ellipsis">
-      Zero-shot推理
+      Bootstrap Vision-to-Language Generative Learning from a Frozen LLM
     </span>
   </a>
   
@@ -957,62 +955,18 @@
   
 
 
-<h1 id="clip">CLIP</h1>
-<p>Contrastive Language-Image Pre-training</p>
-<p><a href="https://arxiv.org/pdf/2103.00020.pdf">Learning Transferable Visual Models From Natural Language Supervision</a></p>
-<p><a href="https://openai.com/research/clip">OpenAI Blog</a></p>
-<p><img alt="alt text" src="../../img/PEFT/CLIP1.png" /></p>
-<h2 id="_1">预训练方法</h2>
-<p>文本和图像分别使用预训练好的编码器对每个输入的文本和图像进行编码（ResNet50、ViT...），编码完成的文本特征和视觉特征计算余弦相似度，CLIP的训练目标即使最大化证<span class="arithmatex">\(N\)</span>个正样本的相似度，最小化<span class="arithmatex">\(N^2 -N\)</span>个样本的相似度。</p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
-<span class="normal"> 2</span>
-<span class="normal"> 3</span>
-<span class="normal"> 4</span>
-<span class="normal"> 5</span>
-<span class="normal"> 6</span>
-<span class="normal"> 7</span>
-<span class="normal"> 8</span>
-<span class="normal"> 9</span>
-<span class="normal">10</span>
-<span class="normal">11</span>
-<span class="normal">12</span>
-<span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># image_encoder - ResNet or Vision Transformer </span>
-<span class="c1"># text_encoder - CBOW or Text Transformer </span>
-<span class="c1"># I[n, h, w, c] - minibatch of aligned images </span>
-<span class="c1"># T[n, l] - minibatch of aligned texts </span>
-<span class="c1"># W_i[d_i, d_e] - learned proj of image to embed </span>
-<span class="c1"># W_t[d_t, d_e] - learned proj of text to embed </span>
-<span class="c1"># t - learned temperature parameter </span>
-
-<span class="c1"># extract feature representations of each modality </span>
-<span class="n">I_f</span> <span class="o">=</span> <span class="n">image_encoder</span><span class="p">(</span><span class="n">I</span><span class="p">)</span> <span class="c1">#[n, d_i] </span>
-<span class="n">T_f</span> <span class="o">=</span> <span class="n">text_encoder</span><span class="p">(</span><span class="n">T</span><span class="p">)</span> <span class="c1">#[n, d_t] </span>
-
-<span class="c1"># joint multimodal embedding [n, d_e] </span>
-<span class="n">I_e</span> <span class="o">=</span> <span class="n">l2_normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">I_f</span><span class="p">,</span> <span class="n">W_i</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
-<span class="n">T_e</span> <span class="o">=</span> <span class="n">l2_normalize</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">T_f</span><span class="p">,</span> <span class="n">W_t</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># scaled pairwise cosine similarities [n, n] </span>
-
-<span class="n">logits</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">I_e</span><span class="p">,</span> <span class="n">T_e</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> 
-
-<span class="c1"># symmetric loss function </span>
-<span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> 
-<span class="n">loss_i</span> <span class="o">=</span> <span class="n">cross_entropy_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
-<span class="n">loss_t</span> <span class="o">=</span> <span class="n">cross_entropy_loss</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
-<span class="n">loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">loss_i</span> <span class="o">+</span> <span class="n">loss_t</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
-</code></pre></div></td></tr></table></div>
-<h2 id="zero-shot">Zero-shot推理</h2>
-<p>Prompt Tempelate 比如在分类任务上，把标签搞成 A photo of [object]的样子，输入文本编码器，把图像输入图像编码器，然后计算余弦相似度最大的就是图像的Label。</p>
-<p>模型不需要像以往的分类模型一样设置一个固定的类别集合，只要能够在文本输入的地方加入图像真实的类别名称，这里不一定是ImageNet上的类和图像也很有可能被正确分类。不使用ImageNet数据集上任何一张图像进行训练的推理效果和有监督训练好的ResNet50相当。</p>
+<h1 id="blip-2">BLIP-2</h1>
+<p><a href="https://arxiv.org/pdf/2301.12597">Bootstrapping Language-Image Pre-training with Frozen Image Encoders and Large Language Models</a></p>
+<p><a href="https://github.com/salesforce/BLIP">code</a></p>
+<h2 id="q-former">Q-Former</h2>
+<p><img alt="alt text" src="../../img/VLP/BLIP-2_1.png" /></p>
+<p>用一个冻结参数的image transformer作为图像编码器给q-former提供图像信息，一个text tranformer作为text encoder和decoder，self-attn的参数在q-former的两个子模块之间是共享的</p>
+<p>在输入的文本embedding前加上32个可学习的token作为query，learned query过完self-attn后与image feature做cross-attn。</p>
+<p>self-attn层根据训练任务不同使用不同的mask来控制他们的交互</p>
+<h2 id="bootstrap-vision-to-language-generative-learning-from-a-frozen-llm">Bootstrap Vision-to-Language Generative Learning from a Frozen LLM</h2>
+<p><img alt="alt text" src="../../img/VLP/BLIP-2_2.png" /></p>
+<p>生成预训练阶段，将Q-Former（附带冻结图像编码器）连接到冻结LLM，以获取LLM的生成语言能力。使用全连接层把query的output投影到和LLM输入维度相同大小。</p>
+<p>对于decoder-based的LLMs，根据Q-former得到的结果生成文本；对于encoder-decoder-based LLMs，把前缀文本和Q-former输出作为编码器的输入，后缀文本作为生成的目标</p>
 
 
 
@@ -1048,7 +1002,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../LoRA/" class="md-footer__link md-footer__link--prev" aria-label="Previous: LoRA">
+          <a href="../BLIP/" class="md-footer__link md-footer__link--prev" aria-label="Previous: BLIP">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1058,27 +1012,11 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                LoRA
+                BLIP
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../CoOp/" class="md-footer__link md-footer__link--next" aria-label="Next: CoOp">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                CoOp
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </div>
-          </a>
         
       </nav>
     

@@ -25,6 +25,9 @@ nav:
     - CoOp: PEFT/CoOp.md
     - CoCoOp: PEFT/CoCoOp.md
     - MaPLe: PEFT/MaPLe.md
+  - VLP相关论文:  
+    - BLIP: VLP/BLIP.md
+    - BLIP-2: VLP/BLIP-2.md
 
 theme:
   name: material
