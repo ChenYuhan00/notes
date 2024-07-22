@@ -1003,6 +1003,90 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Agent相关
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Agent相关
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Agent/review/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    综述
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Agent/ReAct/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ReAct
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1211,8 +1295,8 @@
 <div class="arithmatex">\[
 \text{MultiHeadAttn}(z_q,\mathbf{x}) = \sum_{m=1}^{M} \mathbf{W}_m[\sum_{k \in \Omega_k} A_{mqk}\mathbf{W}_m^\prime x_k]
 \]</div>
-<p>和 <span class="arithmatex">\(\text{softmax}(\frac{QK^T}{\sqrt{d}})V\)</span>那个的多头版的公式是等价的。<a href="../DeepLearning.md###Mutihead-Attention">d2l-multihead</a></p>
-<p>其中 <span class="arithmatex">\(q \in \Omega_q\)</span> 表示query的index，<span class="arithmatex">\(k \in \Omega_k\)</span> 表示key和value的index（包括所有的HW个点），<span class="arithmatex">\(z_q,x_k\in \mathbb{R}^C\)</span>，M表示头的个数，<span class="arithmatex">\(\mathbf{W}_m^\prime \in \mathbb{R}^{C_v \times C}\)</span>，<span class="arithmatex">\(\mathbf{W}_m \in \mathbb{R}^{C \times C_v}\)</span> （<span class="arithmatex">\(C_v =C / M\)</span>），attention的权重<span class="arithmatex">\(A_{mqk} \propto \exp{(\frac{z_q^TU_m^TV_mx_k}{\sqrt{C_v}})}\)</span>，并且满足<span class="arithmatex">\(\sum_{k \in \Omega_k}A_{mqk} = 1\)</span> （softmax），<span class="arithmatex">\(U_m,V_m \in \mathbb{R}^{C_v \times C}\)</span>。</p>
+<p>和 <span class="arithmatex">\(\text{softmax}(\frac{QK^T}{\sqrt{d}})V\)</span>那个的多头版的公式是等价的。
+其中 <span class="arithmatex">\(q \in \Omega_q\)</span> 表示query的index，<span class="arithmatex">\(k \in \Omega_k\)</span> 表示key和value的index（包括所有的HW个点），<span class="arithmatex">\(z_q,x_k\in \mathbb{R}^C\)</span>，M表示头的个数，<span class="arithmatex">\(\mathbf{W}_m^\prime \in \mathbb{R}^{C_v \times C}\)</span>，<span class="arithmatex">\(\mathbf{W}_m \in \mathbb{R}^{C \times C_v}\)</span> （<span class="arithmatex">\(C_v =C / M\)</span>），attention的权重<span class="arithmatex">\(A_{mqk} \propto \exp{(\frac{z_q^TU_m^TV_mx_k}{\sqrt{C_v}})}\)</span>，并且满足<span class="arithmatex">\(\sum_{k \in \Omega_k}A_{mqk} = 1\)</span> （softmax），<span class="arithmatex">\(U_m,V_m \in \mathbb{R}^{C_v \times C}\)</span>。</p>
 <p>这种计算方式有两个问题：一是收敛很慢，需要大量的训练，因为当 <span class="arithmatex">\(N_k\)</span> 很大的时候<span class="arithmatex">\(A_{mqv}\)</span>接近于<span class="arithmatex">\(1/N_k\)</span>导致输入特征的梯度模糊；二是注意力计算的复杂度很高，上式的计算复杂度为 <span class="arithmatex">\(O(N_qC^2 + N_k C^2 + N_qN_kC)\)</span>（没搞懂怎么算的文章是这样），在图像领域一般有<span class="arithmatex">\(N_q = N_k \gg C\)</span>，有复杂度为<span class="arithmatex">\(O(N_qN_kC)\)</span>随着特征图大小的二次复杂度增长。</p>
 <h3 id="deformable-attention">Deformable Attention</h3>
 <p>给定一个 feature map <span class="arithmatex">\(\mathbf{x} \in \mathbb{R}^{C \times H \times W}\)</span>,2-d的point <span class="arithmatex">\(p_q\)</span>，这里<span class="arithmatex">\(K\)</span>表示采样的点的个数，有 <span class="arithmatex">\(HW \gg K\)</span></p>
