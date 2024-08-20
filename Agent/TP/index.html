@@ -8,13 +8,11 @@
       
       
       
-        <link rel="canonical" href="https://chenyuhan00.github.io/notes/DeepLearning/DETR/">
+        <link rel="canonical" href="https://chenyuhan00.github.io/notes/Agent/TP/">
       
       
-        <link rel="prev" href="../SwinTransformer/">
+        <link rel="prev" href="../rStar/">
       
-      
-        <link rel="next" href="../Deformable-DETR/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +20,7 @@
     
     
       
-        <title>DETR - CYH's notes</title>
+        <title>Thought Propagation - CYH's notes</title>
       
     
     
@@ -76,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#detr" class="md-skip">
+        <a href="#tp" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              DETR
+              Thought Propagation
             
           </span>
         </div>
@@ -324,7 +322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../PyTorch/" class="md-nav__link">
+      <a href="../../DeepLearning/PyTorch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -345,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../MLP/" class="md-nav__link">
+      <a href="../../DeepLearning/MLP/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -366,7 +364,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CNN/" class="md-nav__link">
+      <a href="../../DeepLearning/CNN/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -387,7 +385,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../RNN/" class="md-nav__link">
+      <a href="../../DeepLearning/RNN/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -408,7 +406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Attention/" class="md-nav__link">
+      <a href="../../DeepLearning/Attention/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -429,7 +427,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../CV/" class="md-nav__link">
+      <a href="../../DeepLearning/CV/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -454,10 +452,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -476,11 +472,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -494,7 +490,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             Transformer相关论文
@@ -508,7 +504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../BERT/" class="md-nav__link">
+      <a href="../../DeepLearning/BERT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -529,7 +525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../GPT/" class="md-nav__link">
+      <a href="../../DeepLearning/GPT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -550,7 +546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ViT/" class="md-nav__link">
+      <a href="../../DeepLearning/ViT/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -571,7 +567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../SwinTransformer/" class="md-nav__link">
+      <a href="../../DeepLearning/SwinTransformer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -589,30 +585,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    DETR
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../DeepLearning/DETR/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -621,68 +597,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      论文阅读
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="论文阅读">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      基于集合的目标函数
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      模型结构
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      模型代码
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -695,7 +609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../Deformable-DETR/" class="md-nav__link">
+      <a href="../../DeepLearning/Deformable-DETR/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -969,8 +883,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -985,11 +901,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1003,7 +919,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Agent相关
@@ -1017,7 +933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Agent/review/" class="md-nav__link">
+      <a href="../review/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1038,7 +954,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Agent/ReAct/" class="md-nav__link">
+      <a href="../ReAct/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1059,7 +975,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Agent/rStar/" class="md-nav__link">
+      <a href="../rStar/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1077,10 +993,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../Agent/TP/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Thought Propagation
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1089,6 +1025,77 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#method" class="md-nav__link">
+    <span class="md-ellipsis">
+      method
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Experiment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shortest-path-reasoning" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shortest-path Reasoning
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creative-writing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Creative Writing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alfworld" class="md-nav__link">
+    <span class="md-ellipsis">
+      ALFWorld
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1128,37 +1135,46 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#method" class="md-nav__link">
     <span class="md-ellipsis">
-      论文阅读
+      method
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="论文阅读">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Experiment
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Experiment">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#shortest-path-reasoning" class="md-nav__link">
     <span class="md-ellipsis">
-      基于集合的目标函数
+      Shortest-path Reasoning
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#creative-writing" class="md-nav__link">
     <span class="md-ellipsis">
-      模型结构
+      Creative Writing
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#alfworld" class="md-nav__link">
     <span class="md-ellipsis">
-      模型代码
+      ALFWorld
     </span>
   </a>
   
@@ -1187,46 +1203,18 @@
   
 
 
-<h1 id="detr">DETR</h1>
-<h2 id="_1">论文阅读</h2>
-<p><a href="https://arxiv.org/pdf/2005.12872.pdf">End-to-End Object Detection with Transformers</a>
-（2020.5）</p>
-<p><a href="https://github.com/facebookresearch/detr">官方代码</a></p>
-<p>把目标检测看成集合（框）预测的任务，把目标检测做成端到端的框架，减少了生成anchor的木粉，也用不到nms</p>
-<p>提出的新的目标函数，通过二分图匹配的方式，强制模型生成独一无二的预测。给定一组查询，DETR 推理对象和全局图像上下文的关系，以并行直接输出最终的预测集。</p>
-<p><img alt="DETR_1" src="../../img/DeepLearning/DETR_1.png" /></p>
-<p>首先用CNN抽特征，然后用Transformer Encoder学全局特征，用Decoder去生成预测框
-（decoder中还有输入object query）得到最后输出的框（100个），用二分图匹配的方式算loss</p>
-<p>推理的时候最后一步用一个阈值卡个置信度，大于某个值算前景物体</p>
-<h3 id="_2">基于集合的目标函数</h3>
-<p><span class="arithmatex">\(y\)</span>是ground truth，<span class="arithmatex">\(\hat{y} = \{ \hat{y}_i \}_i ^N\)</span> 是N个预测值，ground truth中没有出现的标记为<span class="arithmatex">\(\varnothing\)</span> （back ground），最优匹配 <span class="arithmatex">\(\hat{\sigma}\)</span> 满足最小化匹配误差<span class="arithmatex">\(\sum_i^N{\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}})\)</span> （最优匹配问题可以用匈牙利算法解决）</p>
-<div class="arithmatex">\[
-\hat{\sigma} = \text{argmin} \sum_i^N{\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}})
-\]</div>
-<p>每个<span class="arithmatex">\(y_i = (c_i,b_i)\)</span>，<span class="arithmatex">\(c_i\)</span>表示类别，<span class="arithmatex">\(b_i \in {[0,1]}^4\)</span>表示相对于图像大小的框的中心坐标和宽高，定义<span class="arithmatex">\(y_i和\hat{y}_{\sigma(i)}\)</span>之间的损失为</p>
-<div class="arithmatex">\[
-\mathcal{L}_{match}(y_i,\hat{y}_{\sigma(i)}) = - \mathbb{1}_{c_i \neq \varnothing}\hat{p}_{\sigma(i)}(c_i) + \mathbb{1}_{c_i \neq \varnothing} \mathcal{L}_{box}(b_i,\hat{b}_{\sigma(i)})
-\]</div>
-<p>bounding box 损失定义为</p>
-<div class="arithmatex">\[
-\mathcal{L}_{box}(b_i,\hat{b}_{\sigma(i)}) = \lambda_{IoU}\mathcal{L}_{IoU}(b_i,\hat{b}_{\sigma(i)}) + \lambda_{L_1}  \lVert b_i - \hat{b}_{\sigma(i)} \rVert_1
-\]</div>
-<h3 id="_3">模型结构</h3>
-<p><img alt="DETR_2" src="../../img/DeepLearning/DETR_2.png" /></p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>输入图片大小为3x800x1066
---&gt; 过CNN抽特征 2048x25x34(800和1066的1/32) --&gt;256x25x34
---&gt; 加上位置编码
---&gt; Transformer Encoder 850x256
---&gt; 和object query 100x256 (100表示输出100个框)做自注意力操作
---&gt; decoder输出 100x256过FFN(共享参数)得到100个框和类别的预测
-</code></pre></div></td></tr></table></div>
-<h3 id="_4">模型代码</h3>
-<p>文章给的简化版代码</p>
+<h1 id="tp">TP</h1>
+<p><a href="https://arxiv.org/pdf/2310.03965">Thought Propagation: An Analogical Approach to Complex Reason-ing with Large Language Models</a></p>
+<p>2023.10</p>
+<h2 id="method">method</h2>
+<p>当人类遇到一个新问题时，他们经常将其与具有相似特征的熟悉问题进行比较，这个过程被称为类比推理。文章目标是利用见解来探索一些类似于输入问题的问题，即类似的问题，以促进输入解决问题。</p>
+<p><img alt="alt text" src="../image-3.png" /></p>
+<p>(原来是examine the book,analogous 是alarm clock)</p>
+<p><img alt="alt text" src="../image-2.png" /></p>
+<p>生成一个类似问题的过程，K=2就是根据类似的问题在生成，以往的CoT等都可以看作没有生成类似问题K=0</p>
+<p><img alt="alt text" src="../image-1.png" /></p>
+<p>对于输入生成好几个类似的问题，可以用以往的方法比如CoT等解决，评估最好的方法后选最好的改进输出
+比如在creative writing中prompt是</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -1240,57 +1228,34 @@
 <span class="normal">11</span>
 <span class="normal">12</span>
 <span class="normal">13</span>
-<span class="normal">14</span>
-<span class="normal">15</span>
-<span class="normal">16</span>
-<span class="normal">17</span>
-<span class="normal">18</span>
-<span class="normal">19</span>
-<span class="normal">20</span>
-<span class="normal">21</span>
-<span class="normal">22</span>
-<span class="normal">23</span>
-<span class="normal">24</span>
-<span class="normal">25</span>
-<span class="normal">26</span>
-<span class="normal">27</span>
-<span class="normal">28</span>
-<span class="normal">29</span>
-<span class="normal">30</span>
-<span class="normal">31</span>
-<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
-<span class="kn">from</span> <span class="nn">torchvision.models</span> <span class="kn">import</span> <span class="n">resnet50</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">neighborhood_propose_prompt</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Please rephrase the input sentences but do not change their order or meaning. The input sentences are: </span><span class="si">{input}</span>
 
-<span class="k">class</span> <span class="nc">DETR</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="n">nheads</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="c1"># We take only convolutional layers from ResNet-50 model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="nb">list</span><span class="p">(</span><span class="n">resnet50</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">children</span><span class="p">())[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">2048</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Transformer</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">nheads</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear_class</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_classes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear_bbox</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">query_pos</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">row_embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">hidden_dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">col_embed</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">hidden_dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+<span class="s1">Your output should be of the following format:</span>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span>
-        <span class="n">pos</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">col_embed</span><span class="p">[:</span><span class="n">W</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">row_embed</span><span class="p">[:</span><span class="n">H</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-        <span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">transformer</span><span class="p">(</span><span class="n">pos</span> <span class="o">+</span> <span class="n">h</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">query_pos</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_class</span><span class="p">(</span><span class="n">h</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear_bbox</span><span class="p">(</span><span class="n">h</span><span class="p">)</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">()</span>
+<span class="s1">Output:</span>
+<span class="s1">Your sentences here.</span>
+<span class="s1">&#39;&#39;&#39;</span>
 
-<span class="n">detr</span> <span class="o">=</span> <span class="n">DETR</span><span class="p">(</span><span class="n">num_classes</span><span class="o">=</span><span class="mi">91</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">nheads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">num_encoder_layers</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">num_decoder_layers</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-<span class="n">detr</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-<span class="n">inputs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">1200</span><span class="p">)</span>
-<span class="n">logits</span><span class="p">,</span> <span class="n">bboxes</span> <span class="o">=</span> <span class="n">detr</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+<span class="c1"># Given an instruction and several choices, decide which choice is most promising. </span>
+<span class="n">neighborhood_aggregate_prompt</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;Given several writing plans, decide which writing plan is the most promising. Analyze each writing plan in detail, then conclude in the last line &quot;The best choice is </span><span class="si">{s}</span><span class="s1">&quot;, where s the integer id of the choice.</span>
+<span class="s1">&#39;&#39;&#39;</span>
+
+<span class="n">neighborhood_readout_prompt</span> <span class="o">=</span> <span class="s1">&#39;&#39;&#39;compare and then output the better one.</span>
+<span class="s1">&#39;&#39;&#39;</span>
 </code></pre></div></td></tr></table></div>
+<h2 id="experiment">Experiment</h2>
+<h3 id="shortest-path-reasoning">Shortest-path Reasoning</h3>
+<p><em>Baseline</em> : IO,CoT,ToT,BaG(LLM解决图问题)</p>
+<p><em>LLM-backend</em> : PaLM-2,GPT-3.5,GPT-4</p>
+<p><em>Evaluation Metrics</em> : <span class="arithmatex">\(\text{Optimal~Rate~(OR)}=N_{optimal}/N\)</span></p>
+<p><span class="arithmatex">\(\text{Feasible Rate (FR)}=N_{feasible}/N\)</span></p>
+<p><span class="arithmatex">\(\text{Over-Length Rate (OLR)}=\sum_{i=1}^{N_{feasible}}(L_i-L_i^*)/L_i^*\)</span>measures the over-length of the generated valid paths over the optimal ones. The lower the better.</p>
+<h3 id="creative-writing">Creative Writing</h3>
+<p>Given 4 randomly sampled sentences, the goal of this task is to generate 4 paragraphs ending with these sentences respectively to construct a coherent message.</p>
+<p><em>Evaluation Metrics</em> : coherent score (1-10 scalar score generated by GPT-4), user study to evaluate the coherence of generated messages.</p>
+<h3 id="alfworld">ALFWorld</h3>
+<p><em>baseline</em>:BULTER (a trainable parameterized method based on reinforcement learning),BULTER_G,ReAct,Reflexion</p>
+<p>不像Reflexion用之前在同一任务上的失败案例，TP用zero-shot方法评估任务与之前成功案例的相似度，propose相似度高的；solve用ReAct；Aggregate使用零样本提示来制定两个计划，以帮助根据类比问题的成功试验和原始问题的规划试验完成原始问题。</p>
 
 
 
@@ -1326,7 +1291,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../SwinTransformer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Swin Transformer">
+          <a href="../rStar/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Mutual Reasoning Makes Smaller LLMs Stronger Problem-Solvers">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1336,27 +1301,11 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Swin Transformer
+                Mutual Reasoning Makes Smaller LLMs Stronger Problem-Solvers
               </div>
             </div>
           </a>
         
-        
-          
-          <a href="../Deformable-DETR/" class="md-footer__link md-footer__link--next" aria-label="Next: Deformable DETR">
-            <div class="md-footer__title">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              <div class="md-ellipsis">
-                Deformable DETR
-              </div>
-            </div>
-            <div class="md-footer__button md-icon">
-              
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-            </div>
-          </a>
         
       </nav>
     
