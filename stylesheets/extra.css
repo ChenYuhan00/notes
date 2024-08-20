@@ -48,3 +48,21 @@ h6:before {
     content: counter(h2) "." counter(h3) "." counter(h4) "." counter(h5) "." counter(h6);
     margin-right: 0.8rem;
 }
+
+/* 新增图片缩放样式 */
+.md-typeset img {
+    max-width: 100%; /* 确保图片不会超过容器的宽度 */
+    height: auto;   /* 保持图片的原始比例 */
+}
+
+.img-scale50 {
+    width: 50%;
+}
+
+.img-scale60 {
+    width: 60%;
+}
+
+.img-scale75 {
+    width: 75%;
+}
